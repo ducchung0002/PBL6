@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST" action="{{ url_for('auth.google.register') }}">
+    {{ form.hidden_tag() }}
+
+    <input type="hidden" name="email" value="{{ form.email.data }}">
+
+    <div>
+        {{ form.name.label }}<br>
+        {{ form.name }}<br>
+        {% for error in form.name.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+
+    <div>
+        {{ form.date_of_birth.label }}<br>
+        {{ form.date_of_birth }}<br>
+        {% for error in form.date_of_birth.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+</body>
+</html>
