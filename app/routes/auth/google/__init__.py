@@ -77,6 +77,7 @@ def register():
         date_of_birth = form.date_of_birth.data
 
         user = User(name=name, email=email, date_of_birth=date_of_birth).create()
-        return redirect(url_for('auth.login'))
-
+        # return redirect(url_for('auth.login'))
+        session['user'] = user.to_json()
+        return redirect(url_for('home.index'))
     return render_template('auth/google/register.html', form=form)

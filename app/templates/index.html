@@ -1,14 +1,13 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% if session['user'] %}
-    <p>Welcome, your data is: {{ session['user'] }}</p>
-{% else %}
-    <p>You are not logged in.</p>
-{% endif %}
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<main class="flex-1 p-8">
+    <h2 class="text-2xl font-bold mb-4">Welcome to the Dashboard</h2>
+    {% if session['user'] %}
+        <p class="text-gray-600">You are logged in as {{ session['user']['name'] }}.</p>
+    {% else %}
+        <p class="text-gray-600">Please log in to access all features.</p>
+    {% endif %}
+    <!-- Add more content here -->
+</main>
+{% endblock %}
