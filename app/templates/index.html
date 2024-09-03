@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% if session['user'] %}
+    <p>Welcome, your data is: {{ session['user'] }}</p>
+{% else %}
+    <p>You are not logged in.</p>
+{% endif %}
+</body>
+</html>
