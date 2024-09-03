@@ -29,7 +29,7 @@ flow = Flow.from_client_secrets_file(
 )
 
 
-@google_oauth_blueprint.route('/login', methods=['GET'])
+@google_oauth_blueprint.route('/login', methods=['GET','POST'])
 def login():
     authorization_url, state = flow.authorization_url()
     session['state'] = state
@@ -67,17 +67,17 @@ def callback():
 @google_oauth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     email = request.args.get('email')
-    form = RegisterGoogleForm()
+    register_google_form = RegisterGoogleForm()
     if email is not None:
-        form.email.data = email
+        register_google_form.email.data = email
 
-    if form.validate_on_submit():
-        email = form.email.data
-        name = form.name.data
-        date_of_birth = form.date_of_birth.data
+    if register_google_form.validate_on_submit():
+        email = register_google_form.email.data
+        name = register_google_form.name.data
+        date_of_birth = register_google_form.date_of_birth.data
 
         user = User(name=name, email=email, date_of_birth=date_of_birth).create()
         # return redirect(url_for('auth.login'))
-        session['user'] = user.to_json()
-        return redirect(url_for('home.index'))
-    return render_template('auth/google/register.html', form=form)
+        # session['user'] = user.to_json()
+        return redirect(url_for('auth.login'))
+    return render_template('auth/google/register.html', register_google_form=register_google_form)
