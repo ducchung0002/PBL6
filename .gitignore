@@ -1,4 +1,6 @@
 .env
 .idea/
-
+node_modules/
+nodejs/
 client_secret.json
+__pycache__/

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask_bcrypt import generate_password_hash, check_password_hash
-from mongoengine import Document, StringField, EmailField, DateField, DateTimeField
+from mongoengine import Document, StringField, EmailField, DateField, DateTimeField, ListField
 
 
 class User(Document):
@@ -10,7 +10,7 @@ class User(Document):
     password = StringField(default=None)
     role = StringField(default='user')
     date_of_birth = DateField(required=None)
-
+    genres = ListField(StringField())
     # Add fields for tracking creation and deletion timestamps
     created_at = DateTimeField(default=datetime.utcnow)  # Set automatically when the document is created
     deleted_at = DateTimeField(default=None)  # Set to None initially (soft delete field)
