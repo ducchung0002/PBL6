@@ -27,6 +27,8 @@ class User(Document):
         return self.save()
 
     def check_password(self, password):
+        if self.password is None:
+            return None
         return check_password_hash(self.password, password)
 
     def soft_delete(self):
