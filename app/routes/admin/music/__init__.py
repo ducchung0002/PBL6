@@ -20,7 +20,7 @@ def add():
         uri = form.uri.data
 
         new_music = Music(name=name, lyric=lyric, uri=uri)
-        new_music.create()
+        new_music.save()
 
         flash('Music added successfully!', 'success')
         return redirect(url_for('music.list_music'))

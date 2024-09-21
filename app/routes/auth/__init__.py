@@ -24,7 +24,7 @@ def login():
 
             if chk is None:
                 flash('Please login by Google account')
-                return render_template(url_for('home.index'))
+                return render_wtemplate(url_for('home.index'))
             if chk is True:
                 session['user'] = user.to_json()
                 session['access_token'] = access_token
@@ -49,7 +49,7 @@ def register():
         password = form.password.data
         date_of_birth = form.date_of_birth.data
 
-        user = User(name=name, email=email, password=password, date_of_birth=date_of_birth).create()
+        user = User(name=name, email=email, password=password, date_of_birth=date_of_birth).save()
         # session['user'] = user.to_json()
         return redirect(url_for('auth.login'))
     return render_template('auth/modals/register.html', form=form,login_form=login_form,register_form=register_form)
