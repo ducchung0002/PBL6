@@ -57,6 +57,7 @@ def callback():
     email = id_info.get("email")
     user = User.get_by_email(email)
     if not user:
+        session['google_picture'] = id_info['picture']
         return redirect(url_for('auth.google.register', email=email))
     else:
         session['user'] = user.to_json()
@@ -67,6 +68,7 @@ def callback():
 @google_oauth_blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     email = request.args.get('email')
+    avatar = session['google_picture']
     register_google_form = RegisterGoogleForm()
     if email is not None:
         register_google_form.email.data = email
@@ -76,8 +78,9 @@ def register():
         name = register_google_form.name.data
         date_of_birth = register_google_form.date_of_birth.data
 
-        user = User(name=name, email=email, date_of_birth=date_of_birth).create()
+        user = User(name=name, email=email, date_of_birth=date_of_birth, avatar=avatar).save()
         # return redirect(url_for('auth.login'))
-        # session['user'] = user.to_json()
-        return redirect(url_for('auth.login'))
+        session['user'] = user.to_json()
+        return redirect(url_for('home.index'))
+
     return render_template('auth/google/register.html', register_google_form=register_google_form)
