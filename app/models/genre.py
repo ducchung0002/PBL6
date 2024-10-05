@@ -11,3 +11,7 @@ class Genre(Document):
     deleted_at = DateTimeField()
 
     meta = {'collection': 'genres'}
+
+    @classmethod
+    def get_all_genre(cls):
+        return cls.objects.all()

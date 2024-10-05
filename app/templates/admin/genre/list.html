@@ -1,0 +1,53 @@
+{% extends "admin/layout.html" %}
+
+{% block admin_content %}
+    <button data-bs-toggle="modal" data-bs-target="#add-popup"
+            class="btn btn-primary ad-btn" type="button">
+        Thêm
+    </button>
+    <div class="container mx-auto px-4 py-5 d-flex align-items-center flex-column my-2">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">Thể loại</th>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Ngày tạo</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for genre in genres %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ genre.name }}</td>
+                    <td>{{ genre.description }}</td>
+                    <td>{{ genre.created_at }}</td>
+                    <td>
+                        <button data-bs-toggle="modal" data-bs-target="#edit-popup"
+                                class="btn btn-primary edit-btn" type="button"
+                                data-id="{{ genre.id }}"
+                                data-name="{{ genre.name }}"
+                                data-description="{{ genre.description }}">
+                            Chỉnh sửa
+                        </button>
+                    </td>
+                    <td>
+                        <button data-bs-toggle="modal" data-bs-target="#delete-popup"
+                                class="btn btn-primary delete-btn"
+                                data-id="{{ genre.id }}"
+                                type="button">
+                            Xóa
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include "admin/genre/modals/edit.html" %}
+    {% include "admin/genre/modals/delete.html" %}
+    {% include "admin/genre/modals/add.html" %}
+    <script src="{{ url_for('static', filename='js/admin/genre/list.js') }}"></script>
+{% endblock %}

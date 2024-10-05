@@ -1,0 +1,51 @@
+{#{% extends "base.html" %}#}
+{##}
+{#{% block content %}#}
+{##}
+{#    {% include "components/admin/sidebar.html" %}#}
+{#    <div class="flex-1 flex flex-col overflow-hidden">#}
+{#        {% include "components/admin/topbar.html" %}#}
+{#        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">#}
+{#            <div class="container mx-auto px-6 py-8 flex align-center flex-col m-2.5">#}
+{#                {% block admin_content %}{% endblock %}#}
+{##}
+{##}
+{##}
+{##}
+{##}
+{##}
+{#{% endblock %}#}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% include "components/admin/sidebar.html" %}
+    <div class="flex-grow-1 d-flex flex-column overflow-hidden">
+        {% include "components/admin/topbar.html" %}
+        <main class="flex-grow-1 overflow-auto bg-light">
+            <div class="container mx-auto px-4 py-5 d-flex align-items-center flex-column my-2">
+                {% block admin_content %}{% endblock %}
+
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for artist in artists %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ artist.name }}</td>
+                            <td>{{ artist.email }}</td>
+                        </tr>
+
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+{% endblock %}

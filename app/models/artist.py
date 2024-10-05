@@ -6,3 +6,7 @@ class Artist(ExtendedAccount):
     def save(self, **kwargs):
         self.role = AccountRole.ARTIST.value
         return super().save(**kwargs)
+
+    @classmethod
+    def get_all_artist(cls):
+        return cls.objects.all()
