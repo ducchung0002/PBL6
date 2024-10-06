@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% include "components/user/sidebar.html" %}
+    <div class="flex-grow-1 d-flex flex-column overflow-hidden">
+        {% include "components/user/topbar.html" %}
+        <main class="flex-1 p-6 bg-gray-100">
+            {% block user_content %}{% endblock %}
+        </main>
+    </div>
+
+{% endblock %}
