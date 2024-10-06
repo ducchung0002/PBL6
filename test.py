@@ -1,86 +1,36 @@
-# from sentence_transformers import SentenceTransformer
-# import chromadb
-# from chromadb.utils import embedding_functions
-#
-# # Load the pre-trained model from Hugging Face
-# model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-#
-# # Create a ChromaDB client
-# client = chromadb.Client()
-#
-# # Create a collection with the sentence transformer embedding function
-# embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="sentence-transformers/all-MiniLM-L6-v2")
-# collection = client.create_collection("sentences", embedding_function=embedding_function)
-#
-# # Add some example sentences to the collection
-# sentences = [
-#     "Ngày hôm nay trời trong xanh",
-#     "One tree cannot make a forest, three trees together can make a high mountain",
-#     "When drinking water, remember its source",
-#     "When eating fruit, remember the person who planted the tree",
-#     "Learning from a teacher is not as good as learning from friends"
-# ]
-#
-# collection.add(
-#     documents=sentences,
-#     ids=[f"sentence_{i}" for i in range(len(sentences))]
-# )
-#
-# # Query the collection
-# query = "Tầm quan trọng của sự đoàn kết"
-# results = collection.query(
-#     query_texts=[query],
-#     n_results=3
-# )
-#
-# # Display the results and distances
-# print(f"Query: {query}")
-# print("Results:")
-# for i, (doc, distance) in enumerate(zip(results['documents'][0], results['distances'][0])):
-#     print(f"{i+1}. Document: {doc}")
-#     print(f"   Distance: {distance}")
-#     print()
+from datetime import datetime, time
+
+from mongoengine import connect
+
+from app.models.artist import Artist
+from app.models.embedded_document.comment import Comment
+from app.models.embedded_document.lyric import Lyric
+from app.models.genre import Genre
+from app.models.music import Music
+from app.models.user import User
+from app.models.video import Video
+from bson import ObjectId
 
 
-from sentence_transformers import SentenceTransformer
-import chromadb
-from chromadb.utils import embedding_functions
+connect('PBL6', uuidRepresentation='standard')
 
-# Load the pre-trained multilingual model from Hugging Face
-model = SentenceTransformer('distiluse-base-multilingual-cased-v2')
 
-# Create a ChromaDB client
-client = chromadb.Client()
+genre1 = Genre.objects.get(id=ObjectId('6700f8bd5ef0ad4763b9eb9c'))
+genre2 = Genre.objects.get(id=ObjectId('6700f8bd5ef0ad4763b9eb9d'))
+genre3 = Genre.objects.get(id=ObjectId('6700f8bd5ef0ad4763b9eb9e'))
 
-# Create a collection with the sentence transformer embedding function
-embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="distiluse-base-multilingual-cased-v2")
-collection = client.create_collection("vietnamese_sentences", embedding_function=embedding_function)
+artist1 = Artist.objects.get(id=ObjectId('6700f8bd5ef0ad4763b9eb9f'))
+artist2 = Artist.objects.get(id=ObjectId('6700f8bd5ef0ad4763b9eba0'))
 
-# Add some example Vietnamese sentences to the collection
-sentences = [
-    "Ngày hôm nay trời trong xanh",
-    "Mùa thu mang giấc mơ quay về",
-    "Là áng mây bên trời vội vàng ngang qua",
-    "Lời tôi nhỏ bé, tiếng gió thét cao, biển tràn nỗi đau",
-    "Liệu mai sau phai vội mau không bước bên cạnh nhau"
-]
+user1 = User.objects.get(id=ObjectId('6700f8be5ef0ad4763b9eba1'))
 
-collection.add(
-    documents=sentences,
-    ids=[f"sentence_{i}" for i in range(len(sentences))]
-)
+lyrics1 = Lyric(order=1, text='Thiên lý ơi em có thể ở lại đây không', start_time='00:00:01.123',
+                end_time='00:00:04.456', artist_index=0)
+lyrics2 = Lyric(order=2, text='Chạy ngay đi', artist_index=1).set_start_time(
+    time(0, 0, 5, 678)).set_end_time('00:00:07.901')
 
-# Query the collection with a Vietnamese query
-query = "áng mây bên trời"
-results = collection.query(
-    query_texts=[query],
-    n_results=3
-)
+music1 = Music.objects.get(id=ObjectId('6700f8be5ef0ad4763b9eba2'))
 
-# Display the results and distances
-print(f"Query: {query}")
-print("Results:")
-for i, (doc, distance) in enumerate(zip(results['documents'][0], results['distances'][0])):
-    print(f"{i+1}. Document: {doc}")
-    print(f"   Distance: {distance}")
-    print()
+Video(user=user1, music=music1,
+      video_url='https://res.cloudinary.com/dxfwodlfi/video/upload/v1728120333/y2mate.com_-_M%E1%BB%99t_Ng%C3%A0y_%C4%90i_L%C3%A0m_c%C3%B9ng_Nghi%C3%AAn_C%E1%BB%A9u_Sinh_Ti%E1%BA%BFn_S%C4%A9_Ng%C3%A0nh_AI_t%E1%BA%A1i_%C3%9Ac_720pFHR_b3hy7n.mp4',
+      like_count=69, comments=[Comment(user=user1, content='Good good!')]).save()
