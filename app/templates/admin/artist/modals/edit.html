@@ -1,0 +1,46 @@
+<!-- Edit Artist -->
+<div class="modal fade" id="edit-popup" tabindex="-1" aria-labelledby="editPopupLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editPopupLabel">Chỉnh sửa hồ sơ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-artist-form" onsubmit="updateArtist(event)">
+                    <input type="hidden" id="update-artist-id">
+                    <div class="mb-3">
+                        <label for="artist-name" class="form-label">Tên ca sĩ</label>
+                        <input type="text" class="form-control" id="update-artist-name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="artist-username" class="form-label">Tên người dùng</label>
+                        <input type="text" class="form-control" id="update-artist-username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="artist-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="update-artist-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="artist-old-password" class="form-label">Mật khẩu cũ</label>
+                        <input type="password" class="form-control" id="update-artist-oldPassword" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="artist-new-password" class="form-label">Mật khẩu mới</label>
+                        <input type="password" class="form-control" id="update-artist-newPassword" name="password" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="artist-dob" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="update-artist-dob" name="dob" required>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/admin/artist/update.js') }}"></script>

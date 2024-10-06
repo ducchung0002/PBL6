@@ -2,7 +2,7 @@ from flask import Flask, session
 from flask_jwt_extended import JWTManager
 from mongoengine import connect, disconnect
 from app.config import Config
-
+from flask_cors import CORS
 
 def create_app():
     app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -12,6 +12,14 @@ def create_app():
     connect(**app.config['MONGODB_SETTINGS'])
     # Initialize JWTManager
     jwt = JWTManager(app)
+    cors_config = {
+        "origins": ["http://localhost:5000", "http://127.0.0.1:5000"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "expose_headers": ["X-Total-Count", "X-Page", "X-Per-Page"],
+        "credentials": True
+    }
+    CORS(app, resources={r"/api/*": cors_config})
 
     from app.routes.auth import auth_bp
     from app.routes.user import user_bp
@@ -27,6 +35,5 @@ def create_app():
     # Initialize Blueprint for API routes
     from app.routes.api import api_bp
     app.register_blueprint(api_bp, url_prefix='/api')
-
 
     return app

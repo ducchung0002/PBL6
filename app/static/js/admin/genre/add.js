@@ -17,7 +17,7 @@ function addGenre(event) {
     };
 
     // Make the API call using Axios
-    axios.post('http://localhost:5000/api/admin/genre/add', data)
+    axios.post('http://localhost:5000/api/admin/genre', data)
         .then(function (response) {
             location.reload();
         })

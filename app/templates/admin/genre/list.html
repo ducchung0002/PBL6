@@ -2,7 +2,7 @@
 
 {% block admin_content %}
     <button data-bs-toggle="modal" data-bs-target="#add-popup"
-            class="btn btn-primary ad-btn" type="button">
+            class="btn btn-success" type="button">
         Thêm
     </button>
     <div class="container mx-auto px-4 py-5 d-flex align-items-center flex-column my-2">
@@ -23,7 +23,7 @@
                     <th scope="row">{{ loop.index }}</th>
                     <td>{{ genre.name }}</td>
                     <td>{{ genre.description }}</td>
-                    <td>{{ genre.created_at }}</td>
+                    <td>{{ genre.created_at.strftime('%d-%m-%Y') }}</td>
                     <td>
                         <button data-bs-toggle="modal" data-bs-target="#edit-popup"
                                 class="btn btn-primary edit-btn" type="button"
@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         <button data-bs-toggle="modal" data-bs-target="#delete-popup"
-                                class="btn btn-primary delete-btn"
+                                class="btn btn-primary btn-danger"
                                 data-id="{{ genre.id }}"
                                 type="button">
                             Xóa

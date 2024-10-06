@@ -1,5 +1,4 @@
 from flask import Blueprint
-
 from app.routes.api.admin import api_admin_bp
 from app.routes.api.video import video_bp
 

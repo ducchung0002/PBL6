@@ -1,0 +1,20 @@
+<!-- Delete Modal -->
+<div class="modal fade" id="delete-popup" tabindex="-1" aria-labelledby="delete-popup-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="delete-popup-label">Xóa ca sĩ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có muốn xóa ca sĩ này</p>
+            </div>
+            <input type="hidden" id="delete-artist-id">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary" onclick=deleteArtist()>Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/admin/artist/delete.js') }}"></script>
