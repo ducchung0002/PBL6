@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% include "components/admin/sidebar.html" %}
+    <div class="flex-1 flex flex-col overflow-hidden">
+        {% include "components/admin/topbar.html" %}
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
+            <div class="container mx-auto px-6 py-8 flex align-center flex-col m-2.5">
+
+                {% block admin_content %}
+                    <h2 class="text-2xl font-semibold text-gray-900 mb-4">Music List</h2>
+                    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+
+                            {% for music in musics %}
+                                <li>
+                                    <h2>{{ music.name }}</h2>
+                                    <p>Created: {{ music.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                    <p>Updated: {{ music.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                                    <p>URI: {{ music.uri }}</p>
+                                    {% if music.lyric %}
+                                        <p>Lyrics: {{ music.lyric[:100] }}...</p>
+                                    {% endif %}
+                                    <h3>Artists:</h3>
+                                    <ul>
+                                        {% for artist in music.artists %}
+                                            <li>{{ artist.fetch().name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                    <h3>Genres:</h3>
+                                    <ul>
+                                        {% for genre in music.genres %}
+                                            <li>{{ genre.fetch().name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                    </div>
+                {% endblock %}
+
+
+
+
+
+{% endblock %}

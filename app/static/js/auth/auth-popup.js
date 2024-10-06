@@ -1,7 +1,8 @@
-
+console.log('App.js is running!');
     document.addEventListener('DOMContentLoaded', function () {
         const closeLoginButton = document.getElementById('close-button');
-        const closeRegisterButton = document.querySelector('#register-popup #close-button');
+        // const closeRegisterButton = document.querySelector('#register-popup #close-button');
+        const closeRegisterButton = document.querySelector('#register-popup .btn-close');
         const loginPopup = document.getElementById('login-popup');
         const registerPopup = document.getElementById('register-popup');
         const loginButton = document.getElementById('login-button');
@@ -10,6 +11,7 @@
 
         // Login popup functionality
         if (closeLoginButton && loginPopup && loginButton) {
+            console.log('Adding event listeners to login popup');
             closeLoginButton.addEventListener('click', function () {
                 loginPopup.classList.add('hidden');
                 loginPopup.classList.remove('flex');
