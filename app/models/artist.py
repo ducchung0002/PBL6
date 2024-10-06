@@ -10,3 +10,13 @@ class Artist(ExtendedAccount):
     @classmethod
     def get_all_artist(cls):
         return cls.objects.all()
+
+    def jsonify(self):
+        return {
+            'id': str(self.id),
+            'name': self.name,
+            'email': self.email,
+            'role': self.role,
+            'created_at': self.created_at,
+            'updated_at': self.updated_at
+        }

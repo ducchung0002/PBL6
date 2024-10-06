@@ -30,3 +30,13 @@ class Lyric(EmbeddedDocument):
         else:
             raise ValueError("start_time must be a time object or a string in HH:MM:SS.mmm format")
         return self
+
+    def jsonify(self):
+        return {
+            'order': self.order,
+            'text': self.text,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'artist_index': self.artist_index,
+            'vector': self.vector
+        }
