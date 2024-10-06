@@ -14,7 +14,7 @@ function updateGenre(event) {
     };
 
     // Make the API call using Axios
-    axios.put('http://localhost:5000/api/admin/genre/update', data)
+    axios.put('http://localhost:5000/api/admin/genre/', data)
         .then(function (response) {
             location.reload();
         })
