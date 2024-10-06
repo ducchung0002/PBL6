@@ -2,20 +2,12 @@
 
 {% block user_content %}
 
-        <main class="flex-1 p-8">
-            <h2 class="text-2xl font-bold mb-4">Welcome to the Dashboard</h2>
-            {% if session['user'] %}
-                <p class="text-gray-600">You are logged in as {{ session['user']['name'] }}.</p>
-            {% else %}
-                <p class="text-gray-600">Please log in to access all features.</p>
-            {% endif %}
-            <!-- Add more content here -->
-        </main>
+    {% include "user/video.html" %}
 
-        {% if not session['user'] %}
-            <!-- Include the login modal HTML here -->
-            {% include 'auth/modals/login.html' %}
-            {% include 'auth/modals/register.html' %}
-        {% endif %}
+    {% if not session['user'] %}
+        <!-- Include the login modal HTML here -->
+        {% include 'auth/modals/login.html' %}
+        {% include 'auth/modals/register.html' %}
+    {% endif %}
 
 {% endblock %}

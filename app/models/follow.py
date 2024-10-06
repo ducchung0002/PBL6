@@ -18,6 +18,13 @@ class Follow(Document):
         ],
     }
 
+    def jsonify(self, *args, **kwargs):
+        return {
+            'follower': self.follower.id,
+            'following': self.following.id,
+            'created_at': self.created_at,
+        }
+
     @classmethod
     def post_save(cls, sender, document, **kwargs):
         if kwargs.get('created', False):
