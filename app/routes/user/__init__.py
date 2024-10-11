@@ -3,10 +3,9 @@ from flask_jwt_extended import get_jwt_identity
 
 from app.decorators import login_required
 from app.models.user import User
-from .dashboard import dashboard
+from ...models.enum.account_role import AccountRole
 
 user_bp = Blueprint('user', __name__)
-
 
 
 @user_bp.route('/profile', methods=['GET'])
@@ -21,3 +20,8 @@ def get_profile():
         }), 200
     return jsonify({"message": "User not found"}), 404
 
+
+@user_bp.route('/index')
+@login_required(role=AccountRole.USER)
+def index():
+    return render_template('user/index.html')

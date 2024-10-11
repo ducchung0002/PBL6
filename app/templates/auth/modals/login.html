@@ -1,16 +1,19 @@
 <div id="login-popup" tabindex="-1" class="modal fade" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-{#            <div class="modal-header">#}
-{#                <h5 class="modal-title">Login to your account</h5>#}
-{#                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#            </div>#}
             <div class="modal-body p-4">
                 <div class="text-center mb-4">
                     <p class="h4 fw-semibold">Login to your account</p>
                 </div>
-
-
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul>
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
                 <form method="POST" action="{{ url_for('auth.login') }}">
                     {{ login_form.hidden_tag() }}
 
@@ -25,7 +28,7 @@
                         <a href="/forgot-password" class="text-primary">Reset your password?</a>
                     </p>
                     <button class="btn btn-primary w-100">
-                        {{ login_form.submit(class="btn btn-primary") }}
+                        {{ login_form.submit(class="btn btn-primary", id="submit-login-btn") }}
                     </button>
                 </form>
 
@@ -51,6 +54,6 @@
         </div>
     </div>
 </div>
-{% include 'auth/modals/register.html' %}
 
-<script src="{{ url_for('static', filename='js/auth/auth-popup.js') }}"></script>
+{#{% include 'auth/modals/register.html' %}#}
+{#<script src="/static/js/auth/auth-popup.js"></script>#}

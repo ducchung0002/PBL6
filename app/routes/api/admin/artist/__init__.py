@@ -26,11 +26,8 @@ def update():
         artist.name = data['name']
     if data.get('username'):
         artist.username = data['username']
-    if data.get('old_password'):
-        check = artist.check_password(data['old_password'])
-        if not check:
-            return jsonify({'message': 'Old password is incorrect'}), 401
-        artist.set_password(data['new_password'])
+    if data.get('password'):
+        artist.set_password(data['password'])
     if data.get('date_of_birth'):
         artist.date_of_birth = data['date_of_birth']
     artist.save()
