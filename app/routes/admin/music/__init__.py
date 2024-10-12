@@ -1,16 +1,15 @@
-from flask import Blueprint, jsonify, request, flash, redirect, url_for, render_template, session
-from flask_jwt_extended import get_jwt_identity
+from flask import Blueprint, flash, redirect, render_template, url_for
 
 from app.decorators import login_required
-from app.models.user import User
 from app.models.music import Music
 from app.routes.forms.add_music_form import AddMusicForm
+from models.enum.account_role import AccountRole
 
 admin_music_bp = Blueprint('music', __name__)
 
 
 @admin_music_bp.route('/add', methods=['GET', 'POST'])
-@login_required(role='admin')
+@login_required(role=AccountRole.ADMIN)
 def add():
     form = AddMusicForm()
 

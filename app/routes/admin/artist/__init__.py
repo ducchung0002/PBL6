@@ -6,18 +6,19 @@ from flask_jwt_extended import get_jwt_identity
 from app.decorators import login_required
 from app.models.artist import Artist
 from app.routes.forms.add_artist_form import AddArtistForm
+from models.enum.account_role import AccountRole
 
 admin_artist_bp = Blueprint('artist', __name__)
 
 @admin_artist_bp.route('/list', methods=['GET'])
-@login_required(role='admin')
+@login_required(role=AccountRole.ADMIN)
 def list():
     artists = Artist.get_all_artist()
     return render_template('admin/artist/list.html', artists=artists)
 
 
 @admin_artist_bp.route('/add', methods=['GET', 'POST'])
-@login_required(role='admin')
+@login_required(role=AccountRole.ADMIN)
 def add():
     form = AddArtistForm()
 

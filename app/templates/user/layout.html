@@ -1,15 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <!-- Topbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        {% include 'components/user/topbar.html' %}
+    </nav>
+    <div class="d-flex flex-grow-1">
+        <!-- Sidebar -->
+        <div id="sidebar" class="bg-light">
+            {% include 'components/user/sidebar.html' %}
+        </div>
 
-    {% include "components/user/sidebar.html" %}
-    <div class="flex-grow-1 d-flex flex-column overflow-hidden">
-        {% include "components/user/topbar.html" %}
-        <main class="flex-1 p-6 bg-gray-100">
-            {% block user_content %}
-
-            {% endblock %}
-        </main>
+        <!-- Page content -->
+        <div id="content" class="flex-grow-1 p-4">
+            {% block user_content %}{% endblock %}
+        </div>
     </div>
-
 {% endblock %}

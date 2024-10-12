@@ -11,7 +11,6 @@ def login_required(role=AccountRole.USER):
             if 'user' not in session:
                 return redirect(url_for('home.index'))
             if role and session['user'].get('role') != role.value:
-                flash(f'Unauthorized access. {role.value} privileges required.', 'error')
                 return redirect(url_for('home.index'))
             return f(*args, **kwargs)
         return decorated_function
