@@ -12,8 +12,8 @@ class ExtendedAccount(Account):
     bio = StringField(max_length=255)
     user_vector = ListField(FloatField())
     notifications = ListField(EmbeddedDocumentField(Notification))
-    # like_videos = ListField(EmbeddedDocumentField('Video'))
-    # like_comments = ListField(EmbeddedDocumentField('Comment'))
+    like_videos = ListField(EmbeddedDocumentField('Video'))
+    like_comments = ListField(EmbeddedDocumentField('Comment'))
 
     meta = {'allow_inheritance': True}
 
