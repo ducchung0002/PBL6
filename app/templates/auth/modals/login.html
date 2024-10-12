@@ -5,30 +5,24 @@
                 <div class="text-center mb-4">
                     <p class="h4 fw-semibold">Login to your account</p>
                 </div>
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        <ul>
-                            {% for category, message in messages %}
-                                <li class="{{ category }}">{{ message }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                {% endwith %}
-                <form method="POST" action="{{ url_for('auth.login') }}">
+
+                <form method="POST" action="{{ url_for('auth.login') }}" onsubmit="login(event)">
                     {{ login_form.hidden_tag() }}
 
                     <div class="mb-3">
-                        {{ login_form.email(class="form-control", id="email", placeholder="Email") }}
+                        {{ login_form.username(class="form-control", id="login-username", placeholder="Tên đăng nhập/Email") }}
                     </div>
+
                     <div class="mb-3">
-                        {{ login_form.password(class="form-control", id="password", placeholder="Password") }}
+                        {{ login_form.password(class="form-control", id="login-password", placeholder="Mật khẩu") }}
                     </div>
 
                     <p class="mb-3 small">
                         <a href="/forgot-password" class="text-primary">Reset your password?</a>
                     </p>
+
                     <button class="btn btn-primary w-100">
-                        {{ login_form.submit(class="btn btn-primary", id="submit-login-btn") }}
+                        {{ login_form.submit(class="btn btn-primary", id="login-submit-btn") }}
                     </button>
                 </form>
 
@@ -55,5 +49,4 @@
     </div>
 </div>
 
-{#{% include 'auth/modals/register.html' %}#}
-{#<script src="/static/js/auth/auth-popup.js"></script>#}
+<script src="/static/js/auth/login.js"></script>

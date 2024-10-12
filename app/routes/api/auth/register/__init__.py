@@ -1,11 +1,12 @@
 from flask import Blueprint, jsonify, request
 
 from app.models.base.account import Account
+from models.user import User
 
 api_auth_register_bp = Blueprint('api_auth_register', __name__)
 
 
-@api_auth_register_bp.route('/validate', methods=['POST'])
+@api_auth_register_bp.route('/create', methods=['POST'])
 def register():
     data = request.get_json()
 
@@ -16,12 +17,11 @@ def register():
     date_of_birth = data.get('date_of_birth')
 
     if Account.objects(email=email).first():
-        return jsonify({'validate_error': 'AUTH_VALIDATE_EMAIL_EXISTS', 'success': False})
+        return jsonify({'error': 'email exists', 'success': False})
     if Account.objects(username=username).first():
-        return jsonify({'validate_error': 'AUTH_VALIDATE_USERNAME_EXISTS', 'success': False})
+        return jsonify({'error': 'username exists', 'success': False})
 
-
-    # user = User(name=name, username=username,email=email,  date_of_birth=date_of_birth).set_password(password).save()
-    # user.save()
+    user = User(name=name, username=username, email=email, date_of_birth=date_of_birth).set_password(password).save()
+    user.save()
 
     return jsonify({'success': True})
