@@ -2,8 +2,6 @@ from functools import wraps
 from flask import session, redirect, url_for, flash
 
 from app.models.enum.account_role import AccountRole
-
-
 def login_required(role=AccountRole.USER):
     def decorator(f):
         @wraps(f)
@@ -15,16 +13,6 @@ def login_required(role=AccountRole.USER):
             return f(*args, **kwargs)
         return decorated_function
     return decorator
-
-# def admin_required(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         if 'user' not in session:
-#             return redirect(url_for('auth.login'))
-#         if session['user'].get('role') != 'admin':
-#             flash('Unauthorized access. Admin privileges required.', 'error')
-#             return redirect(url_for('home.index'))
-#     return decorated_function
 
 def singleton(cls):
     instances = {}
