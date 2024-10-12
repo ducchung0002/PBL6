@@ -1,13 +1,11 @@
-from flask import Blueprint, session, flash, redirect, url_for, render_template, request
-from flask_jwt_extended import create_access_token
-import re
-from app.models.base.account import Account
+from flask import Blueprint, flash, redirect, render_template, request, session, url_for
+
 from app.models.enum.account_role import AccountRole
 from app.models.user import User
 from app.routes.auth.google import google_oauth_blueprint
 from app.routes.forms.login_form import LoginForm
 from app.routes.forms.register_form import RegisterForm
-from models.base.extended_account import ExtendedAccount
+from utils import get_account_by_username
 
 auth_bp = Blueprint('auth', __name__)
 auth_bp.register_blueprint(google_oauth_blueprint, url_prefix='/google')
@@ -17,30 +15,24 @@ auth_bp.register_blueprint(google_oauth_blueprint, url_prefix='/google')
 def login():
     form = LoginForm(request.form)
     if form.validate_on_submit():
-        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-        if re.match(pattern, form.username.data):
-            user = ExtendedAccount.objects(email=form.username.data).first()
-        else:
-            user = Account.objects(username=form.username.data).first()
+        account = get_account_by_username(form.username.data)
 
-        if user is not None:
-            chk = user.check_password(form.password.data)
+        if account is not None:
+            chk = account.check_password(form.password.data)
             # access_token = create_access_token(identity=str(user.id))
 
             if chk is None:
                 flash('Mật khẩu không chính xác')
                 return redirect(url_for('auth.login'))
             if chk is True:
-                session['user'] = user.to_json()
+                session['user'] = account.jsonify()
                 # session['access_token'] = access_token
-                if user.role == AccountRole.ADMIN.value:
+                if session['user']['role'] == AccountRole.ADMIN.value:
                     return redirect(url_for('admin.index'))
-                elif user.role == AccountRole.USER.value:
+                elif session['user']['role'] == AccountRole.USER.value:
                     return redirect(url_for('user.index'))
-                elif user.role == AccountRole.ARTIST.value:
+                elif session['user']['role'] == AccountRole.ARTIST.value:
                     return redirect(url_for('artist.index'))
-        else:
-            flash('Invalid email or password', 'danger')
 
     return redirect(url_for('home.index'))
 

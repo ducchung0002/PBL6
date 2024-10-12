@@ -1,21 +1,24 @@
 from functools import wraps
-from flask import session, redirect, url_for, flash
+
+from flask import redirect, session, url_for
 
 from app.models.enum.account_role import AccountRole
 
 
-def login_required(role=AccountRole.USER):
+def login_required(role=AccountRole.USER.value):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             if 'user' not in session:
                 return redirect(url_for('home.index'))
-            if role and session['user'].get('role') != role.value:
-                flash(f'Unauthorized access. {role.value} privileges required.', 'error')
+            if session['user'].get('role') != role.value:
                 return redirect(url_for('home.index'))
             return f(*args, **kwargs)
+
         return decorated_function
+
     return decorator
+
 
 def singleton(cls):
     instances = {}

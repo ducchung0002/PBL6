@@ -1,22 +1,17 @@
 from app.models.base.extended_account import ExtendedAccount
 from app.models.enum.account_role import AccountRole
+from models.query_set.artist_query_set import ArtistQuerySet
 
 
 class Artist(ExtendedAccount):
-    def save(self, **kwargs):
-        self.role = AccountRole.ARTIST.value
-        return super().save(**kwargs)
-
-    @classmethod
-    def get_all_artist(cls):
-        return cls.objects.all()
+    meta = {'queryset_class': ArtistQuerySet}
 
     def jsonify(self):
         return {
             'id': str(self.id),
             'name': self.name,
             'email': self.email,
-            'role': self.role,
+            'role': AccountRole.ARTIST.value,
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }

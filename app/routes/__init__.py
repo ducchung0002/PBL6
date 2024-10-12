@@ -11,12 +11,13 @@ home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/', methods=['GET'])
 def index():
-    if session.get('user'):
-        if session['user']['role'] == AccountRole.ADMIN.value:
+    user = session.get('user')
+    if user:
+        if user['role'] == AccountRole.ADMIN.value:
             return redirect(url_for('admin.index'))
-        elif session['user']['role'] == AccountRole.USER.value:
+        elif user['role'] == AccountRole.USER.value:
             return redirect(url_for('user.index'))
-        elif session['user']['role'] == AccountRole.ARTIST.value:
+        elif user['role'] == AccountRole.ARTIST.value:
             return redirect(url_for('artist.index'))
 
 
