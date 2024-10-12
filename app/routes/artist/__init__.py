@@ -1,8 +1,6 @@
-from flask import Blueprint, jsonify, render_template
-from flask_jwt_extended import get_jwt_identity
+from flask import Blueprint, render_template
 
 from app.decorators import login_required
-from app.models.user import User
 from ...models.enum.account_role import AccountRole
 
 artist_bp = Blueprint('artist', __name__)
