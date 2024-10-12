@@ -1,7 +1,7 @@
 from .helpers import *
 
 def Search_Accounts(query):
-    results = search_accounts(query)
+    results = search_users(query)
     return results
 
 def Search_Musics(query):
@@ -10,4 +10,8 @@ def Search_Musics(query):
 
 def Search_Lyrics(query):
     results = search_lyrics(query)
+    return results
+
+def Search_Artists(query):
+    results = search_artists(query)
     return results

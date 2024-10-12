@@ -1,20 +1,47 @@
-from bson import ObjectId
-from mongoengine import connect
+# from bson import ObjectId
+# from mongoengine import connect
+#
+# from app.models.artist import Artist
+# from app.models.base.account import Account
+# from app.models.base.extended_account import ExtendedAccount
+# from app.models.user import User
+# from app.models.embedded_document.comment import Comment
+# from app.models.video import Video
+# from app.models import Music
+# from app.models.embedded_document.word import Word
 
-from app.models.artist import Artist
-from app.models.base.account import Account
-from app.models.base.extended_account import ExtendedAccount
-from app.models.user import User
-from app.models.embedded_document.comment import Comment
-from app.models.video import Video
-
-connect('PBL6', uuidRepresentation='standard')
+# connect('PBL6', uuidRepresentation='standard')
+# connect(db='karaoke', host="mongodb+srv://ducchung2444:emyeucothanh@karaoke.bjdua.mongodb.net/?retryWrites=true&w=majority")
 # for acc in ExtendedAccount.objects():
 #     print(acc.id, acc.username, acc.name)
 
-print(Video.objects().count())
-for video in Video.objects():
-    print(video.jsonify())
+import json
+
+# Path to your JSON file
+file_path = 'lyric.json'
+
+# Open and read the JSON file
+with open(file_path, 'r', encoding='utf-8') as file:
+    data = json.load(file)
+
+
+lyrics = []
+
+for sentence in data['data']['sentences']:
+    line = []
+    for word in sentence['words']:
+        # line.append(Word(word=word['data'], start_time=word['startTime'], end_time=word['endTime']))
+        line.append({'word': word['data'], 'start_time': word['startTime'], 'end_time': word['endTime']})
+    lyrics.append(line)
+
+output_file = "out.json"
+
+with open(output_file, "w", encoding="utf-8") as file:
+    json.dump(lyrics, file, indent=4, ensure_ascii=False)
+
+# music = Music.objects(id='6746ac10bfacf4edb3e5f58c').first()
+# music.lyrics = lyrics
+# music.save()
 
 # print(ExtendedAccount.objects(id=ObjectId('670ba36e5aa8524c955e32ff')).first().jsonify())
 

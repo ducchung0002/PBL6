@@ -4,25 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YOURTUBE</title>
+    {#  bootstrap:css #}
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    {# bootstrap:icon:css #}
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    {# fontawesome:css #}
+    <link rel="stylesheet" href="/node_modules/@fortawesome/fontawesome-free/css/all.min.css"/>
+    {# custome css #}
     <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="/static/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {# favicon #}
     <link rel="icon" href="/static/image/kara.ico">
-    <link rel="stylesheet" href="/static/dist/js/html2canvas.min.js">
-    <script src="/static/dist/js/axios.min.js"></script>
-    <script src="/static/dist/js/jquery.min.js"></script>
-    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    {# html2canvas #}
+    <link rel="stylesheet" href="/node_modules/html2canvas/dist/html2canvas.min.js">
+    {# axios #}
+    <script src="/node_modules/axios/dist/axios.min.js"></script>
+    {# jquery #}
+    <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+    {# socket.io #}
+    <script src="/node_modules/socket.io-client/dist/socket.io.js"></script>
+    {# bootstrap js #}
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    {# sweetAlert2 #}
+    <link rel="stylesheet" href="/node_modules/sweetalert2/dist/sweetalert2.min.css">
+    <script src="/node_modules/sweetalert2/dist/sweetalert2.min.js"></script>
+    {# js-cookies #}
+    <script src="/node_modules/js-cookie/dist/js.cookie.min.js"></script>
+    {# custom js #}
+    <script src="/static/js/route.js"></script>
     <script src="/static/js/base.js/"></script>
-    <script src="/static/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="/static/dist/css/bootstrap-icons.css">
+    <script src="/static/js/util/task_util.js"></script>
+    <script src="/static/js/task_handle.js/"></script>
 </head>
 
 <body class="d-flex min-vh-100 bg-light" style="padding-top: 50px;">
+
 {% include 'components/alert-modal.html' %}
 {% block content %}
 
-
 {% endblock %}
-<script src="/static/dist/js/popper.min.js"></script>
+
 </body>
 </html>

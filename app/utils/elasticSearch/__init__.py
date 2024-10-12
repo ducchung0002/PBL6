@@ -1,4 +1,9 @@
 from elasticsearch import Elasticsearch
+from dotenv import load_dotenv
+import os
 
-es = Elasticsearch("http://localhost:9999", basic_auth=('elastic', 'gbtrZmXh4FDbkES3aJ6O'))
-# assert es.ping()
+load_dotenv()
+
+es = Elasticsearch(os.environ.get('ELASTICSEARCH_HOST'),
+                   basic_auth=('elastic', os.environ.get('ELASTICSEARCH_PASSWORD')))
+assert es.ping()

@@ -6,13 +6,6 @@
   "directories": {
     "test": "test"
   },
-  "scripts": {
-    "build:libs": "copyfiles -f node_modules/{jquery/dist/jquery.min.js,axios/dist/axios.min.js,bootstrap/dist/js/bootstrap.bundle.min.js,@popperjs/core/dist/umd/popper.min.js} app/static/dist/js/",
-    "build:css": "copyfiles -f node_modules/bootstrap/dist/css/bootstrap.min.css app/static/dist/css/ && copyfiles -f node_modules/@fortawesome/fontawesome-free/css/all.min.css app/static/dist/css/fontawesome/ && copyfiles -f node_modules/bootstrap-icons/font/bootstrap-icons.css app/static/dist/css/ && copyfiles -f node_modules/bootstrap-icons/font/fonts/* app/static/dist/css/fonts/",
-    "build:fonts": "copyfiles -f node_modules/@fortawesome/fontawesome-free/webfonts/* app/static/dist/css/webfonts/",
-    "build:wavesurfer": "copyfiles -f node_modules/wavesurfer.js/dist/{wavesurfer.min.js,plugins/{minimap.min.js,timeline.min.js,regions.min.js}} app/static/dist/js/wavesurfer/",
-    "build:pkg": "npm run build:libs && npm run build:css && npm run build:fonts && npm run build:wavesurfer"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,7 +14,12 @@
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
+    "js-cookie": "^3.0.5",
+    "socket.io-client": "^4.8.1",
+    "socketio": "^1.0.0",
+    "sweetalert2": "^11.15.3",
     "wavesurfer.js": "^7.8.11"
   },
   "devDependencies": {

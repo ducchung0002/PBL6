@@ -1,7 +1,9 @@
-.env
 .idea/
 node_modules/
 nodejs/
-client_secret.json
 __pycache__/
 .run/
+test/
+db-export/
+.env
+client_secret.json

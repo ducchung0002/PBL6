@@ -1,0 +1,31 @@
+<div class="modal fade" id="lyrics-alignment-submit-modal" tabindex="-1" aria-labelledby="Căn chỉnh lời" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nhập lời bài hát</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="regions-lyric">Lời bài hát</label>
+                        <textarea id="regions-lyric" class="form-control" rows="10"></textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="align-lyric-response">Lời bài hát được căn chỉnh</label>
+                        <textarea id="align-lyric-response" class="form-control" rows="10" readonly></textarea>
+                        <button class="btn btn-sm btn-primary mt-2" id="copy-align-btn" data-bs-toggle="tooltip" title="sao chép vào bộ nhớ">
+                            <i class="bi bi-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="align-lyrics-submit-btn">Căn chỉnh</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/artist/music/lyric_align_event.js"></script>
