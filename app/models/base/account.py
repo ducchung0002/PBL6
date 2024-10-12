@@ -1,14 +1,13 @@
-from mongoengine import BooleanField, DateTimeField, Document, StringField, BinaryField, URLField
 from datetime import datetime
-from app.models.enum.account_role import AccountRole
+
 from flask_bcrypt import check_password_hash, generate_password_hash
+from mongoengine import BinaryField, BooleanField, DateTimeField, Document, StringField, URLField
 
 
 class Account(Document):
     username = StringField(required=True, unique=True, max_length=50)
     name = StringField(required=True)
     password = BinaryField()
-    role = StringField(default=AccountRole.USER.value, choices=[role.value for role in AccountRole])
     avatar_url = URLField()
     gender = BooleanField()
 
@@ -17,7 +16,6 @@ class Account(Document):
     deleted_at = DateTimeField()
 
     meta = {'allow_inheritance': True, 'collection': 'accounts'}
-
 
     def check_password(self, password):
         if self.password is None:

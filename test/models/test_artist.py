@@ -36,3 +36,7 @@ class TestArtist(unittest.TestCase):
         self.assertEqual(Artist.objects.count(), 2)
         self.assertTrue(self.artist1.check_password('12345678'))
         self.assertEqual(User.objects.count(), 1)
+
+
+if __name__ == '__main__':
+    unittest.main()

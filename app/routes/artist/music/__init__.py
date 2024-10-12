@@ -5,12 +5,13 @@ from app.decorators import login_required
 from app.models.user import User
 from app.models.music import Music
 from app.routes.forms.add_music_form import AddMusicForm
+from models.enum.account_role import AccountRole
 
 artist_music_bp = Blueprint('music', __name__)
 
 
 @artist_music_bp.route('/add', methods=['GET', 'POST'])
-@login_required(role='admin')
+@login_required(role=AccountRole.ADMIN)
 def add():
     form = AddMusicForm()
 
@@ -29,7 +30,7 @@ def add():
 
 
 @artist_music_bp.route('/list', methods=['GET'])
-@login_required(role='artist')
+@login_required(role=AccountRole.ARTIST)
 def list():
     musics = Music.get_all_music()
     return render_template('components/music/list_music.html', musics=musics)

@@ -30,7 +30,5 @@ class TestFollow(unittest.TestCase):
         user3 = User(username='lionel.messi', name='Lionel Messi', email='lionel.messi', date_of_birth=datetime.now()).set_password('88888888').save()
 
 
-
-
 if __name__ == '__main__':
     unittest.main()

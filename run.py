@@ -1,8 +1,7 @@
 from flask import redirect, request
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from app import create_app
-from flask_cors import CORS
-from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = create_app()
 # Use ProxyFix to handle reverse proxy headers
