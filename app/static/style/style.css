@@ -5,3 +5,23 @@
 .dropdown-menu.show {
     display: block;
 }
+
+#sidebar {
+    transition: all 0.3s;
+    min-width: 250px;
+    max-width: 250px;
+    margin-left: 0;
+}
+
+#sidebar.collapsed {
+    margin-left: -250px;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+}

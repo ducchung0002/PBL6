@@ -1,34 +1,38 @@
 <div id="register-popup" tabindex="-1" class="modal fade" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-{#            <div class="modal-header">#}
-{#                <h5 class="modal-title">Register your account</h5>#}
-{#                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#            </div>#}
             <div class="modal-body p-4">
                 <div class="text-center mb-4">
                     <p class="h4 fw-semibold">Register your account</p>
                 </div>
-                <form method="POST" action="{{ url_for('auth.register') }}">
+                <div>
                     {{ register_form.hidden_tag() }}
-
+                    {# full name #}
                     <div class="mb-3">
-                        {{ register_form.name(class="form-control", id="name", placeholder="Họ và tên") }}
+                        {{ register_form.name(class="form-control", id="register-name", placeholder="Họ và tên") }}
                     </div>
-
+                    {# username #}
                     <div class="mb-3">
-                        {{ register_form.email(class="form-control", id="email", placeholder="Email") }}
+                        {{ register_form.username(class="form-control", id="register-username", placeholder="Tên người dùng") }}
                     </div>
-
+                    {# email #}
                     <div class="mb-3">
-                        {{ register_form.date_of_birth(class="form-control", id="date_of_birth", type="date") }}
+                        {{ register_form.email(class="form-control", id="register-email", placeholder="Email") }}
                     </div>
+                    {# date of birth #}
                     <div class="mb-3">
-                        {{ register_form.password(class="form-control", id="password", placeholder="Mật khẩu") }}
+                        {{ register_form.date_of_birth(class="form-control", id="register-dob", type="date") }}
                     </div>
+                    {# password #}
+                    <div class="mb-3">
+                        {{ register_form.password(class="form-control", id="register-password", placeholder="Mật khẩu") }}
+                    </div>
+                    {# register submit button #}
                     <div class="d-grid">
-                        {{ register_form.submit(class="btn btn-primary") }}
+                        {#                        {{ register_form.submit(class="btn btn-primary", id="register-btn-submit", onsubmit="") }}#}
+                        <button class="btn btn-primary" id="register-submit-btn" onclick="register()">Đăng ký</button>
                     </div>
+
                     <div class="d-flex align-items-center my-4">
                         <hr class="flex-grow-1">
                         <span class="px-2 text-muted">OR</span>
@@ -42,7 +46,7 @@
                             Continue with Google
                         </a>
                     </div>
-                </form>
+                </div>
                 <div class="mt-4 text-center small">
                     Already have an account <a data-bs-toggle="modal" data-bs-target="#login-popup"
                                                class="text-primary">Log in</a>
@@ -53,4 +57,4 @@
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='js/auth/auth-popup.js') }}"></script>
+<script src="/static/js/auth/register.js"></script>

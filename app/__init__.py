@@ -24,12 +24,14 @@ def create_app():
     from app.routes.auth import auth_bp
     from app.routes.user import user_bp
     from app.routes.admin import admin_bp
+    from app.routes.artist import artist_bp
     from app.routes import home_bp
 
     app.register_blueprint(home_bp, url_prefix='/')
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp, url_prefix='/user')
     app.register_blueprint(admin_bp, url_prefix='/admin')
+    app.register_blueprint(artist_bp, url_prefix='/artist')
 
 
     # Initialize Blueprint for API routes

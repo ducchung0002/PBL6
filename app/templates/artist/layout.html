@@ -2,12 +2,12 @@
 
 {% block content %}
 
-    {% include "components/admin/sidebar.html" %}
+    {% include "components/artist/sidebar.html" %}
     <div class="flex-grow-1 d-flex flex-column overflow-hidden">
-        {% include "components/admin/topbar.html" %}
+        {% include "components/artist/topbar.html" %}
         <main class="flex-grow-1 overflow-auto bg-light">
             <div class="container mx-auto px-4 py-5">
-                {% block admin_content %}{% endblock %}
+                {% block artist_content %}{% endblock %}
             </div>
         </main>
     </div>

@@ -1,31 +1,28 @@
 <div id="login-popup" tabindex="-1" class="modal fade" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-{#            <div class="modal-header">#}
-{#                <h5 class="modal-title">Login to your account</h5>#}
-{#                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>#}
-{#            </div>#}
             <div class="modal-body p-4">
                 <div class="text-center mb-4">
                     <p class="h4 fw-semibold">Login to your account</p>
                 </div>
 
-
-                <form method="POST" action="{{ url_for('auth.login') }}">
+                <form method="POST" action="{{ url_for('auth.login') }}" onsubmit="login(event)">
                     {{ login_form.hidden_tag() }}
 
                     <div class="mb-3">
-                        {{ login_form.email(class="form-control", id="email", placeholder="Email") }}
+                        {{ login_form.username(class="form-control", id="login-username", placeholder="Tên đăng nhập/Email") }}
                     </div>
+
                     <div class="mb-3">
-                        {{ login_form.password(class="form-control", id="password", placeholder="Password") }}
+                        {{ login_form.password(class="form-control", id="login-password", placeholder="Mật khẩu") }}
                     </div>
 
                     <p class="mb-3 small">
                         <a href="/forgot-password" class="text-primary">Reset your password?</a>
                     </p>
+
                     <button class="btn btn-primary w-100">
-                        {{ login_form.submit(class="btn btn-primary") }}
+                        {{ login_form.submit(class="btn btn-primary", id="login-submit-btn") }}
                     </button>
                 </form>
 
@@ -51,6 +48,5 @@
         </div>
     </div>
 </div>
-{% include 'auth/modals/register.html' %}
 
-<script src="{{ url_for('static', filename='js/auth/auth-popup.js') }}"></script>
+<script src="/static/js/auth/login.js"></script>
