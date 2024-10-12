@@ -1,8 +1,6 @@
-from flask import Blueprint, jsonify, request, flash, redirect, url_for, render_template, session
-from flask_jwt_extended import get_jwt_identity
+from flask import Blueprint, flash, redirect, render_template, url_for
 
 from app.decorators import login_required
-from app.models.user import User
 from app.models.music import Music
 from app.routes.forms.add_music_form import AddMusicForm
 from models.enum.account_role import AccountRole

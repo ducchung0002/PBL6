@@ -9,12 +9,14 @@ document.addEventListener('DOMContentLoaded', function () {
             var artistName = this.getAttribute('data-name');
             var artistUsername = this.getAttribute('data-username')
             var artistDateOfBirth = this.getAttribute('data-dob');
+            var artistEmail = this.getAttribute('data-email');
             // Now populate the modal's form fields
             var modal = document.querySelector('#edit-popup');
             modal.querySelector('#update-artist-id').value = artistId;
             modal.querySelector('#update-artist-name').value = artistName;
             modal.querySelector('#update-artist-username').value = artistUsername;
             modal.querySelector('#update-artist-dob').value = artistDateOfBirth;
+            modal.querySelector('#update-artist-email').value = artistEmail;
         });
     });
 
