@@ -1,13 +1,11 @@
 from datetime import datetime
 
-from mongoengine import DateTimeField, Document, LazyReferenceField, signals
-
-from app.models.base.extended_account import ExtendedAccount
+from mongoengine import DateTimeField, Document, LazyReferenceField
 
 
 class Follow(Document):
-    follower = LazyReferenceField(ExtendedAccount, required=True)
-    following = LazyReferenceField(ExtendedAccount, required=True)
+    follower = LazyReferenceField('ExtendedAccount', required=True)
+    following = LazyReferenceField('ExtendedAccount', required=True)
 
     created_at = DateTimeField(default=datetime.now())
 
@@ -24,18 +22,3 @@ class Follow(Document):
             'following': self.following.id,
             'created_at': self.created_at,
         }
-
-    @classmethod
-    def post_save(cls, sender, document, **kwargs):
-        if kwargs.get('created', False):
-            # Update database counts
-            ExtendedAccount.objects(id=document.follower.id).update_one(inc__following_count=1)
-            ExtendedAccount.objects(id=document.following.id).update_one(inc__followers_count=1)
-            # Update in-memory counts
-            document.follower.fetch().following_count += 1
-            document.following.fetch().followers_count += 1
-
-
-# trigger
-signals.post_save.connect(Follow.post_save, sender=Follow)
-# signals.post_delete.connect(Follow.post_delete, sender=Follow)

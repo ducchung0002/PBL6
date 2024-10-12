@@ -29,3 +29,15 @@ class Account(Document):
     def set_password(self, password):
         self.password = generate_password_hash(password)
         return self
+
+    def jsonify(self):
+        return {
+            "id": str(self.id),
+            "username": self.username,
+            "name": self.name,
+            "avatar_url": self.avatar_url,
+            "gender": self.gender,
+            "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S') if self.created_at else None,
+            "updated_at": self.updated_at.strftime('%Y-%m-%d %H:%M:%S') if self.updated_at else None,
+            "deleted_at": self.deleted_at.strftime('%Y-%m-%d %H:%M:%S') if self.deleted_at else None,
+        }

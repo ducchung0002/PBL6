@@ -1,15 +1,10 @@
-<div class="d-flex align-items-center">
-        <button onclick="toggleSidebar()" id="sidebarToggle" class="btn btn-link me-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-            </svg>
-        </button>
-        <a href="/admin/index" class="btn btn-danger">YOURTUBE</a>
-</div>
-<div class="d-flex align-items-center justify-content-center flex-grow-1 max-w-xl">
-        <div class="position-relative" style="width: 500px;"> <!-- Set a fixed width -->
+<header class="bg-white shadow-sm p-4 d-flex justify-content-between align-items-center">
+    <div class="flex-grow-1"></div>
+
+    <div class="d-flex align-items-center justify-content-center flex-grow-1 max-width-xl">
+        <div class="flex-grow-1 position-relative">
             <input type="text" placeholder="Search..."
-                   class="form-control pe-5"
+                   class="form-control pr-5"
                    id="search_bar">
             <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y text-secondary">
                 <svg class="bi bi-search" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
@@ -24,8 +19,7 @@
             </button>
         </div>
         <div class="ms-2">
-            <button class="btn btn-light rounded-circle d-flex align-items-center justify-content-center"
-                    style="width: 40px; height: 40px;"
+            <button class="btn btn-light rounded-circle p-2"
                     onclick="voice()">
                 <svg class="bi bi-mic" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
                      xmlns="http://www.w3.org/2000/svg">
@@ -40,16 +34,17 @@
         </div>
     </div>
 
-    <div class="d-flex justify-content-end align-items-center">
+
+    <div class="flex-grow-1 d-flex justify-content-end align-items-center">
         {% if session['user'] %}
             <div class="dropdown">
-                <button id="dropdownButton" class="btn btn-link d-flex align-items-center text-decoration-none"
-                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <button id="dropdownButton" class="btn btn-link d-flex align-items-center" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="me-2">{{ session['user']['name'] }}</span>
                     <img src="{{ url_for('static', filename='image/1.jpg') }}" alt="User Avatar"
-                         class="rounded-circle" style="width: 32px; height: 32px;">
+                         class="rounded-circle" width="32" height="32">
                 </button>
-                <ul id="dropdownMenu" class="dropdown-menu dropdown-menu-end d-block d-none">
+                <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
@@ -62,4 +57,6 @@
             </button>
         {% endif %}
     </div>
+</header>
+
 <script src="/static/js/topbar.js"></script>
