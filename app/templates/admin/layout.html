@@ -3,19 +3,19 @@
 
 {% block content %}
         <!-- Topbar -->
+{#        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">#}
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             {% include 'components/admin/topbar.html' %}
         </nav>
-    <div class="d-flex flex-grow-1">
-        <!-- Sidebar -->
-        <div id="sidebar" class="bg-light">
-            {% include 'components/admin/sidebar.html' %}
+        <div class="d-flex flex-grow-1">
+            <!-- Sidebar -->
+            <div id="sidebar">
+                {% include 'components/admin/sidebar.html' %}
+            </div>
+            <!-- Page content -->
+            <div id="content" class="flex-grow-1 p-4">
+                {% block admin_content %}{% endblock %}
+            </div>
         </div>
-
-        <!-- Page content -->
-        <div id="content" class="flex-grow-1 p-4">
-            {% block admin_content %}{% endblock %}
-        </div>
-    </div>
 {% endblock %}
-<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="/static/js/topbar.js/"></script>

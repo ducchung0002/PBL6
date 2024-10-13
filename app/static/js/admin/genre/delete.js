@@ -1,6 +1,6 @@
 function deleteGenre() {
     // Get the values from the form
-    const genreId = document.getElementById('delete-genre-id').value;
+    const genreId = $('#delete-genre-id').val();
 
     // Create the data object to send
     const data = {
@@ -8,7 +8,7 @@ function deleteGenre() {
     };
     console.log('Deleting genre:', data);
     // Make the API call using Axios
-    axios.delete('http://localhost:5000/api/admin/genre/', {
+    axios.delete(`${window.config.API_BASE_URL}/api/admin/genre/`, {
         data: data,
         headers: {
             'Content-Type': 'application/json'

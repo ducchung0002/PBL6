@@ -29,13 +29,14 @@
                         <label for="artist-dob" class="form-label">Ngày sinh</label>
                         <input type="date" class="form-control" id="artist-dob" name="dob" required>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-success">Thêm</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                <button type="submit" class="btn btn-success">Thêm</button>
             </div>
         </div>
     </div>
 </div>
-<script src="{{ url_for('static', filename='js/admin/artist/add.js') }}"></script>
+
+<script src="/static/js/admin/artist/add.js"></script>

@@ -2,14 +2,14 @@ from mongoengine import Document, EmbeddedDocumentField, FloatField, LazyReferen
 from datetime import datetime
 from mongoengine import signals
 
-from app.models.artist import Artist
+# from app.models.artist import Artist
 from app.models.embedded_document.lyric import Lyric
 from app.models.genre import Genre
 
 
 class Music(Document):
     name = StringField(required=True)
-    artists = ListField(LazyReferenceField(Artist), required=True)
+    artists = ListField(LazyReferenceField('Artist'), required=True)
     genres = ListField(LazyReferenceField(Genre), required=True)
     music_url = URLField()
     metric_url = URLField()
