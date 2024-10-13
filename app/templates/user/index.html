@@ -2,12 +2,12 @@
 
 {% block user_content %}
 
-    {% include "user/video.html" %}
-
     {% if not session['user'] %}
         <!-- Include the login modal HTML here -->
         {% include 'auth/modals/login.html' %}
         {% include 'auth/modals/register.html' %}
     {% endif %}
+
+    {% include "user/video.html" %}
 
 {% endblock %}
