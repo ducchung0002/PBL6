@@ -24,14 +24,10 @@ def like_video():
     video_id = data['videoId']
     user_id = data['userId']
 
-    video = Video.objects(id=video_id).first()
-    User.objects(id=user_id).first().update_one(push__like_videos=video)
-
-    if video:
-        video.update(inc__like_count=1)
-        return jsonify({'message': 'Video liked successfully', 'like_count': video.like_count + 1})
-    else:
-        return jsonify({'message': 'Video not found'}), 404
+    video_like_count = User.objects(id=user_id).first().add_like_video(video_id)
+    if video_like_count == -1:
+        return jsonify({'success': False})
+    return jsonify({'success': True, 'like_count': video_like_count})
 
 
 # API thêm bình luận

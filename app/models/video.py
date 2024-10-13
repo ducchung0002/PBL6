@@ -5,11 +5,10 @@ from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField
 from app.models.embedded_document.comment import Comment
 from app.models.embedded_document.score import Score
 from app.models.music import Music
-from app.models.user import User
 
 
 class Video(Document):
-    user = LazyReferenceField(User, required=True)
+    user = LazyReferenceField('ExtendedAccount', required=True)
     music = LazyReferenceField(Music, required=True)
     score = EmbeddedDocumentField(Score)
     video_url = URLField()
