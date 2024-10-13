@@ -11,9 +11,11 @@ from app.models.video import Video
 connect('PBL6', uuidRepresentation='standard')
 # for acc in ExtendedAccount.objects():
 #     print(acc.id, acc.username, acc.name)
-video = Video.objects(id=ObjectId('6700f8be5ef0ad4763b9eba4')).first()
-comment = video.comments[0]
-print(comment.jsonify())
+
+print(Video.objects().count())
+for video in Video.objects():
+    print(video.jsonify())
+
 # print(ExtendedAccount.objects(id=ObjectId('670ba36e5aa8524c955e32ff')).first().jsonify())
 
 

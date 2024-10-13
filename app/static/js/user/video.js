@@ -17,7 +17,8 @@ function loadVideo(index) {
 function fetchVideos() {
     axios.get('/api/video/get')
         .then(response => {
-            let videos = response.data;  // Axios automatically parses the response as JSON
+            videos = response.data;
+            console.log('Fetched videos:', videos);
             if (videos.length > 0) {
                 loadVideo(0);  // Load the first video initially
             }
@@ -138,5 +139,6 @@ document.getElementById('settings-button').addEventListener('click', function ()
     alert('Settings functionality not implemented yet');
 });
 
-// Initial call to fetch and load videos
-fetchVideos();
+$(document).ready(function() {
+    fetchVideos();  // Call your function here
+});
