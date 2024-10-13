@@ -1,6 +1,7 @@
 from mongoengine import LazyReferenceField, ListField
 
 from .base.extended_account import ExtendedAccount
+from .enum.account_role import AccountRole
 from .genre import Genre
 
 
@@ -13,5 +14,5 @@ class User(ExtendedAccount):
             'name': self.name,
             'email': self.email,
             'date_of_birth': self.date_of_birth,
-            'role': self.role,
+            'role': AccountRole.USER.value,
         }

@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, jsonify, request, flash, redirect, url_for, render_template, session
-from flask_jwt_extended import get_jwt_identity
+from flask import Blueprint, flash, redirect, render_template, url_for
 
 from app.decorators import login_required
 from app.models.artist import Artist
@@ -10,10 +9,11 @@ from models.enum.account_role import AccountRole
 
 admin_artist_bp = Blueprint('artist', __name__)
 
+
 @admin_artist_bp.route('/list', methods=['GET'])
 @login_required(role=AccountRole.ADMIN)
 def list():
-    artists = Artist.get_all_artist()
+    artists = Artist.objects().all()
     return render_template('admin/artist/list.html', artists=artists)
 
 
@@ -28,13 +28,10 @@ def add():
         username = form.email.data
         email = form.email.data
         date_of_birth = datetime.now()
-        new_artist = Artist(username=username, email=email,date_of_birth=date_of_birth,name=name, avatar_url=avatar_uri)
+        new_artist = Artist(username=username, email=email, date_of_birth=date_of_birth, name=name, avatar_url=avatar_uri)
         new_artist.save()
 
         flash('Artist added successfully!', 'success')
         return redirect(url_for('admin.artist.list'))
 
     return render_template('admin/artist/add.html', form=form)
-
-
-

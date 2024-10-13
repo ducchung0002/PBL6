@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from app.decorators import login_required
-from models.enum.account_role import AccountRole
+from app.models.enum.account_role import AccountRole
 from .artist import admin_artist_bp
 from .genre import admin_genre_bp
 from .music import admin_music_bp

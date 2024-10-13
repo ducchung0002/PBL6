@@ -13,17 +13,18 @@ function loadVideo(index) {
     }
 }
 
-// Fetch the list of videos from the API
+// Fetch the list of videos from the API using Axios
 function fetchVideos() {
-    fetch('/api/video/get')
-        .then(response => response.json())
-        .then(data => {
-            videos = data;
+    axios.get('/api/video/get')
+        .then(response => {
+            let videos = response.data;  // Axios automatically parses the response as JSON
             if (videos.length > 0) {
-                loadVideo(0); // Load the first video initially
+                loadVideo(0);  // Load the first video initially
             }
         })
-        .catch(error => console.error('Error fetching videos:', error));
+        .catch(error => {
+            console.error('Error fetching videos:', error);
+        });
 }
 
 // Gọi hàm fetchVideos khi trang được load
@@ -64,19 +65,25 @@ window.addEventListener('wheel', function (event) {
     }
 });
 
-function video_like() {
+function video_like(userId) {
     console.log("video_like function called");
+    console.log("userId: " + userId);
+
     const videoId = videos[currentIndex].id;
-    const userId = '';
+
     axios.post('/api/video/like', {videoId: videoId, userId: userId})
         .then(response => {
-            // Update like count from API response
-            const updatedLikeCount = response.data['like_count'];
-            document.getElementById('like-count').innerText = updatedLikeCount;
-            // Update the local video object with new like count
-            videos[currentIndex].like_count = updatedLikeCount;
-            // Change the like button color
-            document.getElementById('like-button').backgroundColor = 'blue';
+            let rep = response.data;
+            console.log(rep);
+            if (rep.success) {
+                // Update like count from API response
+                const updatedLikeCount = response.data['like_count'];
+                document.getElementById('like-count').innerText = updatedLikeCount;
+                // Update the local video object with new like count
+                videos[currentIndex].like_count = updatedLikeCount;
+                // Change the like button color
+                document.getElementById('like-button').backgroundColor = 'blue';
+            }
         })
         .catch(error => console.error('Error liking the video:', error));
 }

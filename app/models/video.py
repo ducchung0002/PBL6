@@ -5,11 +5,10 @@ from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField
 from app.models.embedded_document.comment import Comment
 from app.models.embedded_document.score import Score
 from app.models.music import Music
-from app.models.user import User
 
 
 class Video(Document):
-    user = LazyReferenceField(User, required=True)
+    user = LazyReferenceField('ExtendedAccount', required=True)
     music = LazyReferenceField(Music, required=True)
     score = EmbeddedDocumentField(Score)
     video_url = URLField()
@@ -34,11 +33,13 @@ class Video(Document):
         return [cls.objects.get(id=ObjectId(video_dict['_id'])) for video_dict in video_lists]
 
     def jsonify(self):
+        comments = [comment.jsonify() for comment in self.comments]
+        user = self.user.fetch().jsonify()
         return {
             'id': str(self.id),
-            'user': self.user.fetch().jsonify(),
+            'user': user,
             'music': self.music.fetch().jsonify(),
             'video_url': self.video_url,
             'like_count': self.like_count,
-            'comments': [comment.jsonify() for comment in self.comments],
+            'comments': comments,
         }
