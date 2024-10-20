@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template
 
 from app.decorators import login_required
+from .music import artist_music_bp
 from ...models.enum.account_role import AccountRole
 
 artist_bp = Blueprint('artist', __name__)
-
+artist_bp.register_blueprint(artist_music_bp)
 
 # @user_bp.route('/profile', methods=['GET'])
 # @login_required
