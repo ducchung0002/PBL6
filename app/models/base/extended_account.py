@@ -1,6 +1,7 @@
 from mongoengine import DateField, EmailField, EmbeddedDocumentField, FloatField, IntField, LazyReferenceField, ListField, StringField
 
 from ..base.account import Account
+from ..query_set.extended_account_query_set import ExtendedAccountQuerySet
 
 
 class ExtendedAccount(Account):
@@ -14,7 +15,10 @@ class ExtendedAccount(Account):
     like_videos = ListField(LazyReferenceField('Video'), default=list)
     like_comments = ListField(EmbeddedDocumentField('Comment'), default=list)
 
-    meta = {'allow_inheritance': True}
+    meta = {
+        'allow_inheritance': True,
+        'queryset_class': ExtendedAccountQuerySet
+    }
 
     @classmethod
     def get_by_email(cls, email):

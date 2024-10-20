@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from bson import ObjectId
-from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, URLField
+from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, StringField, URLField
 
 
 class Video(Document):
@@ -10,6 +10,7 @@ class Video(Document):
     score = EmbeddedDocumentField('Score')
     video_url = URLField()
     like_count = IntField()
+    title = StringField(required=True)
     comments = ListField(EmbeddedDocumentField('Comment'))
 
     created_at = DateTimeField(default=datetime.now())

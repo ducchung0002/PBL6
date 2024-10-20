@@ -1,0 +1,21 @@
+{% extends "user/layout.html" %}
+
+{% block user_content %}
+    <link rel="stylesheet" href="/static/css/video-record.css">
+
+    <h2>Record Video</h2>
+    <div class="grid-container">
+        <div class="btn-group">
+            <button id="startButton">Bắt đầu ghi</button>
+            <button id="stopButton" disabled>Dừng ghi</button>
+        </div>
+
+        <video id="video" width="1080" height="800" autoplay></video>
+
+        <div id="details">
+            <input type="text" id="title" placeholder="Video Title" required>
+            <button id="uploadButton" onclick="uploadVideo()">Upload Video</button>
+        </div>
+    </div>
+    <script src="/static/js/user/video/video-record.js"></script>
+{% endblock %}

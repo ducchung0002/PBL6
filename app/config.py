@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
+# load_dotenv('D:\PBL6\.env')
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
@@ -19,3 +19,7 @@ class Config:
     JWT_TOKEN_LOCATION = ['cookies']
     JWT_COOKIE_SECURE = False
     JWT_COOKIE_CSRF_PROTECT = True
+
+    CLOUDINARY_CLOUD_NAME = os.getenv('CLOUDINARY_CLOUD_NAME')
+    CLOUDINARY_API_KEY = os.getenv('CLOUDINARY_API_KEY')
+    CLOUDINARY_API_SECRET = os.getenv('CLOUDINARY_API_SECRET')

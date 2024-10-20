@@ -1,15 +1,19 @@
-from flask import Blueprint, request
+from flask import Blueprint, render_template, session
 
-from app.models.video import Video
 from decorators import login_required
+from models.base.extended_account import ExtendedAccount
 from models.enum.account_role import AccountRole
-from routes.api.auth.login import login
 
 user_video_bp = Blueprint('video', __name__)
 
 @user_video_bp.route('/list', methods=['GET'])
 @login_required(role=AccountRole.USER)
 def list():
-    user_id = login.get_jwt_identity()
-    videos = Video.objects(user_id=user_id)
-    return videos.to_json()
+    user_id = session['user'].get('id')
+    videos = ExtendedAccount.objects.get_videos(user_id)
+    return render_template('user/video/video-list.html', videos=videos)
+
+@user_video_bp.route('/add', methods=['GET'])
+@login_required(role=AccountRole.USER)
+def add():
+    return render_template('user/video/video-record.html')
