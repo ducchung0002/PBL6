@@ -57,29 +57,48 @@ button:disabled {
     transform: scaleX(-1);
 }
 
-/* Form styles */
-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start; /* Căn trái */
-    gap: 20px;
-}
-
-input, textarea {
+input{
     width: 100%;
     padding: 15px; /* Tăng kích thước ô nhập liệu */
     font-size: 18px; /* Tăng kích thước chữ */
     border: 2px solid #ddd;
     border-radius: 5px;
 }
-
-textarea {
-    resize: none;
-    font-size: 18px; /* Tăng kích thước chữ trong textarea */
-}
-
 button[type="submit"] {
     font-size: 20px;
     padding: 15px 30px;
 }
+.video-container {
+    position: relative;
+    width: 640px;
+    height: 480px;
+}
+
+#lyricsContainer {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    color: white;
+    background-color: transparent;
+    padding: 10px;
+    font-family: 'Arial', sans-serif;
+}
+.lyrics-overlay {
+    position: absolute;
+    bottom: 20px; /* Position the lyrics 20px from the bottom of the video */
+    left: 50%; /* Center the lyrics horizontally */
+    transform: translateX(-50%); /* Correct the centering */
+    text-align: center;
+    font-size: 24px;
+    color: white;  /* Lyrics text color */
+    padding: 10px;
+    font-family: 'Arial', sans-serif;
+    background-color: transparent;  /* No background */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);  /* Optional: Adds shadow to text for readability */
+    z-index: 2; /* Ensure the lyrics stay on top of the video */
+    pointer-events: none; /* Prevent interactions with the lyrics container */
+    width: 100%; /* Make sure the text stays within the video frame */
+}
+

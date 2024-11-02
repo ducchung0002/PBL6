@@ -17,7 +17,7 @@ function addArtist(event) {
     };
 
     // Make the API call using Axios
-    axios.post(`${window.config.API_BASE_URL}/api/admin/artist/`, data)
+    axios.post('/api/admin/artist/', data)
         .then(function (response) {
             location.reload();
         })

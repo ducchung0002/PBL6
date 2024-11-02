@@ -21,7 +21,7 @@ function updateArtist(event) {
     };
 
     // Make the API call using Axios
-    axios.put(`${window.config.API_BASE_URL}/api/admin/artist/`, data)
+    axios.put('/api/admin/artist/', data)
         .then(function (response) {
             location.reload();
         })

@@ -7,7 +7,7 @@ function deleteArtist() {
         id: artistId
     };
     // Make the API call using Axios
-    axios.delete(`${window.config.API_BASE_URL}/api/admin/artist/`, {
+    axios.delete('/api/admin/artist/', {
         data: data,
         headers: {
             'Content-Type': 'application/json'

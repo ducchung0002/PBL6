@@ -11,8 +11,19 @@ def login_required(role=AccountRole.USER.value):
         def decorated_function(*args, **kwargs):
             if 'user' not in session:
                 return redirect(url_for('home.index'))
-            if session['user'].get('role') != role.value:
-                return redirect(url_for('home.index'))
+
+            user_role = session['user'].get('role')
+
+            # Handle both a single role and a list of roles
+            if isinstance(role, list):
+                # If it's a list, check if the user's role is in the allowed roles
+                if user_role not in [r.value for r in role]:
+                    return redirect(url_for('home.index'))
+            else:
+                # If it's a single role, check if the user's role matches
+                if user_role != role.value:
+                    return redirect(url_for('home.index'))
+
             return f(*args, **kwargs)
 
         return decorated_function

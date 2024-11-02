@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# load_dotenv('D:\PBL6\.env')
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
 

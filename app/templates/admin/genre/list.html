@@ -22,7 +22,7 @@
                 <tr>
                     <th scope="row">{{ loop.index }}</th>
                     <td>{{ genre.name }}</td>
-                    <td>{{ genre.description }}</td>
+                    <td>{{ genre.description |safe}}</td>
                     <td>{{ genre.created_at.strftime('%d-%m-%Y') }}</td>
                     <td>
                         <button data-bs-toggle="modal" data-bs-target="#edit-popup"
