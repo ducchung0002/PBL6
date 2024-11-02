@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify, request
 
 from app.models.video import Video
 from decorators import login_required
+from models.base.extended_account import ExtendedAccount
 from models.embedded_document.comment import Comment
 from models.enum.account_role import AccountRole
 from models.user import User
@@ -24,7 +25,7 @@ def like_video():
     video_id = data['videoId']
     user_id = data['userId']
 
-    video_like_count = User.objects(id=user_id).first().add_like_video(video_id)
+    video_like_count = ExtendedAccount.objects.like_video(user_id, video_id)
     if video_like_count == -1:
         return jsonify({'success': False})
     return jsonify({'success': True, 'like_count': video_like_count})
