@@ -1,18 +1,17 @@
 from mongoengine import LazyReferenceField, ListField
 
-from .base.extended_account import ExtendedAccount
-from .enum.account_role import AccountRole
 from .genre import Genre
+from .enum.account_role import AccountRole
+from .base.extended_account import ExtendedAccount
+from .query_set.user_query_set import UserQuerySet
 
 
 class User(ExtendedAccount):
     favourite_genres = ListField(LazyReferenceField(Genre))  # Embedded list field for favourite genres
 
+    meta = {'queryset_class': UserQuerySet}
+
     def jsonify(self):
-        return {
-            'id': str(self.id),
-            'name': self.name,
-            'email': self.email,
-            'date_of_birth': self.date_of_birth,
+        return super().jsonify() | {
             'role': AccountRole.USER.value,
         }

@@ -1,19 +1,17 @@
 from datetime import datetime
-from bson import ObjectId
-from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, URLField
 
-from app.models.embedded_document.comment import Comment
-from app.models.embedded_document.score import Score
-from app.models.music import Music
+from bson import ObjectId
+from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, StringField, URLField
 
 
 class Video(Document):
     user = LazyReferenceField('ExtendedAccount', required=True)
-    music = LazyReferenceField(Music, required=True)
-    score = EmbeddedDocumentField(Score)
+    music = LazyReferenceField('Music', required=True)
+    score = EmbeddedDocumentField('Score')
     video_url = URLField()
     like_count = IntField()
-    comments = ListField(EmbeddedDocumentField(Comment))
+    title = StringField(required=True)
+    comments = ListField(EmbeddedDocumentField('Comment'))
 
     created_at = DateTimeField(default=datetime.now())
     updated_at = DateTimeField(default=datetime.now())

@@ -5,7 +5,7 @@
             class="btn btn-success" type="button">
         Thêm
     </button>
-    <div class="container mx-auto px-4 py-5 d-flex align-items-center flex-column my-2">
+    <div class="container mx-auto px-4 py-3 d-flex align-items-center flex-column my-2">
         <table class="table">
             <thead>
             <tr>
@@ -22,7 +22,7 @@
                 <tr>
                     <th scope="row">{{ loop.index }}</th>
                     <td>{{ genre.name }}</td>
-                    <td>{{ genre.description }}</td>
+                    <td>{{ genre.description |safe}}</td>
                     <td>{{ genre.created_at.strftime('%d-%m-%Y') }}</td>
                     <td>
                         <button data-bs-toggle="modal" data-bs-target="#edit-popup"
@@ -35,7 +35,7 @@
                     </td>
                     <td>
                         <button data-bs-toggle="modal" data-bs-target="#delete-popup"
-                                class="btn btn-primary btn-danger"
+                                class="btn btn-primary btn-danger delete-btn"
                                 data-id="{{ genre.id }}"
                                 type="button">
                             Xóa
@@ -49,5 +49,5 @@
     {% include "admin/genre/modals/edit.html" %}
     {% include "admin/genre/modals/delete.html" %}
     {% include "admin/genre/modals/add.html" %}
-    <script src="{{ url_for('static', filename='js/admin/genre/list.js') }}"></script>
+    <script src="/static/js/admin/genre/list.js"></script>
 {% endblock %}
