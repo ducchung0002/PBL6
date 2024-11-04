@@ -3,10 +3,31 @@ from mongoengine import QuerySet
 from pymongo import MongoClient
 
 from app.models.base.extended_account import ExtendedAccount
-from models.embedded_document.comment import Comment
+from app.models.embedded_document.comment import Comment
 
 
 class VideoQuerySet(QuerySet):
+    def get_random_videos(self, count, user_id: str = None):
+        total_videos = self.count()
+        sample_size = min(count, total_videos)
+        pipeline = [
+            {"$sample": {"size": sample_size}}
+        ]
+        video_lists = list(self.aggregate(*pipeline))
+        from models.video import Video
+
+        user = None
+        if user_id is not None:
+            user = ExtendedAccount.objects(id=user_id).first()
+
+        videos = []
+        for video_dict in video_lists:
+            video = Video.from_dict(**video_dict)
+            is_liked = ObjectId(video.id) in user.like_videos if user else False
+            videos.append((video, is_liked))
+
+        return videos
+
     def get_videos_by_user(self, user_id: str):
         return self.filter(user=user_id).all()
 
@@ -79,3 +100,14 @@ class VideoQuerySet(QuerySet):
                 except Exception as e:
                     print(f"Transaction aborted due to: {e}")
                     raise
+
+    def update_comment(self, video_id, comment_id: str, comment_content: str):
+        return self.filter(id=video_id, comments__match={'_id': ObjectId(comment_id)}).update(set__comments__S__content=comment_content) is not None
+
+    def delete_comment(self, video_id, comment_id: str):
+        # Use the MongoDB `update_one` method directly to perform a $pull operation
+        result = self._collection.update_one(
+            {"_id": ObjectId(video_id)},
+            {"$pull": {"comments": {"_id": ObjectId(comment_id)}}}
+        )
+        return result.modified_count > 0  # Returns True if a comment was deleted
