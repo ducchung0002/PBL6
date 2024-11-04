@@ -1,0 +1,43 @@
+<div class="modal fade" id="createPlaylistModal" tabindex="-1" aria-labelledby="createPlaylistLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPlaylistLabel">Tạo danh sách phát mới</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <!-- Tiêu đề playlist -->
+                <div class="mb-3">
+                    <label for="playlistTitle" class="form-label">Tiêu đề</label>
+                    <input type="text" class="form-control" id="playlistTitle" placeholder="Nhập tiêu đề">
+                </div>
+                <!-- Quyền riêng tư -->
+                <div class="mb-3">
+                    <label class="form-label">Quyền riêng tư</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="privacyOptions" id="privacyPublic" value="public" checked>
+                        <label class="form-check-label d-flex justify-content-between align-items-center" for="privacyPublic">
+                            Công khai
+                            <i class="bi bi-globe fs-5"></i>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="privacyOptions" id="privacyPrivate" value="private">
+                        <label class="form-check-label d-flex justify-content-between align-items-center" for="privacyPrivate">
+                            Riêng tư
+                            <i class="bi bi-lock-fill fs-5"></i>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Nút tạo -->
+                <div class="d-flex justify-content-end">
+                    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="createPlaylistButton">Tạo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

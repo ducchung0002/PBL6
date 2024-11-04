@@ -1,0 +1,38 @@
+<div class="modal fade" id="saveToPlaylistModal" tabindex="-1" aria-labelledby="saveToPlaylistLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="saveToPlaylistLabel">Lưu vào danh sách phát</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body p-0">
+                <!-- Danh sách các playlist -->
+                <div class="list-group">
+                    <!-- Mẫu cho một playlist -->
+                    {% for playlist in playlists %}
+                        <label class="list-group-item d-flex align-items-center">
+                            <input class="form-check-input me-3" type="checkbox" value="{{ playlist.id }}" {% if playlist.contains_video %}checked{% endif %}/>
+                            <div class="flex-grow-1">
+                                <div>{{ playlist.name }}</div>
+                                {% if playlist.is_private %}
+                                    <small class="text-muted">Riêng tư</small>
+                                {% else %}
+                                    <small class="text-muted">Công khai</small>
+                                {% endif %}
+                            </div>
+                            <i class="bi bi-lock-fill ms-auto"></i>
+                        </label>
+                    {% endfor %}
+                </div>
+                <!-- Nút tạo playlist mới -->
+                <div class="d-flex justify-content-center my-3">
+                    <button id="addNewPlaylist" class="btn btn-outline-secondary w-100" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">
+                        + Danh sách phát mới
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

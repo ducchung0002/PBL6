@@ -1,0 +1,43 @@
+/* Tùy chỉnh CSS nếu cần */
+.sidebar {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-top: 20px;
+}
+.settings-header {
+    margin-bottom: 20px;
+}
+.accordion-button::after {
+    background-image: none;
+}
+.section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.section-subtitle {
+    font-size: 1rem;
+    color: #6c757d;
+    margin-bottom: 20px;
+}
+.section-content {
+    margin-bottom: 30px;
+}
+.alert {
+    margin-top: 20px;
+}
+/* Hiệu ứng cho modal */
+.modal-content {
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
