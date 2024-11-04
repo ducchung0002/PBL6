@@ -6,15 +6,17 @@ from flask import Blueprint, jsonify, request, session
 
 from app.models.music import Music
 from app.models.video import Video
-from .comment import api_user_video_comment_bp
+from app.routes.api.user.video.comment import api_user_video_comment_bp
 
 api_user_video_bp = Blueprint('api_user_video', __name__)
 api_user_video_bp.register_blueprint(api_user_video_comment_bp, url_prefix='/comment')
 
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'webm'}
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @api_user_video_bp.route('/record', methods=['POST'])
 def record_video():
@@ -62,6 +64,8 @@ def record_video():
             return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'Invalid file type or file missing'}), 400
+
+
 def generate_lyrics_overlay_filter(lyrics_data):
     """
     Generate FFmpeg filter string to overlay lyrics on the video at specific times.
@@ -81,6 +85,7 @@ def generate_lyrics_overlay_filter(lyrics_data):
         )
     return ','.join(filter_parts)
 
+
 def format_time(timestamp):
     """
     Format time to ensure it is in the format HH:MM:SS.MMM (milliseconds).
@@ -93,6 +98,7 @@ def format_time(timestamp):
             parts[2] += ".000"
         return ":".join(parts)
     return timestamp
+
 
 @api_user_video_bp.route('/music_search', methods=['GET'])
 def search_music():
@@ -142,9 +148,13 @@ def search_music():
         # Catch any other error that occurs and return a 500 response
         return jsonify({'error': str(e)}), 500
 
-@api_user_video_bp.route('/get', methods=['GET'])
+
+@api_user_video_bp.route('/get', methods=['POST'])
 def get_video():
-    videos = [video.jsonify() for video in Video.get_random_videos(5)]
+    data = request.get_json()
+    user_id = data['userId']
+    videos = [video.jsonify() | {'liked': liked} for video, liked in
+              Video.objects.get_random_videos(5, user_id=user_id)]
     return jsonify(videos), 200
 
 
@@ -158,6 +168,7 @@ def like_video():
     if video_like_count == -1:
         return jsonify({'success': False})
     return jsonify({'success': True, 'like_count': video_like_count})
+
 
 @api_user_video_bp.route('/unlike', methods=['POST'])
 def unlike_video():

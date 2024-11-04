@@ -1,10 +1,10 @@
-.dropdown-menu {
-    display: none;
-}
+/*.dropdown-menu {*/
+/*    display: none;*/
+/*}*/
 
-.dropdown-menu.show {
-    display: block;
-}
+/*.dropdown-menu.show {*/
+/*    display: block;*/
+/*}*/
 
 @media (max-width: 768px) {
     #sidebar {
@@ -125,4 +125,39 @@ body {
 /* Đảm bảo biểu tượng đủ lớn để dễ nhìn */
 .bi {
     font-size: 24px;
+}
+.icon-button {
+    background: none;
+    border: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-button i {
+    font-size: 1.2em; /* Điều chỉnh kích thước biểu tượng */
+}
+#editDeleteMenu {
+    display: none;
+}
+.list-group-item a:hover {
+    background-color: #f0f0f0;
+}
+
+.list-group-item svg {
+    min-width: 24px;
+}
+/* Điều chỉnh khoảng cách giữa các cột */
+#description-container .d-flex > div {
+    flex: 1;
+}
+
+/* Điều chỉnh khoảng cách giữa số liệu và nhãn */
+#description-container .d-flex > div > div:first-child {
+    margin-bottom: 0.2rem;
+}
+/* Thêm vào tệp CSS của bạn */
+#reportModal .form-check {
+    margin-bottom: 0.5rem;
 }
