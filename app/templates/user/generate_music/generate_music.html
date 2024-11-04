@@ -1,0 +1,274 @@
+<!-- PBL6/app/templates/user/generate_music/generate_music.html -->
+
+{% extends 'user/layout.html' %}
+
+{% block user_content %}
+    <style>
+        .chat-container {
+            max-width: 1200px; /* Tăng kích thước từ 600px lên 800px */
+            margin: 50px auto;
+            padding: 30px; /* Tăng padding để giao diện thoáng hơn */
+            border: 1px solid #ddd;
+            border-radius: 20px; /* Bo góc lớn hơn */
+            background-color: #fff;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+        }
+        .chat-header {
+            text-align: center;
+            margin-bottom: 25px; /* Tăng khoảng cách dưới header */
+        }
+        .chat-messages {
+            height: 500px; /* Tăng chiều cao của khung chat */
+            overflow-y: auto;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-bottom: 25px;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Tạo khoảng cách giữa các tin nhắn */
+        }
+        .message {
+            display: flex;
+            align-items: flex-start;
+        }
+        .message.user {
+            justify-content: flex-end;
+        }
+        .message.bot {
+            justify-content: flex-start;
+        }
+        .message.user .text {
+            background-color: #d1e7dd;
+            align-self: flex-end;
+            text-align: right;
+        }
+        .message.bot .text {
+            background-color: #e2e3e5;
+            align-self: flex-start;
+            text-align: left;
+        }
+        .text {
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 75%;
+            display: inline-block;
+            position: relative;
+        }
+        .message.bot .text::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #e2e3e5 transparent transparent;
+        }
+        .message.user .text::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            right: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent #d1e7dd;
+        }
+        .chat-input {
+            display: flex;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        .chat-input button {
+            padding: 12px 24px;
+            border: 1px solid #ddd;
+            border-left: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .chat-input button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        .spinner-border {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .bot-icon {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+        /* Đảm bảo audio player và nút tải về hiển thị đúng trong chat */
+        .audio-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .audio-container audio {
+            flex: 1;
+        }
+    </style>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>Tạo âm nhạc theo phong cách riêng bạn</h3>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Tin nhắn sẽ được thêm vào đây -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="music-request" class="form-control" placeholder="Nhập yêu cầu bài hát của bạn...">
+            <button id="send-button" class="btn btn-primary">Gửi</button>
+        </div>
+        <div class="mt-3" id="status-message" style="display: none;">
+            <div class="d-flex align-items-center">
+                <div class="spinner-border text-primary me-2" role="status">
+                    <span class="visually-hidden">Đang tạo...</span>
+                </div>
+                <span>Đang tạo âm nhạc...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chia sẻ và các modals khác ở đây (nếu cần) -->
+    <script>
+        $(document).ready(function() {
+            console.log("JavaScript đã được tải và document ready.");
+
+            // Cuộn xuống dưới cùng của khung chat
+            function scrollToBottom() {
+                var chat = $('#chat-messages');
+                chat.scrollTop(chat[0].scrollHeight);
+                console.log("Cuộn xuống dưới cùng của khung chat.");
+            }
+
+            // SVG Icon của Bot (SVG tùy chỉnh bạn đã cung cấp)
+            const botSVGIcon = `
+                <svg width="24px" height="24px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M213.333333 554.666667m-85.333333 0a85.333333 85.333333 0 1 0 170.666667 0 85.333333 85.333333 0 1 0-170.666667 0Z" fill="#FFA726" />
+                    <path d="M810.666667 554.666667m-85.333334 0a85.333333 85.333333 0 1 0 170.666667 0 85.333333 85.333333 0 1 0-170.666667 0Z" fill="#FFA726" />
+                    <path d="M832 405.333333c0-270.933333-640-177.066667-640 0v213.333334c0 177.066667 142.933333 320 320 320s320-142.933333 320-320V405.333333z" fill="#FFB74D" />
+                    <path d="M512 64C311.466667 64 149.333333 226.133333 149.333333 426.666667v72.533333L192 533.333333v-64l448-209.066666 192 209.066666v64l42.666667-34.133333V426.666667c0-170.666667-121.6-362.666667-362.666667-362.666667z" fill="#FF5722" />
+                    <path d="M661.333333 554.666667m-42.666666 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#784719" />
+                    <path d="M362.666667 554.666667m-42.666667 0a42.666667 42.666667 0 1 0 85.333333 0 42.666667 42.666667 0 1 0-85.333333 0Z" fill="#784719" />
+                    <path d="M917.333333 512c-12.8 0-21.333333 8.533333-21.333333 21.333333v-149.333333c0-187.733333-153.6-341.333333-341.333333-341.333333h-149.333334c-12.8 0-21.333333 8.533333-21.333333 21.333333s8.533333 21.333333 21.333333 21.333333h149.333334c164.266667 0 298.666667 134.4 298.666666 298.666667v213.333333c0 12.8 8.533333 21.333333 21.333334 21.333334s21.333333-8.533333 21.333333-21.333334v42.666667c0 83.2-66.133333 149.333333-149.333333 149.333333H512c-12.8 0-21.333333 8.533333-21.333333 21.333334s8.533333 21.333333 21.333333 21.333333h234.666667c106.666667 0 192-85.333333 192-192v-106.666667c0-12.8-8.533333-21.333333-21.333334-21.333333z" fill="#757575" />
+                    <path d="M917.333333 469.333333h-21.333333c-23.466667 0-42.666667 19.2-42.666667 42.666667v85.333333c0 23.466667 19.2 42.666667 42.666667 42.666667h21.333333c23.466667 0 42.666667-19.2 42.666667-42.666667v-85.333333c0-23.466667-19.2-42.666667-42.666667-42.666667z" fill="#37474F" />
+                    <path d="M512 810.666667m-42.666667 0a42.666667 42.666667 0 1 0 85.333334 0 42.666667 42.666667 0 1 0-85.333334 0Z" fill="#37474F" />
+                </svg>
+            `;
+
+            // Hiển thị tin nhắn từ bot với hiệu ứng gõ từng ký tự
+            function addBotMessage(message, isSuccess = false, audioURL = '') {
+                console.log("Thêm tin nhắn từ bot:", message);
+                const botMessage = $(`
+                    <div class="message bot">
+                        <div class="text">
+                            ${botSVGIcon}<span class="bot-text"></span>
+                        </div>
+                    </div>
+                `);
+                $('#chat-messages').append(botMessage);
+                scrollToBottom();
+
+                // Hiệu ứng gõ từng ký tự với tốc độ nhanh hơn (ví dụ: 30ms)
+                let index = 0;
+                function typeCharacter() {
+                    if (index < message.length) {
+                        botMessage.find('.bot-text').append(message.charAt(index));
+                        index++;
+                        // Tốc độ gõ ký tự: 30ms
+                        setTimeout(typeCharacter, 30);
+                    } else if (isSuccess && audioURL) {
+                        // Sau khi hoàn thành gõ, thêm phần âm nhạc và nút tải về
+                        const audioContent = `
+                            <div class="audio-container mt-2">
+                                <audio controls>
+                                    <source src="${audioURL}" type="audio/wav">
+                                    Trình duyệt của bạn không hỗ trợ thẻ audio.
+                                </audio>
+                                <a href="${audioURL}" download="custom_music.wav" class="btn btn-success">Tải xuống</a>
+                            </div>
+                        `;
+                        botMessage.find('.bot-text').append(audioContent);
+                        scrollToBottom();
+                    }
+                }
+                typeCharacter();
+            }
+
+            // Hiển thị tin nhắn của người dùng
+            function addUserMessage(message) {
+                console.log("Thêm tin nhắn từ người dùng:", message);
+                $('#chat-messages').append(`
+                    <div class="message user">
+                        <div class="text">${message}</div>
+                    </div>
+                `);
+                scrollToBottom();
+            }
+
+            // Hiển thị tin nhắn khởi đầu khi trang tải với hiệu ứng gõ từng ký tự
+            const welcomeMessage = "Xin chào! 👋\nTôi là MusicGen AI, một mô hình trí tuệ nhân tạo được thiết kế bởi đội ngũ FAIR của Meta AI. Tôi được tạo ra để giúp mọi người sáng tạo và khám phá âm nhạc theo cách đơn giản và trực quan nhất.";
+            addBotMessage(welcomeMessage);
+
+            $('#send-button').click(function() {
+                console.log("Nút gửi được nhấn.");
+                const text = $('#music-request').val().trim();
+                if (text === "") {
+                    alert("Vui lòng nhập yêu cầu bài hát của bạn!");
+                    return;
+                }
+
+                // Hiển thị tin nhắn của người dùng
+                addUserMessage(text);
+                $('#music-request').val("");
+
+                // Hiển thị trạng thái đang tạo âm nhạc
+                $('#status-message').show();
+
+                // Gửi yêu cầu đến backend cổng 8000
+                axios.post('http://localhost:8000/generate-music', { text: text }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    responseType: 'blob' // Quan trọng để xử lý dữ liệu nhị phân
+                })
+                    .then(response => {
+                        // Tạo URL cho tệp tin âm thanh
+                        const url = window.URL.createObjectURL(new Blob([response.data], { type: 'audio/wav' }));
+                        console.log(url);
+
+                        // Ẩn trạng thái đang tạo
+                        $('#status-message').hide();
+
+                        // Hiển thị tin nhắn từ chatbot với phần âm nhạc và nút tải về
+                        const successMessage = "Âm nhạc đã được tạo thành công! Bạn có thể nghe và tải xuống tại đây.";
+                        addBotMessage(successMessage, true, url);
+                    })
+                    .catch(error => {
+                        console.error('Error generating music:', error);
+                        $('#status-message').hide();
+                        alert('Đã xảy ra lỗi khi tạo âm nhạc: ' + (error.response && error.response.data ? 'Có thể API không phản hồi đúng cách.' : error.message));
+                    });
+            });
+
+            // Gửi yêu cầu khi nhấn Enter
+            $('#music-request').keypress(function(e) {
+                if (e.which === 13) { // Enter key pressed
+                    console.log("Nhấn Enter để gửi yêu cầu.");
+                    $('#send-button').click();
+                }
+            });
+        });
+    </script>
+{% endblock %}

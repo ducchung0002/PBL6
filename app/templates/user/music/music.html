@@ -1,0 +1,151 @@
+{% extends 'user/layout.html' %}
+
+{% block user_content %}
+    <style>
+        .music-section {
+            margin-bottom: 40px;
+        }
+        .music-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .music-carousel {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+        .music-card {
+            min-width: 150px;
+            flex: 0 0 auto;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .music-card img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 5px;
+        }
+        .music-card .music-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #333;
+        }
+        .music-card:hover {
+            background: #f0f0f0;
+        }
+
+        /* Custom scrollbar if needed */
+        .music-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+        .music-carousel::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+        .music-carousel::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .music-carousel::-webkit-scrollbar-thumb:hover {
+            background: #999;
+        }
+
+        /* Ẩn audio player mặc định */
+        #audio-player, #preview-audio-player {
+            display: none;
+        }
+    </style>
+
+        <!-- Main Content -->
+        <div class="col-md-9 mt-4">
+            <h2 class="mb-4"><i class="bi bi-music-note-beamed"></i> Âm nhạc</h2>
+            <!-- Lặp qua mỗi nghệ sĩ -->
+            {% for artist_data in artist_musics_data %}
+                <div class="music-section">
+                    <h2>{{ artist_data.artist_name }}</h2>
+                    <div class="music-carousel">
+                        {% for music in artist_data.musics %}
+                            <div class="music-card"
+                                 onmouseover="previewMusic('{{ music.audio_url }}')"
+                                 onmouseout="stopPreview()"
+                                 onclick="playMusic('{{ music.audio_url }}')">
+                                <img src="{{ music.thumbnail_url }}" alt="{{ music.name }}">
+                                <div class="music-name">{{ music.name }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+<!-- Audio players -->
+<audio id="audio-player" controls></audio>
+<audio id="preview-audio-player"></audio>
+
+
+<script>
+    var currentPlayingUrl = null; // URL bài hát hiện đang phát trong main player
+    var isPlaying = false; // Trạng thái đang phát hay không
+
+    var audioPlayer = document.getElementById('audio-player');
+    var previewPlayer = document.getElementById('preview-audio-player');
+
+    // Khi click vào thumbnail
+    function playMusic(url) {
+        // Nếu đang phát cùng bài
+        if (currentPlayingUrl === url) {
+            // Toggle play/pause
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+            } else {
+                audioPlayer.play();
+                isPlaying = true;
+            }
+        } else {
+            // Nếu là bài khác, load bài mới
+            currentPlayingUrl = url;
+            audioPlayer.src = url;
+            audioPlayer.play();
+            isPlaying = true;
+        }
+
+        audioPlayer.style.display = 'block';
+    }
+
+    audioPlayer.onpause = function() {
+        isPlaying = false;
+    }
+    audioPlayer.onplay = function() {
+        isPlaying = true;
+    }
+
+    // Khi rê chuột vào thumbnail, phát preview
+    function previewMusic(url) {
+        // Nếu main player đang phát bài chính, preview vẫn được phép phát ở đây
+        // Tuy nhiên nếu bạn muốn khi đang phát chính thì không preview, bạn có thể kiểm tra:
+        // if (isPlaying) return; // Nếu muốn bỏ qua preview khi đang phát chính
+
+        previewPlayer.src = url;
+        previewPlayer.currentTime = 0;
+        previewPlayer.play();
+    }
+
+    // Khi rời chuột, dừng preview
+    function stopPreview() {
+        previewPlayer.pause();
+        previewPlayer.currentTime = 0;
+    }
+</script>
+
+{% endblock %}

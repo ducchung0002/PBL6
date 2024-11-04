@@ -71,3 +71,87 @@ document.getElementById('send-comment').addEventListener('click', function () {
             alert('Đã xảy ra lỗi khi kiểm tra bình luận.');
         });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const mentionButton = document.getElementById('mention-button');
+    const emojiButton = document.getElementById('emoji-button');
+    const emojiPicker = document.getElementById('emoji-picker');
+    const commentInput = document.getElementById('comment-input');
+
+    if (mentionButton) {
+        mentionButton.addEventListener('click', function() {
+            commentInput.value += '@';
+            commentInput.focus();
+        });
+    }
+
+    if (emojiButton) {
+        emojiButton.addEventListener('click', function() {
+            if (emojiPicker.style.display === 'none') {
+                emojiPicker.style.display = 'block';
+            } else {
+                emojiPicker.style.display = 'none';
+            }
+        });
+    }
+
+    if (emojiPicker) {
+        emojiPicker.addEventListener('click', function(e) {
+            if (e.target.classList.contains('emoji')) {
+                const emoji = e.target.innerText;
+                commentInput.value += emoji;
+                commentInput.focus();
+            }
+        });
+    }
+
+    document.addEventListener('click', function(e) {
+        if (!emojiPicker.contains(e.target) && e.target !== emojiButton) {
+            emojiPicker.style.display = 'none';
+        }
+    });
+});
+
+document.addEventListener('click', function(e) {
+    // Khi click mention button trong reply
+    if (e.target.closest('.reply-mention-button')) {
+        const mentionBtn = e.target.closest('.reply-mention-button');
+        const replyInput = mentionBtn.parentNode.querySelector('.reply-input');
+        if (replyInput) {
+            replyInput.value += '@';
+            replyInput.focus();
+        }
+    }
+
+    // Khi click reply emoji button
+    if (e.target.closest('.reply-emoji-button')) {
+        const emojiBtn = e.target.closest('.reply-emoji-button');
+        const replyEmojiPicker = emojiBtn.parentNode.querySelector('div.position-absolute');
+        if (replyEmojiPicker) {
+            replyEmojiPicker.style.display = (replyEmojiPicker.style.display === 'none') ? 'block' : 'none';
+        }
+    }
+
+    // Khi chọn emoji trong reply
+    if (e.target.classList.contains('emoji') && e.target.parentNode.parentNode.classList.contains('btn-group')) {
+        const emojiSpan = e.target;
+        const replyEmojiPicker = emojiSpan.parentNode;
+        const replyInput = replyEmojiPicker.parentNode.parentNode.querySelector('.reply-input');
+        if (replyInput) {
+            replyInput.value += emojiSpan.innerText;
+            replyInput.focus();
+        }
+    }
+});
+
+// Ẩn emoji picker cho reply khi click ra ngoài
+document.addEventListener('click', function(e) {
+    // Kiểm tra nếu click ra ngoài vùng emoji-picker của reply
+    document.querySelectorAll('.btn-group.dropup.position-relative').forEach((group) => {
+        const picker = group.querySelector('.position-absolute');
+        const emojiBtn = group.querySelector('.reply-emoji-button');
+        if (picker && !group.contains(e.target) && e.target !== emojiBtn) {
+            picker.style.display = 'none';
+        }
+    });
+});
+

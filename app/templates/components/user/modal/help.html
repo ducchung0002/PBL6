@@ -1,0 +1,160 @@
+<!-- PBL6/app/templates/components/user/modal/help.html -->
+<!-- ========== HELP PANEL (Support Widget) ========== -->
+
+<style>
+    .help-container {
+        width: 300px;
+        height: 100%;
+        position: fixed;
+        top: 60px; /* đẩy xuống 60px để không bị che */
+        right: 0;
+        background: white;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        border-left: 1px solid #e0e0e0;
+        display: none; /* Ban đầu ẩn */
+        z-index: 9999; /* Đảm bảo nổi trên tất cả */
+    }
+
+    .help-header {
+        display: flex;
+        justify-content: space-between; /* Dàn hai bên */
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid #e0e0e0;
+        background: #f9f9f9;
+        box-sizing: border-box; /* Đảm bảo padding được tính vào width */
+    }
+
+    .help-header h2 {
+        font-size: 18px;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap; /* Đảm bảo text không xuống dòng */
+        flex: 1; /* Để tiêu đề co giãn */
+        min-width: 0; /* Đảm bảo text có thể co lại */
+    }
+
+    .help-header .close-button {
+        background-color: transparent; /* Đảm bảo nền trong suốt */
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #333 !important; /* Ép màu chữ */
+        flex-shrink: 0; /* Ngăn nút co lại */
+
+    }
+
+    .help-header .close-button:hover {
+        color: #ff0000; /* Đổi màu nút khi hover */
+    }
+
+    .help-content .help-item {
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+    }
+
+    .help-item:hover {
+        background-color: #f5f5f5;
+    }
+
+    .help-item i {
+        font-size: 18px;
+        margin-right: 12px;
+        color: #5f6368;
+    }
+
+    .help-item span {
+        font-size: 14px;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+    }
+
+    .search-bar input {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
+
+    .help-footer {
+        padding: 16px;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .feedback-link {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 14px;
+        color: #1a73e8;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .feedback-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<!-- (2) Khối HTML cho widget -->
+<div class="help-container" id="helpContainer">
+    <div class="help-header">
+        <h2>Trợ giúp</h2>
+        <!-- Đổi button thông thường sang class .close-button -->
+        <button class="close-button" onclick="closeHelpPanel()">&#10006;</button>
+    </div>
+
+    <div class="help-content">
+        <div class="help-item">
+            <i>&#128712;</i>
+            <span>Get help</span> <!-- Đã thay đổi -->
+        </div>
+        <div class="help-item">
+            <i>&#128194;</i>
+            <span>Tải video lên YouTube</span>
+        </div>
+        <div class="help-item">
+            <i>&#9881;</i>
+            <span>Khắc phục lỗi video trên YouTube</span>
+        </div>
+        <div class="help-item">
+            <i>&#9989;</i>
+            <span>Xác minh tài khoản YouTube</span>
+        </div>
+        <div class="help-item">
+            <i>&#128100;</i>
+            <span>Quản lý chế độ cài đặt của kênh</span>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Tìm kiếm trong trợ giúp">
+    </div>
+
+    <div class="help-footer">
+        <a class="feedback-link" href="#">Gửi phản hồi</a>
+    </div>
+
+</div>
+
+<!-- (3) Khối JavaScript xử lý mở/đóng widget -->
+<script>
+    function openHelpPanel() {
+        var helpContainer = document.getElementById("helpContainer");
+        helpContainer.style.display = "block";
+    }
+
+    function closeHelpPanel() {
+        var helpContainer = document.getElementById("helpContainer");
+        helpContainer.style.display = "none";
+    }
+</script>

@@ -1,0 +1,174 @@
+<style>
+    .feedback-container {
+        position: fixed;
+        top: 60px;
+        right: 0;
+        width: 400px;
+        height: calc(100% - 60px);
+        background: #fff;
+        border-left: 1px solid #e0e0e0;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        display: flex;         /* Flexbox để cố định footer dưới */
+        flex-direction: column;
+        display: none;         /* Ẩn ban đầu */
+    }
+
+    .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px;
+        border-bottom: 1px solid #e0e0e0;
+        background: #f9f9f9;
+    }
+
+    .feedback-header h2 {
+        font-size: 18px;
+        margin: 0;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .feedback-header .close-button {
+        background-color: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        color: #333 !important;
+    }
+    .feedback-header .close-button:hover {
+        color: #ff0000;
+    }
+
+    .feedback-content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 16px;
+    }
+    .feedback-content .form-label {
+        font-weight: 600;
+    }
+    .feedback-content textarea {
+        width: 100%;
+        margin-top: 4px;
+    }
+    .feedback-content .form-text {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    .feedback-content .btn {
+        margin: 8px 0;
+    }
+
+    #screenshotPreview {
+        border: 1px dashed #ccc;
+        min-height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 8px;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    #screenshotPreview canvas {
+        max-width: 100%;
+        height: auto !important;
+    }
+
+    .feedback-footer {
+        border-top: 1px solid #e0e0e0;
+        padding: 16px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+    .feedback-footer .btn {
+        padding: 6px 12px;
+    }
+</style>
+
+<!-- (1) Widget body -->
+<div class="feedback-container" id="feedbackContainer">
+    <div class="feedback-header">
+        <h2>Gửi ý kiến phản hồi đến YouTube</h2>
+        <button class="close-button" onclick="closeFeedbackPanel()">&#10006;</button>
+    </div>
+
+    <div class="feedback-content">
+        <div class="mb-3">
+            <label for="feedbackTextarea" class="form-label">Mô tả ý kiến phản hồi của bạn</label>
+            <textarea
+                    id="feedbackTextarea"
+                    class="form-control"
+                    placeholder="Hãy cho chúng tôi biết điều gì khiến bạn đưa ra ý kiến phản hồi này..."
+                    rows="4"
+            ></textarea>
+            <small class="form-text">Vui lòng không gửi thông tin nhạy cảm</small>
+        </div>
+
+        <div class="mb-3">
+            <p>Ảnh chụp màn hình sẽ giúp chúng tôi hiểu rõ hơn về ý kiến phản hồi của bạn. (không bắt buộc)</p>
+            <button class="btn btn-outline-secondary" id="captureScreenshot">Chụp ảnh màn hình</button>
+
+            <div id="screenshotPreview" class="mt-3">
+                <small class="text-muted">Chưa có ảnh chụp</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="feedback-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeFeedbackPanel()">Đóng</button>
+        <button type="button" class="btn btn-primary" id="submitFeedback">Gửi</button>
+    </div>
+</div>
+
+
+<!-- (3) Scripts mở widget, chụp ảnh, gửi feedback -->
+<script>
+    function openFeedbackPanel() {
+        document.getElementById('feedbackContainer').style.display = 'flex';
+    }
+
+    function closeFeedbackPanel() {
+        document.getElementById('feedbackContainer').style.display = 'none';
+    }
+
+    // Chụp ảnh màn hình
+    const captureBtn = document.getElementById('captureScreenshot');
+    const screenshotPreview = document.getElementById('screenshotPreview');
+
+    captureBtn.addEventListener('click', async () => {
+        screenshotPreview.innerHTML = '<small class="text-muted">Đang chụp màn hình...</small>';
+
+        try {
+            // Chụp toàn bộ trang (body). Bạn có thể đổi sang phần tử cụ thể nếu muốn
+            const canvas = await html2canvas(document.body);
+            screenshotPreview.innerHTML = ''; // Xoá nội dung cũ
+            screenshotPreview.appendChild(canvas); // Thêm canvas vào preview
+        } catch (error) {
+            console.error(error);
+            screenshotPreview.innerHTML = '<small class="text-danger">Chụp màn hình thất bại!</small>';
+        }
+    });
+
+    // Gửi feedback
+    document.getElementById('submitFeedback').addEventListener('click', () => {
+        // Ví dụ: Lấy nội dung feedback để xử lý (gửi AJAX/Fetch)
+        const feedbackText = document.getElementById('feedbackTextarea').value;
+
+        // Hiển thị sweetalert2:
+        Swal.fire({
+            title: 'Thành công!',
+            text: 'Phản hồi của bạn đã được gửi thành công!',
+            icon: 'success',
+            confirmButtonText: 'OK',
+        }).then(() => {
+            // Đóng panel sau khi user ấn "OK"
+            closeFeedbackPanel();
+        });
+    });
+</script>
