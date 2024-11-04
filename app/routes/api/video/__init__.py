@@ -19,7 +19,7 @@ def get_video():
 
 
 @video_bp.route('/like', methods=['POST'])
-@login_required(role=AccountRole.USER)
+@login_required(role=[AccountRole.USER, AccountRole.ARTIST])
 def like_video():
     data = request.get_json()
     video_id = data['videoId']

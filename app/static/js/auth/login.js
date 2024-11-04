@@ -11,7 +11,7 @@ function login(event) {
     };
 
     // Make the API call using Axios
-    axios.post(`${window.config.API_BASE_URL}/api/auth/login/validate`, data)
+    axios.post('/api/auth/login/validate', data)
         .then(function (response) {
             const rep = response.data;
 
