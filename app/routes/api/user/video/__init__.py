@@ -136,10 +136,3 @@ def search_music():
     except Exception as e:
         # Catch any other error that occurs and return a 500 response
         return jsonify({'error': str(e)}), 500
-
-
-
-
-
-
-
