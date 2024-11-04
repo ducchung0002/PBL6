@@ -1,0 +1,352 @@
+{% extends 'user/layout.html' %}
+
+{% block user_content %}
+
+    <style>
+        .video-thumbnail {
+            object-fit: cover;
+        }
+        .icon-facebook {
+            color: #4267B2;
+        }
+        .icon-pinterest {
+            color: #BD081C;
+        }
+        .icon-whatsapp {
+            color: #25D366;
+        }
+        .icon-twitter {
+            color: #1DA1F2;
+        }
+        .icon-email {
+            color: #BB001B;
+        }
+        .icon-kakaotalk {
+            color: #FFCD00;
+        }
+        .icon-reddit {
+            color: #FF4500;
+        }
+        .icon-linkedin {
+            color: #0077B5;
+        }
+        .icon-tumblr {
+            color: #35465D;
+        }
+        .top-1-bg {
+            background: linear-gradient(to bottom, rgba(255,215,0,0.8) 0%, rgba(255,215,0,0.4) 50%, rgba(255,215,0,0.8) 100%);
+            /* Vàng: rgb(255,215,0) */
+        }
+        .top-2-bg {
+            background: linear-gradient(to bottom, rgba(192,192,192,0.8) 0%, rgba(192,192,192,0.4) 50%, rgba(192,192,192,0.8) 100%);
+            /* Bạc: #C0C0C0 */
+        }
+        .top-3-bg {
+            background: linear-gradient(to bottom, rgba(184,115,51,0.8) 0%, rgba(184,115,51,0.4) 50%, rgba(184,115,51,0.8) 100%);
+            /* Đồng: #b87333 */
+        }
+    </style>
+
+        <div class="col-md-9 mt-4">
+            <h2 class="mb-4">Top thịnh hành</h2>
+            {% if not all_videos or all_videos|length == 0 %}
+                <p>Không có video nào.</p>
+            {% else %}
+                <div class="row">
+                    <!-- Phần bên trái 3 cột: video top 1 -->
+                    <div class="col-md-3">
+                        {% set top1 = all_videos[0] %}
+                        <div class="top-1-bg d-flex flex-column justify-content-start align-items-center"
+                             style="
+                                 min-height: 100vh;
+                                 padding: 20px;
+                                 box-sizing: border-box;
+                                 border-radius: 16px;
+                                 margin: 20px;
+                                 box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                                 overflow: hidden;
+                                 color: #000; /* Toàn bộ phần này chữ màu đen */
+                             ">
+                            <div class="card mb-0 border-0 bg-transparent w-100" style="max-width: 100%;">
+                                <a href="{{ url_for('user.video.detail', video_id=top1.id) }}" class="text-decoration-none">
+                                    <video
+                                            src="{{ top1.video_url }}"
+                                            class="card-img-top video-thumbnail"
+                                            controls
+                                            preload="metadata"
+                                            style="
+                                            width:100%;
+                                            max-height:200px;
+                                            object-fit:cover;
+                                            border-radius:8px;
+                                        ">
+                                    </video>
+                                </a>
+                                <div class="card-body p-0 mt-3">
+                                    <h5 class="card-title" style="font-size: 1rem; font-weight: 500; line-height: 1.4;">
+                                        <a href="{{ url_for('user.video.detail', video_id=top1.id) }}" class="text-decoration-none">
+                                            Top 1: {{ top1.title }}
+                                        </a>
+                                    </h5>
+                                    {% set uploader = top1.user.fetch() %}
+                                    <p class="mb-1" style="font-size: 0.9rem;"><strong>{{ uploader.username }}</strong></p>
+                                    <p class="mb-1" style="font-size: 0.85rem;"><strong>{{ top1.like_count }} lượt thích</strong></p>
+                                    <p class="mb-0" style="font-size: 0.8rem;"><strong>{{ top1.created_at.strftime('%d/%m/%Y') }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phần bên phải 9 cột: danh sách video còn lại -->
+                    <div class="col-md-9">
+                        <ul class="list-group list-group-flush">
+                            {% for vid in all_videos[1:] %}
+                                {% set rank = loop.index + 1 %} {# rank là thứ hạng thực tế (top1 đã lấy ở trên, top2 = 2, top3 = 3, ...)#}
+
+                                {% if loop.index == 1 %}
+                                    {# top2 #}
+                                    <li class="list-group-item video-list-item top-2-bg" style="border-radius:8px; margin-bottom:10px;">
+                                        {% elif loop.index == 2 %}
+                                        {# top3 #}
+                                    <li class="list-group-item video-list-item top-3-bg" style="border-radius:8px; margin-bottom:10px;">
+                                        {% else %}
+                                        {# sau top3, giữ nguyên nền mặc định #}
+                                    <li class="list-group-item video-list-item" style="margin-bottom:10px;">
+                                {% endif %}
+                            <div class="row align-items-center">
+                                <!-- Cột hiển thị thứ hạng -->
+                                <div class="col-md-1 d-flex justify-content-center">
+                                    {% if loop.index == 1 %}
+                                        <span class="fw-bold text-dark">Top 2</span>
+                                    {% elif loop.index == 2 %}
+                                        <span class="fw-bold text-dark">Top 3</span>
+                                    {% else %}
+                                        <span class="fw-bold text-dark">{{ rank }}</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Cột hiển thị video: 3 cột -->
+                                <div class="col-md-3">
+                                    <a href="{{ url_for('user.video.detail', video_id=vid.id) }}">
+                                        <video
+                                                src="{{ vid.video_url }}"
+                                                class="video-thumbnail"
+                                                controls
+                                                preload="metadata"
+                                                style="width:100%; max-height:120px; object-fit:cover;">
+                                        </video>
+                                    </a>
+                                </div>
+
+                                <!-- Cột hiển thị thông tin video: 6 cột -->
+                                <div class="col-md-6 d-flex flex-column justify-content-center">
+                                    <a href="{{ url_for('user.video.detail', video_id=vid.id) }}" class="text-decoration-none" style="color:inherit;">
+                                        <strong style="font-size: 1rem;">{{ vid.title }}</strong>
+                                    </a>
+                                    {% set uploader = vid.user.fetch() %}
+                                    <p class="mb-1" style="font-size: 0.9rem; color:#555;">{{ uploader.username }}</p>
+                                    <span class="badge bg-secondary" style="font-size: 0.8rem;">{{ vid.like_count }} Thích</span>
+                                </div>
+
+                                <!-- Cột hiển thị nút 3 chấm: 2 cột -->
+                                <div class="col-md-2 d-flex justify-content-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-light" type="button" id="dropdownMenuButton{{ loop.index }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ loop.index }}">
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center" onclick="downloadVideo('{{ vid.id }}')">
+                                                    <i class="bi bi-download me-2"></i>Tải Xuống
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center" onclick="openShareModal('{{ vid.id }}')">
+                                                    <i class="bi bi-share me-2"></i>Chia sẻ
+                                                </button>
+                                            </li>
+                                            <li>
+                                                <button class="dropdown-item d-flex align-items-center text-danger" onclick="removeFromTrending('{{ vid.id }}')">
+                                                    <i class="bi bi-trash me-2"></i>Xoá khỏi top
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+<!-- Modal chia sẻ (giống như mã bạn đã có) -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Chia sẻ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal body with social icons -->
+            <div class="modal-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <!-- Left arrow -->
+                    <button class="btn btn-light" id="prev-icon">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <!-- Social icons container -->
+                    <div class="d-flex overflow-auto flex-nowrap mx-2" id="social-icons">
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.facebook.com/login', '_blank')">
+                                <i class="bi bi-facebook icon-facebook" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Facebook</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.pinterest.com/login/', '_blank')">
+                                <i class="bi bi-pinterest icon-pinterest" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Pinterest</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.whatsapp.com/', '_blank')">
+                                <i class="bi bi-whatsapp icon-whatsapp" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Whatsapp</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://twitter.com/login', '_blank')">
+                                <i class="bi bi-twitter icon-twitter" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">X</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('mailto:', '_blank')">
+                                <i class="bi bi-envelope icon-email" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Gửi email</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.kakaocorp.com/service/KakaoTalk', '_blank')">
+                                <i class="bi bi-chat-dots icon-kakaotalk" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">KakaoTalk</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.reddit.com/login/', '_blank')">
+                                <i class="bi bi-reddit icon-reddit" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Reddit</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.linkedin.com/login', '_blank')">
+                                <i class="bi bi-linkedin icon-linkedin" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">LinkedIn</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.tumblr.com/login', '_blank')">
+                                <i class="bi bi-tumblr icon-tumblr" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Tumblr</p>
+                        </div>
+                    </div>
+
+                    <!-- Right arrow -->
+                    <button class="btn btn-light" id="next-icon">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Box with link and copy button -->
+                <div class="input-group">
+                    <input type="text" class="form-control" id="share-link" value="" readonly>
+                    <button class="btn btn-primary" id="copy-button">Sao chép</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Đang tải -->
+<div class="modal fade" id="downloadingModal" tabindex="-1" aria-labelledby="downloadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <h5 id="downloadingModalLabel" class="mb-2">Video của bạn đang được tải...</h5>
+                <p>Vui lòng đợi trong giây lát.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal tải xuống thành công -->
+<div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-labelledby="downloadSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 48px;"></i>
+                </div>
+                <h5 id="downloadSuccessModalLabel" class="mb-2">Tải xuống thành công!</h5>
+                <p>Video đã được tải xuống thành công.</p>
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Script xử lý chức năng -->
+<script>
+    function downloadVideo(videoId) {
+        var downloadingModal = new bootstrap.Modal(document.getElementById('downloadingModal'));
+        downloadingModal.show();
+
+        // Gọi đến URL download của top_trending
+        window.location.href = '/user/top_trending/download?video_id=' + videoId;
+        setTimeout(function() {
+            downloadingModal.hide();
+            var downloadSuccessModal = new bootstrap.Modal(document.getElementById('downloadSuccessModal'));
+            downloadSuccessModal.show();
+        }, 10000);
+    }
+
+
+    function openShareModal(videoId) {
+        // Thiết lập link vào input share-link
+        var shareLinkInput = document.getElementById('share-link');
+        shareLinkInput.value = window.location.origin + '/user/video/' + videoId;
+
+        var shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+        shareModal.show();
+    }
+
+    function removeFromTrending(videoId) {
+        // Ví dụ: fetch xóa video khỏi top trending
+        // Nếu thành công thì có thể reload hoặc hiển thị modal thành công
+        // Tạm thời alert (demo):
+        alert("Đã xoá video " + videoId + " khỏi top trending (demo)!");
+        location.reload();
+    }
+
+    document.getElementById('copy-button').addEventListener('click', function() {
+        var shareLinkInput = document.getElementById('share-link');
+        shareLinkInput.select();
+        shareLinkInput.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Đã sao chép liên kết!");
+    });
+</script>
+
+{% endblock %}

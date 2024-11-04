@@ -416,6 +416,16 @@ body {
     color: #000;
     flex-shrink: 0; /* Đảm bảo biểu tượng không bị co lại */
 }
+#emoji-picker {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 9999;
+    max-height: 200px;
+    overflow-y: auto;
+}
+#emoji-picker .emoji:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
 
 
 

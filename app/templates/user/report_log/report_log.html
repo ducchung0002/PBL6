@@ -1,0 +1,66 @@
+{% extends 'user/layout.html' %}
+
+{% block user_content %}
+
+    <style>
+        /* Tuỳ chỉnh nhẹ cho phù hợp */
+        body {
+            background: #f9f9f9;
+        }
+        #primary-content {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        #primary-content #title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .introduction-bullet-items {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+        .introduction-bullet-items li {
+            margin-bottom: 5px;
+        }
+        #text a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+        #text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+        <div class="col-md-9">
+            <!-- Nội dung chính -->
+            <ytd-page-introduction-renderer class="style-scope ytd-section-list-renderer">
+                <div id="primary-content" class="style-scope ytd-page-introduction-renderer">
+                    <div id="introduction-text" class="style-scope ytd-page-introduction-renderer">
+                        <div id="name" class="style-scope ytd-page-introduction-renderer"></div>
+                        <div id="title" class="style-scope ytd-page-introduction-renderer">Cảm ơn bạn đã báo cáo</div>
+                        <yt-formatted-string id="text" split-lines="" class="style-scope ytd-page-introduction-renderer">Bất kỳ thành viên nào của cộng đồng YourTube cũng có thể gắn cờ cho nội dung mà họ tin rằng vi phạm Nguyên tắc cộng đồng của chúng tôi. Khi nội dung nào đó bị gắn cờ, nội dung đó sẽ không tự động bị gỡ bỏ. Chúng tôi xem xét nội dung bị gắn cờ theo các nguyên tắc sau:</yt-formatted-string>
+                        <ul class="introduction-bullet-items style-scope ytd-page-introduction-renderer">
+                            <li class="style-scope ytd-page-introduction-renderer">
+                                <yt-formatted-string id="text" class="style-scope ytd-page-introduction-renderer"><span dir="auto">Nội dung vi phạm </span><a class="yt-simple-endpoint style-scope yt-formatted-string" spellcheck="false" href="https://www.youtube.com/t/community_guidelines" target="_blank" dir="auto">Nguyên tắc cộng đồng</a><span dir="auto"> của chúng tôi sẽ bị xóa khỏi YouTube.</span></yt-formatted-string>
+                            </li>
+                            <li class="style-scope ytd-page-introduction-renderer">
+                                <yt-formatted-string id="text" class="style-scope ytd-page-introduction-renderer">Nội dung không phù hợp với tất cả khán giả nhỏ tuổi hơn có thể bị giới hạn độ tuổi người xem.</yt-formatted-string>
+                            </li>
+                            <li class="style-scope ytd-page-introduction-renderer">
+                                <yt-formatted-string id="text" class="style-scope ytd-page-introduction-renderer">Những báo cáo về nội dung đã bị người sáng tạo xóa sẽ không được xuất hiện.</yt-formatted-string>
+                            </li>
+                        </ul>
+                        <yt-formatted-string id="text" force-default-style="" class="style-scope ytd-page-introduction-renderer" has-link-only_=""><a class="yt-simple-endpoint style-scope yt-formatted-string" spellcheck="false" href="//support.google.com/youtube/answer/2802027?hl=vi" rel="nofollow" target="_blank" dir="auto">Tìm hiểu thêm về cách báo cáo nội dung trên YouTube.</a></yt-formatted-string>
+                    </div>
+                    <yt-icon class="style-scope ytd-page-introduction-renderer" hidden=""></yt-icon>
+                    <yt-img-shadow height="160" class="style-scope ytd-page-introduction-renderer no-transition" style="background-color: transparent;" loaded="">
+                        <img id="img" draggable="false" class="style-scope yt-img-shadow" alt="" height="160" src="https://www.yourtube.com/img/flagging/land-img.png">
+                    </yt-img-shadow>
+                </div>
+                <div id="report-stats" class="style-scope ytd-page-introduction-renderer" hidden=""></div>
+            </ytd-page-introduction-renderer>
+        </div>
+
+{% endblock %}

@@ -14,6 +14,7 @@ class ExtendedAccount(Account):
     notifications = ListField(EmbeddedDocumentField('Notification'))
     like_videos = ListField(LazyReferenceField('Video'), default=list)
     like_comments = ListField(ObjectIdField(), default=list)
+    # watched_videos = ListField(LazyReferenceField('Video'), default=list)
 
 
     meta = {
