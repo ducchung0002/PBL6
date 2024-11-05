@@ -1,0 +1,54 @@
+{% block user_profile_header %}
+<!-- Profile Header -->
+    <link rel="stylesheet" href="/static/css/profile-header.css">
+{#    <div class="container mt-4 bg-white text-dark">#}
+    <div class="header-container">
+        <div class="d-flex align-items-center">
+            <!-- Profile Picture -->
+            <div class="profile-picture me-3">
+                <img src="{{ user.avatar_url }}" class="rounded-circle" alt="Profile Picture">
+            </div>
+            <!-- Profile Information -->
+            <div class="profile-info">
+                <div class="user-info-row">
+                    <h3 class="mb-0">{{ user.username }}</h3>
+                    <small class="text-muted">{{user.name}}</small>
+                </div>
+                {% if session['user']['id'] == user.id|string %}
+                <div class="mt-2">
+                        <button data-bs-toggle="modal" data-bs-target="#edit-popup"
+                                class="TUX-button" type="button"
+                                data-id="{{ user.id|string }}"
+                                data-name="{{ user.name }}"
+                                data-username="{{ user.username }}"
+                                data-email="{{ user.email }}"
+                                data-dob="{{ user.date_of_birth }}"
+                                data-avt="{{ user.avatar_url }}">
+                            Chỉnh sửa
+                        </button>
+                </div>
+                {% else %}
+                {% endif %}
+                {% if user.bio %}
+                    <div class="mt-2 text-muted">{{ user.bio }}</div>
+                {% else %}
+                    <div class="mt-2 text-muted">Chưa có tiểu sử</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="custom-tab-container">
+            <a href="{{ url_for('user.profile.get_profile',user_id = user.id|string) }}" class="tab-link active">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{{ url_for('user.profile.get_profile',user_id = user.id|string)}}" class="tab-link">
+                <i class="fas fa-heart"></i> Yêu thích
+            </a>
+            <a href="#favorites" class="tab-link">
+                <i class="fas fa-bookmark"></i> Đã thích
+            </a>
+            <!-- Moving underline -->
+            <div class="underline"></div>
+        </div>
+    </div>
+    <script src="/static/js/user/profile/load.js"></script>
+{% endblock %}
