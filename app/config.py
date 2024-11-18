@@ -1,5 +1,8 @@
 import os
 
+# Set the environment variable
+os.environ["DEFAULT_AVATAR_URL"] = "https://res.cloudinary.com/dddiwftri/image/upload/v1731338036/default_avatar_crdcce.svg"
+
 from dotenv import load_dotenv
 
 load_dotenv()

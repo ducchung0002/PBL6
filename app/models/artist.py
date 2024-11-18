@@ -6,7 +6,7 @@ from app.models.query_set.artist_query_set import ArtistQuerySet
 
 
 class Artist(ExtendedAccount):
-    nickname = StringField(required=True)
+    nickname = StringField()
     meta = {'queryset_class': ArtistQuerySet}
 
     def jsonify(self):
