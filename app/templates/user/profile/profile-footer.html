@@ -1,13 +1,7 @@
-{% extends "user/layout.html" %}
-{% block user_content %}
+{% block user_profile_footer %}
     <link rel="stylesheet" href="/static/css/video-list.css">
     <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
-    <h1>Danh sách video</h1>
-    {% if session['user']['id'] == user.id|string %}
-    <button class="btn btn-success" type="button" onclick="window.location.href='{{ url_for('user.video.add') }}';">
-        Thêm
-    </button>
-    {%  endif %}
+    <h1>{{ user.username }}</h1>
     <div class="card-container">
         {% for video in videos %}
             <div class="card">
@@ -19,9 +13,9 @@
                             preload="auto"
                             muted
                             data-setup="{}"
-{#                            Style =“object-fit: contain;“#}
+                            {#                            Style =“object-fit: contain;“#}
                     >
-                            <source src="{{ video.video_url }}" type="video/mp4" />
+                        <source src="{{ video.video_url }}" type="video/mp4" />
                     </video>
                     <h2 class="card-title">{{ video.title | safe }}</h2>
                 </div>

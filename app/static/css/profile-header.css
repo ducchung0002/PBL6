@@ -1,0 +1,135 @@
+.custom-tab-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: max-content;
+    margin-top: 10px;
+}
+.header-container{
+    /*margin-top: 1rem !important;*/
+    margin-top:0;
+}
+.avatar-upload-icon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 2px;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1a1d20;
+    opacity: 50%;
+}
+label.upload-icon{
+    width:30px;
+    height: 30px;
+    right: 4px;
+    bottom: 5px;
+}
+
+i.fa.fa-pencil{
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    bottom: 8px;
+    right: 8px
+}
+
+.tab-link {
+    display: flex;
+    align-items: center;
+    color: #888;
+    text-decoration: none;
+    position: relative;
+    padding: 10px 15px;
+    font-weight: bold;
+    gap: 5px;
+    transition: color 0.3s;
+    width: 150px;
+    justify-content: center;
+    text-align: center;
+}
+
+.tab-link.active,
+.tab-link:hover {
+    color: #dc3737;
+}
+
+.tab-link i {
+    font-size: 1.1em;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    height: 2px;
+    width: 60px;
+    background-color: #2050b7;
+    transition: all 0.3s ease;
+}
+
+.user-info-row {
+    display: flex;
+    justify-content: space-between; /* Space out the two columns */
+    align-items: center; /* Align items vertically in the center */
+}
+
+.user-info-row h3 {
+    /*margin: 0;*/
+    flex: 1;
+    font-family: "IBM Plex Sans", TikTokDisplayFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    word-break: break-word;
+    margin-bottom: 0px;
+}
+
+.user-info-row small {
+    /*margin: 5px;*/
+    margin-left: 5px;
+    margin-top:1px;
+    flex-shrink: 0;
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    height: 25px;
+    overflow: hidden;
+    max-width: 450px;
+    white-space: nowrap;
+    display: flex;
+    align-items: flex-end;
+}
+.TUX-button{
+    background-color: red;
+    color: white;
+    height: 40px;
+    min-width: 108px;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    line-height: 21px;
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: none;
+    font-family: sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.15px;
+    cursor: pointer;
+}
+.TUX-button:hover{
+    background-color: #b91010;
+}
+
+
