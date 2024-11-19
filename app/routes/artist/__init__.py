@@ -2,23 +2,12 @@ from flask import Blueprint, render_template
 
 from app.decorators import login_required
 from .music import artist_music_bp
+from .profile import artist_profile_bp
 from ...models.enum.account_role import AccountRole
 
 artist_bp = Blueprint('artist', __name__)
 artist_bp.register_blueprint(artist_music_bp)
-
-# @user_bp.route('/profile', methods=['GET'])
-# @login_required
-# def get_profile():
-#     current_user_id = get_jwt_identity()
-#     user = User.objects(id=current_user_id).first()
-#     if user:
-#         return jsonify({
-#             "username": user.username,
-#             "email": user.email
-#         }), 200
-#     return jsonify({"message": "User not found"}), 404
-
+artist_bp.register_blueprint(artist_profile_bp)
 
 @artist_bp.route('/index')
 @login_required(role=AccountRole.ARTIST)

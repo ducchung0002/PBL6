@@ -1,0 +1,101 @@
+{#{% block user_profile_header %}#}
+<!-- Profile Header -->
+<link rel="stylesheet" href="/static/css/profile-header.css">
+
+{#    <div class="container mt-4 bg-white text-dark">#}
+<div class="header-container">
+    <div class="d-flex align-items-center">
+        <!-- Profile Picture -->
+        <div class="profile-picture me-3">
+            <img src="{{ artist.avatar_url }}"
+                 class="rounded-circle"
+                 alt="Profile Picture"
+                 style="width: 212px; height: 212px">
+        </div>
+        <!-- Profile Information -->
+        <div class="profile-info">
+            <div class="user-info-row">
+                <h3 class="mb-0">{{ artist.username }}</h3>
+                <small class="text-muted">{{ artist.name }}</small>
+            </div>
+
+            <div class="mt-2">
+                {% if session['user']['id'] == artist.id | string %}
+                    {% include "artist/profile/modals/edit-profile.html" %}
+
+                    <button data-bs-toggle="modal" data-bs-target="#artist-edit-popup"
+                            class="TUX-button" type="button"
+                            data-id="{{ artist.id|string }}"
+                            data-name="{{ artist.name }}"
+                            data-username="{{ artist.username }}"
+                            data-email="{{ artist.email }}"
+                            data-dob="{{ artist.date_of_birth }}"
+                            data-avt="{{ artist.avatar_url }}"
+                            data-nickname="{{ artist.nickname }}">
+                        Chỉnh sửa
+                    </button>
+                {% else %}
+                    <input type="hidden" id="following-id" value="{{ artist.id }}">
+                    {% if follow_status %}
+                        <button onclick=deleteFollow(event)
+                                class="TUX-button" type="button"
+                                data-id="{{ artist.id|string }}">
+                            Hủy theo dõi
+                        </button>
+                    {% else %}
+                        <button onclick=createFollow(event)
+                                class="TUX-button" type="button"
+                                data-id="{{ artist.id|string }}">
+                            Theo dõi
+                        </button>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="user-follow-row">
+                <div class="user-follow-item">
+                    <strong>{{ artist.followers_count }}</strong>
+                    <span data-bs-toggle="modal"
+                          data-bs-target="#artist-follow-popup"
+                          data-flag="follower"
+                          onclick="toggleFollow(event)" class = "user-follow-info">Follower</span>
+                </div>
+                <div class="user-follow-item">
+                    <strong>{{ artist.following_count }}</strong>
+                    <span data-bs-toggle="modal"
+                          data-bs-target="#artist-follow-popup"
+                          data-flag="following"
+                          onclick="toggleFollow(event)" class = "user-follow-info">Đang Follow</span>
+                </div>
+            </div>
+            {% include "artist/profile/modals/follow.html" %}
+
+            <div class="mt-2 text-muted">
+                {% if artist.bio %}
+                    {{ artist.bio }}
+                {% else %}
+                    Chưa có tiểu sử
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    <div class="custom-tab-container">
+        <a href="{{ url_for('artist.profile.get_profile', artist_id=artist.id | string) }}" class="tab-link">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <!-- Moving underline -->
+        <div class="underline"></div>
+    </div>
+</div>
+
+
+<script>
+    let artist = {{  artist.to_dict() | safe }}
+</script>
+<script src="/static/js/config.js"></script>
+<script src="/static/js/artist/profile/load.js"></script>
+<script src="/static/js/artist/profile/follow.js"></script>
+
+{#{% endblock %}#}
