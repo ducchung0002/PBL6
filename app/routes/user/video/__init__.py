@@ -17,4 +17,6 @@ def list(user_id):
 @user_video_bp.route('/add', methods=['GET'])
 @login_required(role=AccountRole.USER)
 def add():
-    return render_template('user/video/video-record.html')
+    user_id = session['user']['id']
+    user = User.objects.get(id=user_id)
+    return render_template('user/video/video-record.html', user=user)
