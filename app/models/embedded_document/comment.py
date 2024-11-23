@@ -13,14 +13,35 @@ class Comment(EmbeddedDocument):
     created_at = DateTimeField(default=datetime.now())
 
     def jsonify(self):
+        user = self.user.fetch()
+
         return {
             'id': str(self._id),
-            'user': self.user.fetch().jsonify(),
-            # 'to_comment': self.to_comment.fetch().jsonify() if self.to_comment else None,
+            # 'user': self.user.fetch().jsonify(),
+            'user': {
+                'id': str(user.id),
+                'name': user.name,
+                'avatar_url': user.avatar_url  # Đảm bảo trả về URL avatar
+            },
             'content': self.content,
             'like_count': self.like_count,
             'created_at': self.created_at,
         }
+
+    @property
+    def id(self):
+        return self._id
+
+    @classmethod
+    def from_dict(cls, **data):
+        return cls(
+            _id=data.get('_id'),
+            user=data.get('user'),
+            content=data.get('content'),
+            to_comment=data.get('to_comment'),
+            like_count=data.get('like_count', 0),
+            created_at=data.get('created_at')
+        )
 
     @property
     def id(self):
