@@ -5,7 +5,7 @@ from app.decorators import login_required
 from app.models.artist import Artist
 from app.models.genre import Genre
 from app.routes.forms.add_genre_form import AddGenreForm
-from models.enum.account_role import AccountRole
+from app.models.enum.account_role import AccountRole
 
 admin_genre_bp = Blueprint('genre', __name__)
 

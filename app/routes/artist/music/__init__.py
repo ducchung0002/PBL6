@@ -3,7 +3,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from app.decorators import login_required
 from app.models.music import Music
 from app.routes.forms.add_music_form import AddMusicForm
-from models.enum.account_role import AccountRole
+from app.models.enum.account_role import AccountRole
 
 artist_music_bp = Blueprint('music', __name__)
 

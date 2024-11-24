@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 
-from models.video import Video
+from app.models.video import Video
 
 api_user_video_comment_bp = Blueprint('api_user_video_comment', __name__)
 

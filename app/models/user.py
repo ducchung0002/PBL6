@@ -14,3 +14,10 @@ class User(ExtendedAccount):
         return super().jsonify() | {
             'role': AccountRole.USER.value,
         }
+
+    def to_dict(self):
+        return {
+            'id': str(self.id),
+            'username': self.username,
+            'email': self.email
+        }

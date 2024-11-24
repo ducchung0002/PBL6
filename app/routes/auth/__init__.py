@@ -5,7 +5,7 @@ from app.models.user import User
 from app.routes.auth.google import google_oauth_blueprint
 from app.routes.forms.login_form import LoginForm
 from app.routes.forms.register_form import RegisterForm
-from utils import get_account_by_username
+from app.utils import get_account_by_username
 
 auth_bp = Blueprint('auth', __name__)
 auth_bp.register_blueprint(google_oauth_blueprint, url_prefix='/google')

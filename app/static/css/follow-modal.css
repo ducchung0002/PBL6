@@ -1,0 +1,218 @@
+.modal-container{
+    height: 696px;
+    min-width: 560px;
+    max-width: 700px;
+}
+.modal-header{
+    /*padding-top:10px;*/
+    /*padding-bottom: 0;*/
+    padding: 24px;
+    line-height: 36px;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.modal-body{
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+.modal-title{
+    font-weight: 700;
+    font-size: 24px;
+    color: rgb(22, 24, 35);
+    width: 100%;
+    text-align: center;
+}
+.tab-link-container{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 42px;
+    border-bottom: 0.5px solid rgba(22, 24, 35, 0.12);
+    margin-bottom: 1px;
+}
+.tab-link-item{
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    height: 100%;
+    cursor: pointer;
+    color: rgba(22, 24, 35, 0.5);
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+}
+.tab-link-item.active {
+    border-bottom: 2px solid rgb(22, 24, 35);
+    color: rgb(22, 24, 35);
+}
+.list-container{
+    height: 569px;
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 20px;
+    list-style-type: none;
+    overflow-y: auto;
+}
+.list-item{
+}
+.user-container{
+    padding: 16px 30px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.user-item{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.user-info-link{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.span-avatar-container{
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-feature-settings: "tnum";
+    position: relative;
+    overflow: hidden;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 32px;
+    border-radius: 50%;
+    background-color: rgba(136, 136, 136, 0.5);
+}
+.img-avatar{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.user-info{
+    margin-right: 12px;
+    margin-left: 12px;
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+}
+.nickname-container{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+body a:visited {
+    color: rgb(22, 24, 35);
+}
+body a {
+    color: rgb(22, 24, 35);
+    transition: color 250ms;
+    text-decoration: none;
+    cursor: pointer;
+}
+a {
+    background-color: transparent;
+}
+.name{
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 220px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: inherit;
+    text-decoration: none;
+}
+.username{
+    /*color: rgba(25, 58, 238, 0.5);*/
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    max-width: 240px;
+    margin-top: 2px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.button-container{
+    display: flex;
+    flex-direction: row;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.button-wrapper{
+}
+.styled-button{
+    border: none;
+    color: rgb(255, 255, 255);
+    background-color: rgb(254, 44, 85);
+    min-width: 106px;
+    min-height: 28px;
+    display: flex;
+    position: relative;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding: 6px 8px;
+    user-select: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: "Goudy Bookletter 1911", sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    flex: 1 1 0;
+    line-height: 36px;
+    border-radius: 8px;
+}
+.empty-list-container{
+    display: flex;
+    flex-direction: column;
+    height: 561px;
+    width: 100%;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-top: 140px;
+}
+.svg-icon{
+    fill: currentcolor;
+    font-size: 72px;
+    width: 1em;
+    height: 1em;
+}
+.title{
+    color: rgb(22, 24, 35);
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 700;
+    text-align: center;
+    line-height: 36px;
+    font-size: 24px;
+    padding-top: 24px;
+}
+.description{
+    color: rgba(22, 24, 35, 0.75);
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    padding-top: 8px;
+}

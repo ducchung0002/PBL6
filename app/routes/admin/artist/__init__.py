@@ -5,7 +5,7 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from app.decorators import login_required
 from app.models.artist import Artist
 from app.routes.forms.add_artist_form import AddArtistForm
-from models.enum.account_role import AccountRole
+from app.models.enum.account_role import AccountRole
 
 admin_artist_bp = Blueprint('artist', __name__)
 

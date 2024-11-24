@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from utils import get_account_by_username
+from app.utils import get_account_by_username
 
 api_auth_login_bp = Blueprint('api_auth_login', __name__)
 

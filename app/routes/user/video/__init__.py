@@ -1,10 +1,10 @@
 from bson import ObjectId
 from flask import Blueprint, render_template, session
 
-from decorators import login_required
-from models import User
-from models.video import Video
-from models.enum.account_role import AccountRole
+from app.decorators import login_required
+from app.models import User
+from app.models.video import Video
+from app.models.enum.account_role import AccountRole
 
 user_video_bp = Blueprint('video', __name__)
 

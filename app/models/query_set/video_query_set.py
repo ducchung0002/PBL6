@@ -3,7 +3,7 @@ from mongoengine import QuerySet
 from pymongo import MongoClient
 
 from app.models.base.extended_account import ExtendedAccount
-from models.embedded_document.comment import Comment
+from app.models.embedded_document.comment import Comment
 
 
 class VideoQuerySet(QuerySet):

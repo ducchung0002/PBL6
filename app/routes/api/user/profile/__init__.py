@@ -10,7 +10,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@api_user_profile_bp.route('/', methods=['PUT'])
+@api_user_profile_bp.route('/update', methods=['PUT'])
 def update():
     data = request.form
     file = request.files.get('image')
@@ -19,10 +19,6 @@ def update():
 
     if data.get('name'):
         user.name = data['name']
-    if data.get('email'):
-        user.email = data['email']
-    if data.get('username'):
-        user.username = data['username']
     if data.get('date_of_birth'):
         user.date_of_birth = data['date_of_birth']
     if data.get('bio'):
