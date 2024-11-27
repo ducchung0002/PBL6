@@ -14,6 +14,7 @@ class Artist(ExtendedAccount):
             'role': AccountRole.ARTIST.value,
             'nickname': self.nickname,
         }
+
     def to_dict(self):
         return {
             'id': str(self.id),

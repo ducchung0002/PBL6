@@ -34,7 +34,3 @@ class Music(Document):
             'karaoke_url': self.karaoke_url,
             'lyrics': [lyric.jsonify() for lyric in self.lyrics],
         }
-
-    @classmethod
-    def get_all_music(cls):
-        return cls.objects.all()
