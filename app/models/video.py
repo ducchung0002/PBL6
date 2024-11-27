@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from bson import ObjectId
 from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, \
     StringField, URLField, BooleanField
+
 from app.models.query_set.video_query_set import VideoQuerySet
 
 
@@ -27,17 +27,6 @@ class Video(Document):
         'queryset_class': VideoQuerySet
     }
 
-    @classmethod
-    def get_random_videos(cls, count):
-        total_videos = cls.objects.count()
-        sample_size = min(count, total_videos)
-        pipeline = [
-            {"$sample": {"size": sample_size}}
-        ]
-        video_lists = list(cls.objects.aggregate(pipeline))
-
-        return [cls.objects.get(id=ObjectId(video_dict['_id'])) for video_dict in video_lists]
-
     def jsonify(self):
         return {
             'id': str(self.id),
@@ -45,5 +34,32 @@ class Video(Document):
             'music': self.music.fetch().jsonify(),
             'video_url': self.video_url,
             'like_count': self.like_count,
+            'title': self.title,
+            'music_start': self.music_start,
+            'music_end': self.music_end,
+            'public': self.public,
+            'created_at': self.created_at,
             'comments': [comment.jsonify() for comment in self.comments],
         }
+
+    @classmethod
+    def from_dict(cls, **data):
+        from app.models.embedded_document.comment import Comment
+        try:
+            return cls(
+                id=data.get('_id'),
+                user=data.get('user'),
+                music=data.get('music'),
+                score=data.get('score'),
+                video_url=data.get('video_url'),
+                like_count=data.get('like_count', 0),
+                title=data.get('title'),
+                music_start=data.get('music_start'),
+                music_end=data.get('music_end'),
+                comments=[Comment.from_dict(**cmt) for cmt in data.get('comments', None) or []],
+                created_at=data.get('created_at'),
+                updated_at=data.get('updated_at'),
+                deleted_at=data.get('deleted_at')
+            )
+        except Exception as e:
+            raise e
