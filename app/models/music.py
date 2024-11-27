@@ -1,16 +1,16 @@
 from datetime import datetime
 
-from mongoengine import DateTimeField, Document, EmbeddedDocumentField, FloatField, LazyReferenceField, ListField, StringField, URLField
+from mongoengine import DateTimeField, Document, EmbeddedDocumentField, LazyReferenceField, ListField, StringField, \
+    URLField
 
 
 class Music(Document):
     name = StringField(required=True)
     artists = ListField(LazyReferenceField('Artist'), required=True)
     genres = ListField(LazyReferenceField('Genre'), required=True)
-    music_url = URLField()
-    metric_url = URLField()
+    audio_url = URLField()
+    karaoke_url = URLField()
     lyrics = ListField(EmbeddedDocumentField('Lyric'))
-    name_embedded = ListField(FloatField())
 
     created_at = DateTimeField(default=datetime.now())
     updated_at = DateTimeField(default=datetime.now())
@@ -30,10 +30,9 @@ class Music(Document):
             'name': self.name,
             'artists': [artist.fetch().jsonify() for artist in self.artists],
             'genres': [genre.fetch().jsonify() for genre in self.genres],
-            'music_url': self.music_url,
-            'metric_url': self.metric_url,
+            'audio_url': self.audio_url,
+            'karaoke_url': self.karaoke_url,
             'lyrics': [lyric.jsonify() for lyric in self.lyrics],
-            'name_embedded': self.name_embedded,
         }
 
     @classmethod

@@ -1,8 +1,9 @@
 from datetime import datetime
 
 from bson import ObjectId
-from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, StringField, URLField
-from .query_set.video_query_set import VideoQuerySet
+from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, \
+    StringField, URLField, BooleanField
+from app.models.query_set.video_query_set import VideoQuerySet
 
 
 class Video(Document):
@@ -12,6 +13,9 @@ class Video(Document):
     video_url = URLField()
     like_count = IntField(default=0)
     title = StringField()
+    music_start = IntField()
+    music_end = IntField()
+    public = BooleanField(default=True)
     comments = ListField(EmbeddedDocumentField('Comment'))
 
     created_at = DateTimeField(default=datetime.now())
