@@ -67,7 +67,13 @@ i.fa.fa-pencil{
     height: 2px;
     width: 60px;
     background-color: #2050b7;
-    transition: all 0.3s ease;
+    left: 50%;
+    transform: translateX(0%) scaleX(0);
+}
+.underline.active{
+    transform: translateX(0%) scaleX(1);
+    transition: transform 0.3s ease;
+    width:100%;
 }
 
 .user-info-row {
@@ -130,6 +136,39 @@ i.fa.fa-pencil{
 }
 .TUX-button:hover{
     background-color: #b91010;
+}
+.user-follow-row{
+    display: flex;
+    flex-flow: wrap;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 16px;
+    color: rgba(18, 18, 18, 0.75);
+}
+.user-follow-item{
+    color: rgb(22, 24, 35);
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    direction: ltr;
+    -webkit-box-align: baseline;
+    align-items: baseline;
+    cursor: pointer;
+    margin-right:10px;
+}
+.user-follow-info{
+    color: rgba(22, 24, 35, 0.75);
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    display: inline-block;
+    margin-left: 6px;
+}
+.user-follow-info:hover{
+    text-decoration-line: underline;
 }
 
 

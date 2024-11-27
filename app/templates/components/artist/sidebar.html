@@ -1,0 +1,24 @@
+<nav class="mt-4">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a href="/artist/index" class="nav-link d-flex align-items-center text-dark">
+                <img class="me-2" src="/static/svg/icons8-home-black.svg" alt="Like" width="30" height="30">
+                Trang chủ
+            </a>
+        </li>
+        {% if session['user'] %}
+            <li class="nav-item">
+                <a href="{{ url_for('artist.music.list') }}" class="nav-link d-flex align-items-center text-dark">
+                    <img class="me-2" src="/static/svg/video.svg" alt="Like" width="30" height="30">
+                    Nhạc của bạn
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('artist.music.add') }}" class="nav-link d-flex align-items-center text-dark">
+                    <img class="me-2" src="/static/svg/video.svg" alt="Like" width="30" height="30">
+                    Thêm nhạc
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

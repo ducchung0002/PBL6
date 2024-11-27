@@ -51,7 +51,7 @@ function updateProfile(event){
     data.append('date_of_birth', dob);
     data.append('bio', bio);
     // Create the data object to send
-    axios.put('/api/user/profile/', data)
+    axios.put('/api/user/profile/update', data)
         .then(function (response) {
             location.reload();
             alert('Profile updated successfully!');

@@ -2,7 +2,6 @@ from flask import Flask
 from mongoengine import connect, disconnect
 from app.config import Config
 from flask_cors import CORS
-import app.models
 import cloudinary
 import os
 

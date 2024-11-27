@@ -2,9 +2,9 @@ import re
 
 from mongoengine import Q
 
-from models.admin import Admin
-from models.artist import Artist
-from models.user import User
+from app.models.admin import Admin
+from app.models.artist import Artist
+from app.models.user import User
 
 
 def get_account_by_username(username):

@@ -1,6 +1,6 @@
 <!-- Edit profile -->
 <link rel="stylesheet" href="/static/css/user-edit-profile.css">
-<div class="modal fade" id="edit-popup" tabindex="-1" aria-labelledby="editPopupLabel" aria-hidden="true">
+<div class="modal fade" id="user-edit-popup" tabindex="-1" aria-labelledby="editPopupLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="content-container mb-3 d-flex align-items-center">
                                 <label for="update-user-username" class="form-label">Tên người dùng</label>
-                                <input type="text" class="form-control flex-grow-1" id="update-user-username" name="username" value="{{ user.username }}">
+                                <input type="text" class="form-control flex-grow-1" id="update-user-username" name="username" value="{{ user.username }}" readonly>
                             </div>
                             <div class="content-container mb-3 d-flex align-items-center">
                                 <label for="update-user-bio" class="form-label">Tiểu sử</label>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="content-container mb-3 d-flex align-items-center">
                                 <label for="update-user-email" class="form-label">Email</label>
-                                <input type="email" class="form-control flex-grow-1" id="update-user-email" name="email" value="{{ user.email }}">
+                                <input type="email" class="form-control flex-grow-1" id="update-user-email" name="email" value="{{ user.email }}" readonly>
                             </div>
                             <div class="mb-3 d-flex align-items-center">
                                 <label for="update-user-dob" class="form-label">Ngày sinh</label>

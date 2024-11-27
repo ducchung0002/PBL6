@@ -1,15 +1,16 @@
 var shared_data = {
     following_data: null,
     follower_data: null,
-    user:null,
+    artist:null,
     session_user: null,
 };
 document.addEventListener('DOMContentLoaded', function () {
     fetchFollowData()
         .then((data) => {
+            console.log(data);
             shared_data['follower_data'] = data.follower_data;
             shared_data['following_data'] = data.following_data;
-            shared_data['user'] = user;
+            shared_data['artist'] = artist;
             shared_data['session_user'] = session_user;
         })
         .catch((error) => {
@@ -19,20 +20,22 @@ document.addEventListener('DOMContentLoaded', function () {
     editButtons.forEach(function (button){
         button.addEventListener('click', function (event) {
             // Get the genre values from the button's data attributes
-            const userId = this.getAttribute('data-id');
-            const userName = this.getAttribute('data-name');
-            const userUsername = this.getAttribute('data-username')
-            const userDateOfBirth = this.getAttribute('data-dob');
-            const userEmail = this.getAttribute('data-email');
-            const userAvatar = this.getAttribute('data-avt');
+            const artistId = this.getAttribute('data-id');
+            const artistName = this.getAttribute('data-name');
+            const artistUsername = this.getAttribute('data-username')
+            const artistNickname = this.getAttribute('data-nickname');
+            const artistDateOfBirth = this.getAttribute('data-dob');
+            const artistEmail = this.getAttribute('data-email');
+            const artistAvatar = this.getAttribute('data-avt');
             // Now populate the modal's form fields
-            const editProfileModal = document.querySelector('#user-edit-popup');
-            editProfileModal.querySelector('#update-user-id').value = userId;
-            editProfileModal.querySelector('#update-user-name').value = userName;
-            editProfileModal.querySelector('#update-user-username').value = userUsername;
-            editProfileModal.querySelector('#update-user-dob').value = userDateOfBirth;
-            editProfileModal.querySelector('#update-user-email').value = userEmail;
-            editProfileModal.querySelector('#update-user-avatar').value = userAvatar;
+            const editProfileModal = document.querySelector('#artist-edit-popup');
+            editProfileModal.querySelector('#update-artist-id').value = artistId;
+            editProfileModal.querySelector('#update-artist-name').value = artistName;
+            editProfileModal.querySelector('#update-artist-username').value = artistUsername;
+            editProfileModal.querySelector('#update-artist-dob').value = artistDateOfBirth;
+            editProfileModal.querySelector('#update-artist-email').value = artistEmail;
+            editProfileModal.querySelector('#update-artist-avatar').value = artistAvatar;
+            editProfileModal.querySelector('#update-artist-nickname').value = artistNickname;
         });
     })
     const tabLinks = document.querySelectorAll('.tab-link');
@@ -54,10 +57,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function fetchFollowData() {
         return Promise.all([
             axios.post('/api/user/follow/follower', {
-                user_id: user.id,
+                user_id: artist.id,
             }),
             axios.post('/api/user/follow/following', {
-                user_id: user.id,
+                user_id: artist.id,
             }),
         ])
             .then(([followerResponse, followingResponse]) => {

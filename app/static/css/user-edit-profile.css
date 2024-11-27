@@ -59,6 +59,10 @@
     display: block;
     flex-grow: 1;
 }
+.form-control[readonly] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
 .description {
     font-size: 0.875em;
     color: #6c757d;
