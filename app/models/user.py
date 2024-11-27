@@ -1,8 +1,8 @@
 from mongoengine import LazyReferenceField, ListField
 
-from .enum.account_role import AccountRole
-from .base.extended_account import ExtendedAccount
-from .query_set.user_query_set import UserQuerySet
+from app.models.enum.account_role import AccountRole
+from app.models.base.extended_account import ExtendedAccount
+from app.models.query_set.user_query_set import UserQuerySet
 
 
 class User(ExtendedAccount):

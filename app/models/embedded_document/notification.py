@@ -2,7 +2,7 @@ from datetime import datetime
 
 from bson import ObjectId
 from mongoengine import EmbeddedDocument, ObjectIdField, EnumField, StringField, DateTimeField, BooleanField
-from ..enum.notification_type import NotificationType
+from app.models.enum.notification_type import NotificationType
 
 class Notification(EmbeddedDocument):
     _id = ObjectIdField(default=ObjectId, required=True, primary_key=True)
