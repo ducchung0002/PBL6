@@ -51,7 +51,7 @@ def search():
         mixed = music_results + name_results
         sorted_mixed = sorted(mixed, key=lambda x: x["score"], reverse=True)
         if len(sorted_mixed) == 0:
-            return render_template('user/no_search_results.html')
+            return render_template('search/no_search_results.html')
         name_results = Search.handle_account_results(name_results)
         music_results = Search.handle_music_results(music_results)
 
@@ -65,7 +65,7 @@ def search():
             top_result = Search.handle_top_result(top_result)
             name_results = Search.get_music_artist_results(music_results)
 
-    return render_template('user/search_results.html',
+    return render_template('search/search_results.html',
                            music_results=music_results,
                            account_results=name_results,
                            top_result=top_result)
