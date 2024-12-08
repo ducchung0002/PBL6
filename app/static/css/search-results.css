@@ -1,0 +1,499 @@
+/* Set height of body and the document to 100% to enable "full page tabs" */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+.button-section{
+    grid-column: 1 / -1;
+    padding-bottom: 12px;
+    padding-top: 100px;
+    /*position: sticky;*/
+    top: 0;
+    /*z-index: 1;*/
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+    background: #f8f8f8;
+}
+.button-line{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+}
+.contentSpacing{
+    margin-inline: auto;
+}
+.button-line-small{
+    overflow: hidden;
+    position: relative;
+}
+
+.button-container{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    white-space: nowrap;
+    width: 100%;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+}
+#content {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Make the container fill the viewport height */
+}
+.content-container{
+    width: 100%;
+    margin-inline: auto;
+    padding-top: 130px;
+    flex: 1 1 auto;
+    overflow-y: auto; /* Only content-container scrolls */
+}
+.grid-container{
+    display: grid;
+    grid-gap: 50px;
+    grid-auto-rows: min-content;
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-column-width), 1fr));
+}
+.top-results{
+    display: flex;
+    width:500px;
+    flex-direction: column;
+    position: relative;
+}
+.top-results-container{
+    display: grid;
+    grid-auto-rows: min-content;
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-column-width), 1fr));
+}
+.polite{
+    display: flex;
+    grid-column: span 2;
+}
+.top-results-content{
+    border-radius: 8px;
+    background: #c4c1c1;
+    -ms-flex: 1;
+    flex: 1;
+    isolation: isolate;
+    padding: 20px;
+    position: relative;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+    width: 100%;
+}
+.top-results-content-small{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    gap: 20px;
+}
+.top-results-avatar-container{
+    background-color: var(--card-color, #333);
+    border-radius: 6px;
+    -webkit-box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+    padding-bottom: 100%;
+    position: relative;
+    width: 100%;
+}
+.top-results-avatar-container-spacing{
+    padding-bottom: 92px;
+    width: 92px;
+}
+
+.top-results-avatar{
+    border-radius: 6px;
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    object-fit: cover;
+}
+.top-results-avatar-spacing{
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center center;
+    object-position: center center;
+}
+.top-results-info-container{
+    min-height: 62px;
+}
+.top-results-info-title{
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: middle;
+    color: #fff;
+    text-decoration: none;
+    font-size:30px;
+}
+.top-results-info-title:hover{
+    text-decoration: underline;
+}
+.top-results-info-title-text{
+    color: inherit;
+    margin-block: 0;
+    text-decoration: none;
+}
+.top-results-info-title-text:hover{
+    text-decoration: underline;
+}
+.top-results-info-title-text-medium{
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 700;
+    text-wrap: balance;
+    color: white;
+    text-decoration: none;
+}
+.top-results-info-content{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-flow: row wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    gap: 4px;
+}
+.top-results-artist:hover{
+    text-decoration: underline;
+}
+.encore-text-small{
+    font-weight: 400;
+}
+.top-results-info-content-small{
+    display: inline-flex;
+    align-items: center;
+    gap: 0 4px;
+    white-space: nowrap;
+    color: black;
+}
+.song-results{
+    position: relative;
+    width:570px;
+}
+.song-results-container{
+    display: grid;
+    grid-auto-rows: min-content;
+    grid-template-columns: repeat(auto-fill, minmax(var(--min-column-width), 1fr));
+    width: 100%;
+    background: rgb(196, 193, 193);
+    border-radius: 10px;
+    padding: 10px;
+}
+.song-item-container{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 10px;
+}
+.song-item-container:hover{
+    background: #9b9b9b;
+}
+.song-item{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    border-radius: 10px;
+}
+.song-item:hover{
+    background: #9b9b9b;
+}
+.music-info-link{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+.music-info{
+    margin-right: 12px;
+    margin-left: 12px;
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+}
+.name-container{
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+.name{
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 24px;
+    max-width: 220px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    color: whitesmoke;
+    text-decoration: none;
+}
+.name:hover{
+    text-decoration: underline;
+}
+.artist-name{
+    font-family: "IBM Plex Sans", TikTokFont, Arial, Tahoma, PingFangSC, sans-serif;
+    display: flex;
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+.artist-name:hover{
+    text-decoration: underline;
+}
+/* Style tab links */
+.tablink {
+    margin:5px;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    background-color: red;
+    border: 0px;
+    color: inherit;
+    cursor: pointer;
+    line-height: 1;
+    letter-spacing: inherit;
+    padding: 0px;
+    border-radius: 9999px;
+    display: inline-flex;
+    vertical-align: middle;
+    max-inline-size: 100%;
+    margin-block-end: 8px;
+    text-decoration: none;
+    overflow-wrap: break-word;
+    position: relative;
+}
+.tabLinkText{
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 9999px;
+    color: beige;
+    transition: background-color 200ms, color 200ms;
+    display: inline-flex;
+    min-block-size: 32px;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-block: 4px;
+    padding-inline: 12px;
+    background-color: rgba(0, 0, 0, 0.08);
+}
+.tablink:hover {
+    background-color: #777;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: #000000;
+    display: none;
+    padding: 20px 20px;
+    height: 100%;
+}
+.span-avatar-container{
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-feature-settings: "tnum";
+    position: relative;
+    overflow: hidden;
+    color: rgb(255, 255, 255);
+    white-space: nowrap;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 32px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+    width: 100%;
+}
+.span-avatar{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff; /* White background */
+    color: #000; /* Black text */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.music-table {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+thead {
+    background-color: #f5f5f5; /* Light gray header */
+}
+
+thead th {
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #555; /* Darker gray for header text */
+}
+
+tbody tr {
+    border-bottom: 1px solid #e0e0e0; /* Light gray border */
+}
+
+tbody tr:hover {
+    background-color: #f0f0f0; /* Gray hover effect */
+}
+
+tbody td {
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: middle;
+    color: #000; /* Black text */
+}
+
+tbody td:first-child {
+    text-align: center;
+    width: 1%;
+}
+
+tbody td .title {
+    display: flex;
+    align-items: center;
+}
+
+tbody td .title img {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+tbody td .title .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.song-name {
+    font-weight: bold;
+    color: #000; /* Black text */
+}
+
+.artist-name {
+    font-size: 12px;
+    color: #666; /* Medium gray for artist name */
+}
+
+tbody td:last-child {
+    text-align: right;
+    width: 10%;
+}
+.artist-grid-container {
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    /*max-width: 80%; !* or a suitable max-width *!*/
+    /*margin: 0 auto;*/
+}
+.artist-content-grid-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    max-width: 80%; /* or a suitable max-width */
+    margin: 0 auto;
+}
+.artist-col {
+    padding: 0 20px; /* Adjust these values to increase/decrease horizontal spacing */
+    margin-bottom: 50px; /* Adds space below each card */
+}
+
+.artist-card {
+    width: 210px;
+    height: 280px;
+    background: transparent;
+    border-radius: 12px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.123);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition-duration: .5s;
+    position: relative;
+
+}
+
+.artist-profileImage {
+    background: linear-gradient(to right,rgb(54, 54, 54),rgb(32, 32, 32));
+    margin-top: 20px;
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.329);
+    position:absolute;
+    top: 10px;
+
+}
+
+.artist-textContainer {
+    position:absolute;
+    top: 190px;
+    width: 100%;
+    text-align: left;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.artist-card-name {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #000000;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+.artist-card:hover {
+    background-color: rgb(203, 203, 203);
+    transition-duration: .5s;
+}
+
+
