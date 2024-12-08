@@ -62,6 +62,7 @@ function toggleFollow(event){
     function seedContent(list, tabContent, flag)
     {
         if (list.length === 0){
+            tabContent.innerHTML = '';
             const empty_list_container = document.createElement("div");
             empty_list_container.className = "empty-list-container";
             const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
