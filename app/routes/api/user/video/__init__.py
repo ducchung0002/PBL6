@@ -144,7 +144,7 @@ def search_music():
 
 @api_user_video_bp.route('/get', methods=['GET'])
 def get_video():
-    videos = [video.jsonify() for video in Video.get_random_videos(5)]
+    videos = [video.jsonify() for video in Video.objects.all()]
     return jsonify(videos), 200
 
 

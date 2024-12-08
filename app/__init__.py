@@ -27,6 +27,7 @@ def create_app():
     from app.routes.user import user_bp
     from app.routes.admin import admin_bp
     from app.routes.artist import artist_bp
+    from app.routes.music import music_bp
     from app.routes import home_bp
 
     app.register_blueprint(home_bp, url_prefix='/')
@@ -34,6 +35,7 @@ def create_app():
     app.register_blueprint(user_bp, url_prefix='/user')
     app.register_blueprint(admin_bp, url_prefix='/admin')
     app.register_blueprint(artist_bp, url_prefix='/artist')
+    app.register_blueprint(music_bp, url_prefix='/music')
 
     # Initialize Blueprint for API routes
     from app.routes.api import api_bp

@@ -1,0 +1,221 @@
+{% extends "user/layout.html" %}
+{% block user_content %}
+<link rel="stylesheet" href="/static/css/search-results.css">
+<div class="button-section">
+    <div class="button-line contentSpacing">
+        <div class="button-line-small">
+            <div class="button-container">
+                <button class="tablink" onclick="openPage('All', this, 'orange')" id="defaultOpen">
+                    <span class="tabLinkText">All</span>
+                </button>
+                <button class="tablink" onclick="openPage('Musics', this, 'orange')">
+                    <span class="tabLinkText">Musics</span>
+                </button>
+                <button class="tablink" onclick="openPage('Accounts', this, 'orange')">
+                    <span class="tabLinkText">Accounts</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content-container">
+    <div id="All" class="tabcontent">
+        <div class="grid-container" style="--min-column-width: 500px;">
+            <section class="top-results">
+                <h3>Kết quả gần nhất</h3>
+                <div class="top-results-container">
+                    <div class="polite">
+                        <div class="top-results-content">
+                            <div class="top-results-content-small">
+                                {% if top_result.flag == "music" %}
+                                    <span class="top-results-avatar-container top-results-avatar-container-spacing" style="--card-color: #404838;">
+                                        <img class="top-results-avatar" src="{{ top_result.thumbnail_url }}" alt="Avatar">
+                                    </span>
+                                    <div class="top-results-info-container">
+                                        <a class="top-results-info-title" href="/music/{{ top_result.id }}">
+                                            <div class="top-results-info-title-text top-results-info-title-text-medium" style="padding-block-end: 4px;">
+                                                {{ top_result.name }}
+                                            </div>
+                                        </a>
+                                        <div class="top-results-info-content">
+                                            <div class="encore-text-small top-results-info-content-small">Song</div>
+                                            {% for artist in top_result.artists %}
+                                                <a href="/user/profile/home/{{ artist.id }}">
+                                                    <div class="encore-text-small top-results-info-content-small top-results-artist">{{ artist.nickname }}</div>
+                                                </a>
+                                            {% endfor %}
+                                            <div class="encore-text-small top-results-info-content-small">Lyrics Match</div>
+                                        </div>
+                                    </div>
+                                {% elif top_result.flag == "artist" %}
+                                    <span class="top-results-avatar-container top-results-avatar-container-spacing" style="--card-color: #404838;">
+                                        <img class="top-results-avatar" src="{{ top_result.avatar_url }}" alt="Avatar">
+                                    </span>
+                                    <div class="top-results-info-container">
+                                        <a class="top-results-info-title" href="/user/profile/home/{{ top_result.id }}">
+                                            <div class="top-results-info-title-text top-results-info-title-text-medium" style="padding-block-end: 4px;">
+                                                {{ top_result.nickname }}
+                                            </div>
+                                        </a>
+                                        <div class="top-results-info-content">
+                                            <div class="encore-text-small top-results-info-content-small">Artist</div>
+                                        </div>
+                                    </div>
+                                {% elif top_result.flag == "user" %}
+                                    <span class="top-results-avatar-container top-results-avatar-container-spacing" style="--card-color: #404838;">
+                                        <img class="top-results-avatar" src="{{ top_result.avatar_url }}" alt="Avatar">
+                                    </span>
+                                    <div class="top-results-info-container">
+                                        <a class="top-results-info-title" href="/user/profile/home/{{ top_result.id }}">
+                                            <div class="top-results-info-title-text top-results-info-title-text-medium" style="padding-block-end: 4px;">
+                                                {{ top_result.name }}
+                                            </div>
+                                        </a>
+                                        <div class="top-results-info-content">
+                                            <div class="encore-text-small top-results-info-content-small">User</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="song-results">
+                <h3>Bài hát</h3>
+                <div class="song-results-container">
+                    {% if music_results|length == 0 %}
+                    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                        <span>Không tìm thấy kết quả nào.</span>
+                    </div>
+                    {% else %}
+                        {% for music in music_results[:8] %}
+                            <div class="song-item-container">
+                                <div class="song-item">
+                                    <div class="music-info-link">
+                                        <span class="span-avatar-container" style="width:48px; height:48px">
+                                            <img class="span-avatar" src="{{ music.thumbnail_url }}" alt="Avatar">
+                                        </span>
+                                        <div class="music-info">
+                                            <div class="name-container">
+                                                <a class="name" href="/music/{{ music.id }}">{{ music.name }}</a>
+                                            </div>
+                                            {% for artist in music.artists %}
+                                            <a class="artist-name" href="/user/profile/home/{{ artist.id }}">{{ artist.nickname }}</a>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </section>
+            <section class="artist-results-section" style="width: 80%;">
+                <h3>Danh sách người dùng</h3>
+                <div class="artist-grid-container">
+                    {% for account in account_results %}
+                        {% if account.flag == "artist" %}
+                        <a href="/user/profile/home/{{ account.id }}" style="text-decoration: none; color: black">
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin:20px;">
+                                <img src="{{ account.avatar_url }}" alt="Avatar" class="rounded-circle" width="150" height="150" style="border: 5px solid orangered;"></img>
+                                <div class="name-container" style="text-align: center;">
+                                    <span class="name" style="padding-top:5px;color:#000000; display: inline-block;">
+                                        {{ account.nickname }}</span>
+                                </div>
+                            </div>
+                        </a>
+                        {% elif account.flag == "user" %}
+                        <a href="/user/profile/home/{{ account.id }}" style="text-decoration: none; color: black">
+                            <div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin:20px;">
+                                <img src="{{ account.avatar_url }}" alt="Avatar" class="rounded-circle" width="150" height="150"></img>
+                                <div class="name-container" style="text-align: center;">
+                                <span class="name" style="padding-top:5px;color:#000000; display: inline-block;">
+                                    {{ account.name }}</span>
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </div>
+    <div id="Musics" class="tabcontent">
+        {% if music_results|length == 0 %}
+        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <span>Không tìm thấy kết quả nào.</span>
+        </div>
+        {% else %}
+        <div class="music-table">
+            <table>
+                <thead>
+                <tr>
+                    <th style="text-align: center;">#</th>
+                    <th>Title</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for music in music_results %}
+                <tr>
+                <td>{{ loop.index }}</td>
+                <td>
+                    <div class="song-results-container" style="background: none">
+                        <div class="music-info-link">
+                                <span class="span-avatar-container" style="width:48px; height:48px">
+                                    <img class="span-avatar" src="{{ music.thumbnail_url }}" alt="Avatar">
+                                </span>
+                            <div class="music-info">
+                                <div class="name-container">
+                                    <a class="name" style="color: #1a1d20" href="/music/{{ music.id }}">{{ music.name }}</a>
+                                </div>
+                                {% for artist in music.artists %}
+                                    <a class="artist-name" href="/user/profile/home/{{ artist.id }}">{{ artist.nickname }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    <div id="Accounts" class="tabcontent">
+        <div class="artist-content-grid-container mx-auto">
+            {% for account in account_results %}
+            <div class="artist-col">
+                {% if account.flag == "artist" %}
+                <div class="artist-card" onclick="handleCardClick('{{ account.id }}')">
+                    <div style="padding-top:10px">
+                        <span class="rounded-circle span-avatar-container" style="width:150px; height:150px">
+                            <img class="rounded-circle span-avatar" src="{{ account.avatar_url }}" alt="Avatar" style="border: 5px solid orangered;">
+                        </span>
+                    </div>
+                    <div class="artist-textContainer">
+                        <p class="artist-card-name">
+                            {{ account.nickname }}</p>
+                    </div>
+                </div>
+                {% elif account.flag == "user" %}
+                <div class="artist-card" onclick="handleCardClick('{{ account.id }}')">
+                    <div style="padding-top:10px">
+                            <span class="rounded-circle span-avatar-container" style="width:150px; height:150px">
+                                <img class="rounded-circle span-avatar" src="{{ account.avatar_url }}" alt="Avatar">
+                            </span>
+                    </div>
+                    <div class="artist-textContainer">
+                        <p class="artist-card-name">
+                            {{ account.name }}</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script src="/static/js/search/search-results.js"></script>
+{% endblock %}
