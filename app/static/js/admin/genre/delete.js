@@ -6,7 +6,6 @@ function deleteGenre() {
     const data = {
         id: genreId
     };
-    console.log('Deleting genre:', data);
     // Make the API call using Axios
     axios.delete('/api/admin/genre/', {
         data: data,
@@ -16,7 +15,6 @@ function deleteGenre() {
     }).then(function (response) {
         location.reload();
     }).catch(function (error) {
-        console.error('Error updating genre:', error);
-        alert('Error updating genre. Please try again.');
+        alert('Lỗi xóa thể loại. Vui lòng thử lại.');
     });
 }

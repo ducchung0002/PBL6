@@ -20,7 +20,7 @@ function updateGenre(event) {
         })
         .catch(function (error) {
             console.error('Error updating genre:', error);
-            alert('Error updating genre. Please try again.');
+            alert('Lỗi cập nhật thể loại. Vui lòng thử lại.');
         });
 
 }

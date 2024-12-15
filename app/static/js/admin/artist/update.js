@@ -27,7 +27,7 @@ function updateArtist(event) {
         })
         .catch(function (error) {
             console.error('Error updating artist:', error);
-            alert('Error updating artist. Please try again.');
+            alert('Lỗi cập nhật ca sĩ. Vui lòng thử lại.');
         });
 
 }
