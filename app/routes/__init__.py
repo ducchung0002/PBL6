@@ -32,7 +32,7 @@ def search():
         mixed = music_results + lyric_results + name_results
         sorted_mixed = sorted(mixed, key=lambda x: x["score"], reverse=True)
         if len(sorted_mixed) == 0:
-            return render_template('user/no_search_results.html')
+            return render_template('search/no_search_results.html')
         top_result = sorted_mixed[0]
         music_results = Search.handle_music_results(music_results)
         if top_result["flag"] == "lyric":
