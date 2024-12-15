@@ -24,14 +24,14 @@ function register() {
                 $('#login-password').val(password);
             } else {
                 if (rep.error === 'email exists') {
-                    alert('Email already exists');
+                    alert('Email đã tồn tại');
                 } else if (rep.error === 'username exists') {
-                    alert('Username already exists');
+                    alert('Tên người dùng đã tồn tại');
                 }
             }
         })
         .catch(function (error) {
             console.error('Error register user:', error);
-            alert('Error register user. Please try again.');
+            alert('Lỗi đăng ký. Vui lòng thử lại.');
         });
 }

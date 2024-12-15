@@ -1,7 +1,6 @@
 function deleteArtist() {
     // Get the values from the form
     const artistId = document.getElementById('delete-artist-id').value;
-    console.log('Deleting artist:', artistId);
     // Create the data object to send
     const data = {
         id: artistId
@@ -17,7 +16,6 @@ function deleteArtist() {
             location.reload();
         })
         .catch(function (error) {
-            console.error('Error deleting artist:', error);
-            alert('Error deleting artist. Please try again.');
+            alert('Lỗi xóa ca sĩ. Vui lòng thử lại.');
         });
 }

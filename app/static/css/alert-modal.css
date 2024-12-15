@@ -1,0 +1,19 @@
+/* Make modal body larger */
+.custom-modal-body {
+    font-size: 1.2rem;
+    padding: 20px;
+}
+
+/* Remove borders from modal body */
+.custom-modal-body {
+    border: none;
+}
+
+/* Optional: Remove background shadow if needed */
+.modal-content {
+    border: none;
+}
+.custom-alert-content{
+    font-size: 1.2rem;
+    padding: 20px;
+}

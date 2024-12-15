@@ -21,14 +21,14 @@ function login(event) {
                 form.requestSubmit();
             } else {
                 if (rep.error === 'wrong password') {
-                    alert('wrong password');
+                    alert('Sai mật khẩu');
                 } else if (rep.error === 'not found') {
-                    alert('user not found');
+                    alert('Không thể tìm thấy người dùng');
                 }
             }
         })
         .catch(function (error) {
             console.error('Error adding artist:', error);
-            alert('Error adding artist. Please try again.');
+            alert('Đăng nhập thất bại. Vui lòng thử lại.');
         });
 }

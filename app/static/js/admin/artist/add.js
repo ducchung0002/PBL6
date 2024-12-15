@@ -22,7 +22,6 @@ function addArtist(event) {
             location.reload();
         })
         .catch(function (error) {
-            console.error('Error adding artist:', error);
-            alert('Error adding artist. Please try again.');
+            alert('Lỗi thêm ca sĩ. Vui lòng thử lại.');
         });
 }

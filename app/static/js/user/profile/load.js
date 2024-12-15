@@ -81,11 +81,11 @@ function createFollow(event){
             button.innerText = 'Hủy theo dõi';
             const follower_count = document.getElementById('follower_count');
             follower_count.innerText = parseInt(follower_count.innerText) + 1;
-            alert('Follow success');
+            alert('Theo dõi thành công');
         })
         .catch(function (error) {
             console.error('Follow Error', error);
-            alert('Follow Error');
+            alert('Lỗi theo dõi');
         });
 }
 function deleteFollow(event)
@@ -107,10 +107,10 @@ function deleteFollow(event)
             button.innerText = 'Theo dõi';
             const follower_count = document.getElementById('follower_count');
             follower_count.innerText = parseInt(follower_count.innerText) - 1;
-            alert('Unfollow success');
+            alert('Hủy theo dõi thành công');
         })
         .catch(function (error) {
             console.error('Follow Error', error);
-            alert('Follow Error');
+            alert('Lỗi theo dõi');
         });
 }

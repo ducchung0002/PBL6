@@ -5,7 +5,7 @@ $(document).ready(function() {
             const file = input.files[0];
             const validImageTypes = ['image/jpeg', 'image/png'];
             if ($.inArray(file.type, validImageTypes) < 0) {
-                alert('Please select a valid image file (JPEG, PNG).');
+                alert('Vui lòng chọn định dạng ảnh phù hợp (JPEG, PNG, GIF).');
                 return;
             }
             const reader = new FileReader();
@@ -40,11 +40,11 @@ function updateProfile(event){
     data.append('nickname', nickname);
     axios.put('/api/artist/profile/update', data)
         .then(function (response) {
-            location.reload();
-            alert('Profile updated successfully!');
+            deactivateModal('artist-edit-popup');
+            alert('Cập nhật hồ sơ thành công');
         })
         .catch(function (error) {
             console.error('Error updating profile:', error);
-            alert('Error updating profile. Please try again.');
+            alert('Lỗi cập nhật hồ sơ. Vui lòng thử lại.');
         });
 }

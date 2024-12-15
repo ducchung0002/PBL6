@@ -10,7 +10,7 @@ $(document).ready(function() {
             // Validate file type (optional)
             const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if ($.inArray(file.type, validImageTypes) < 0) {
-                alert('Please select a valid image file (JPEG, PNG, GIF).');
+                alert('Vui lòng chọn định dạng ảnh phù hợp (JPEG, PNG, GIF).');
                 return;
             }
 
@@ -53,12 +53,12 @@ function updateProfile(event){
     // Create the data object to send
     axios.put('/api/user/profile/update', data)
         .then(function (response) {
-            location.reload();
-            alert('Profile updated successfully!');
+            deactivateModal('user-edit-popup');
+            alert('Cập nhật hồ sơ thành công');
         })
         .catch(function (error) {
             console.error('Error updating profile:', error);
-            alert('Error updating profile. Please try again.');
+            alert('Lỗi cập nhật hồ sơ. Vui lòng thử lại.');
         });
 }
 
