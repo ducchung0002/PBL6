@@ -17,4 +17,4 @@ def music_detail(music_id):
             "start_time": start_time,
             "end_time": end_time
         })
-    return render_template('user/music/music-play.html', music=music.jsonify(), lyric_results=lyric_results)
+    return render_template('music/music-play.html', music=music.jsonify(), lyric_results=lyric_results)
