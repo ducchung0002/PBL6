@@ -1,23 +1,23 @@
 <nav class="mt-4">
     <ul class="nav flex-column">
-        <li class="nav-item">
-            <a href="/user/index" class="nav-link d-flex align-items-center text-dark">
-                <img class="me-2" src="/static/svg/icons8-home-black.svg" alt="Like" width="30" height="30">
-                Trang chủ
+        <li class="nav-item mb-2">
+            <a href="/user/index" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/icons8-home-black.svg" alt="Home" width="24" height="24">
+                <span>Trang chủ</span>
             </a>
         </li>
         {% if session['user'] %}
-        <li class="nav-item">
-            <a href="{{ url_for('user.video.list',user_id=session['user']['id']) }}" class="nav-link d-flex align-items-center text-dark">
-                <img class="me-2" src="/static/svg/video.svg" alt="Like" width="30" height="30">
-                Video của bạn
-            </a>
-        </li>
+            <li class="nav-item mb-2">
+                <a href="{{ url_for('user.video.list',user_id=session['user']['id']) }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                    <img class="me-3" src="/static/svg/video.svg" alt="Your Videos" width="24" height="24">
+                    <span>Video của bạn</span>
+                </a>
+            </li>
         {% endif %}
-        <li class="nav-item">
-            <a href="#" class="nav-link d-flex align-items-center text-dark">
-                <img class="me-2" src="/static/svg/settings-non.svg" alt="Like" width="30" height="30">
-                Cài đặt
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.setting.settings') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/settings-non.svg" alt="Settings" width="24" height="24">
+                <span>Cài đặt</span>
             </a>
         </li>
     </ul>
