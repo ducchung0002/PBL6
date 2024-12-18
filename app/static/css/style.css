@@ -27,6 +27,7 @@
 }
 body {
     padding-top: 56px; /* Adjust this value based on your topbar height */
+    overflow: hidden;
 }
 
 #sidebar {
