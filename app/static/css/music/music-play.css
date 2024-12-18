@@ -77,6 +77,13 @@
     justify-content: center;
     align-items: center;
 }
+.redirect-record{
+    width: 75%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* Modify the appearance of the slider */
 .seek_slider, .volume_slider {
     -webkit-appearance: none;
@@ -212,4 +219,7 @@ i.fa-step-backward {
 }
 .lyric-line{
     font-size: 20px;
+}
+.record-button{
+    border-radius: 8px;
 }

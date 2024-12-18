@@ -24,3 +24,12 @@ def handle_search(query):
         "names": name
     }
     socketio.emit("search_results", results)
+
+@socketio.on("music_search")
+def handle_search(query):
+    music_results = Search.Search_Musics(query)
+    music_results_sorted = sorted(music_results, key=lambda x: x["score"], reverse=True)
+    results = {
+        "musics": music_results_sorted[:5]
+    }
+    socketio.emit("music_search_results", results)
