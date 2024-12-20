@@ -1,0 +1,103 @@
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="reportModalLabel">Báo video vi phạm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form id="reportForm">
+                    <!-- Danh sách lý do vi phạm -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason1" value="Nội dung khiêu dâm" required>
+                            <label class="form-check-label" for="reason1">
+                                Nội dung khiêu dâm
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason2" value="Nội dung bạo lực hoặc phản cảm" required>
+                            <label class="form-check-label" for="reason2">
+                                Nội dung bạo lực hoặc phản cảm
+                            </label>
+                        </div>
+                        <!-- Thêm các lý do khác tương tự -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason3" value="Nội dung lăng mạ hoặc kích động thù hận" required>
+                            <label class="form-check-label" for="reason3">
+                                Nội dung lăng mạ hoặc kích động thù hận
+                            </label>
+                        </div>
+                        <!-- ... (tiếp tục cho đến lý do cuối cùng) -->
+                        <!-- Ví dụ cho các lý do còn lại -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason4" value="Nội dung quấy rối hoặc bắt nạt" required>
+                            <label class="form-check-label" for="reason4">
+                                Nội dung quấy rối hoặc bắt nạt
+                            </label>
+                        </div>
+                        <!-- Tiếp tục cho các lý do khác -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason5" value="Hành động gây hại hoặc nguy hiểm" required>
+                            <label class="form-check-label" for="reason5">
+                                Hành động gây hại hoặc nguy hiểm
+                            </label>
+                        </div>
+                        <!-- Thêm các lý do còn lại -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason6" value="Thông tin sai lệch" required>
+                            <label class="form-check-label" for="reason6">
+                                Thông tin sai lệch
+                            </label>
+                        </div>
+                        <!-- ... và tiếp tục cho đến hết danh sách -->
+                        <!-- Ví dụ các lý do cuối cùng -->
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason7" value="Nội dung liên quan đến việc ngược đãi trẻ em" required>
+                            <label class="form-check-label" for="reason7">
+                                Nội dung liên quan đến việc ngược đãi trẻ em
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason8" value="Nội dung quảng bá chủ nghĩa khủng bố" required>
+                            <label class="form-check-label" for="reason8">
+                                Nội dung quảng bá chủ nghĩa khủng bố
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason9" value="Nội dung gian lận/vi phạm hoặc gây hiểu lầm" required>
+                            <label class="form-check-label" for="reason9">
+                                Nội dung gian lận/vi phạm hoặc gây hiểu lầm
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason10" value="Vấn đề pháp lý" required>
+                            <label class="form-check-label" for="reason10">
+                                Vấn đề pháp lý
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="violationReason" id="reason11" value="Phụ đề có vấn đề" required>
+                            <label class="form-check-label" for="reason11">
+                                Phụ đề có vấn đề
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Thông báo xác nhận (ẩn ban đầu) -->
+                    <div id="reportConfirmation" class="alert alert-success d-none" role="alert">
+                        Video đã được báo vi phạm.
+                        <br>
+                        Nội dung vi phạm: <span id="selectedReason"></span>
+                    </div>
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                <button type="button" class="btn btn-danger" id="submitReportButton">Báo vi phạm</button>
+            </div>
+        </div>
+    </div>
+</div>

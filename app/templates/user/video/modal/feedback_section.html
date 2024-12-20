@@ -1,0 +1,28 @@
+<div id="feedback-section" class="position-relative bg-white shadow rounded overflow-hidden d-flex flex-column align-items-start p-4 mb-4 d-none"
+     style="width: 30%; height: 80%; background-color: #f8f9fa; position: fixed; right: 0; top: 10%; z-index: 1050;">
+    <!-- Button Close ("X") -->
+    <button id="close-feedback" class="btn-close position-absolute top-0 end-0 m-3" aria-label="Close"></button>
+
+    <!-- Feedback Content -->
+    <h5 class="mb-3">Gửi phản hồi đến YouTube</h5>
+    <div class="mb-3">
+        <label for="feedback-text" class="form-label">Mô tả ý kiến phản hồi của bạn:</label>
+        <textarea id="feedback-text" class="form-control" rows="5" placeholder="Hãy cho chúng tôi biết điều gì khiến bạn đưa ra ý kiến phản hồi này"></textarea>
+    </div>
+    <!-- Optional screenshot button -->
+    <div class="mb-3">
+        <label class="form-label">Ảnh chụp màn hình sẽ giúp chúng tôi hiểu rõ hơn về ý kiến phản hồi của bạn. (không bắt buộc)</label>
+        <button id="screenshot-button" class="btn btn-secondary">Chụp ảnh màn hình</button>
+    </div>
+    <!-- Informational text -->
+    <div class="mb-3 text-muted" style="font-size: 0.9em;">
+        Một số thông tin về tài khoản và hệ thống có thể được gửi đến Google. Chúng tôi sẽ sử dụng thông tin đó để khắc phục vấn đề và cải thiện dịch vụ, theo <a href="#">Chính sách quyền riêng tư</a> và <a href="#">Điều khoản dịch vụ</a> của chúng tôi. Có thể chúng tôi sẽ email cho bạn khi có thông tin khác hoặc nội dung cập nhật. Hãy truy cập trang <a href="#">Trợ giúp về Pháp lý</a> để yêu cầu thay đổi nội dung vì lý do pháp lý.
+    </div>
+    <!-- Send button -->
+    <button id="send-feedback-button" class="btn btn-primary">Gửi</button>
+
+    <!-- Thank you message (Initially hidden) -->
+    <div id="feedback-thank-you" class="mt-3 alert alert-success d-none" role="alert">
+        Cảm ơn bạn đã phản hồi.
+    </div>
+</div>
