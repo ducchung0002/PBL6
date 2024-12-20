@@ -6,7 +6,8 @@
         <div class="modal-content">
             <div id="custom-modal-header" class="modal-header" style="border-bottom: none;">
                 <h5 class="modal-title" id="customAlertLabel">Thông báo</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="deactivateModal('customAlertModal')"></button>
             </div>
             <div class="modal-body custom-modal-body">
                 <div class="custom-alert-content" id="customAlertContent">
@@ -15,7 +16,7 @@
             </div>
             <div class="modal-footer" style="border-top: none;">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                onclick="location.reload()">
+                onclick="deactivateModal('customAlertModal')">
                     OK
                 </button>
             </div>
