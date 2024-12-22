@@ -35,6 +35,13 @@ def record_video():
         if not music_id:
             return jsonify({'error': 'Music selection is required'}), 400
 
+        music_start = request.form.get('music_start')
+        if not music_start:
+            music_start = 0
+
+        music_end = request.form.get('music_end')
+        if not music_end:
+            music_end = 0
         try:
             # Fetch the music object
             music = Music.objects(id=music_id).first()
@@ -47,12 +54,10 @@ def record_video():
                 video_file.save(video_path)  # Save the uploaded video to the temp file
 
             # Upload the video to Cloudinary directly from the saved file
-            response = cloudinary.uploader.upload_large(
-                video_path, resource_type="video", format="mp4", public_id="uploaded_video"
-            )
+            response = cloudinary.uploader.upload_large(video_path, resource_type="video", format="mp4")
             video_url = response['url']
             # Save video details in the database
-            video = Video(user=user_id, music=music.id, title=title, video_url=video_url).save()
+            video = Video(user=user_id, music=music.id, title=title, video_url=video_url, music_start=music_start, music_end=music_end).save()
 
             return jsonify({
                 'id': str(video.id),

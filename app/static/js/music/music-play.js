@@ -2,7 +2,13 @@ let playpause_btn = document.querySelector(".playpause-track");
 let volume_slider = document.querySelector(".volume_slider");
 let isPlaying = false;
 
-window.onload = initializePlayer;
+window.onload = function() {
+    const record_btn = document.querySelector("#record_btn");
+    initializePlayer();
+    record_btn.addEventListener('click', () => {
+        redirectToRecordPage(music_id)
+    })
+}
 // Initialize the player with the music details from HTML
 function initializePlayer() {
     // Set the audio source from the HTML
@@ -141,4 +147,8 @@ function initializeLyrics(
     curr_track.addEventListener('timeupdate', () => {
         highlightLyrics(curr_track.currentTime, lyrics);
     });
+}
+function redirectToRecordPage(player_music_id){
+    document.cookie = `music_id=${player_music_id}; path=/`;
+    window.location.href = '/user/video/add';
 }

@@ -1,32 +1,109 @@
 {% extends "user/layout.html" %}
 {% block user_content %}
-    <link rel="stylesheet" href="/static/css/video-record.css">
-    <h2>Record Video</h2>
-    <div class="grid-container">
-        <div class="btn-group">
-            <button id="startButton" disabled>Start Recording</button>
-            <button id="stopButton" disabled>Stop Recording</button>
-        </div>
-{#        <video id="video" width="1080" height="800" autoplay></video>#}
-        <div class="video-container">
-            <video id="video" width="1080" height="800" autoplay></video>
-            <div id="lyricsContainer" class="lyrics-overlay"></div>  <!-- Lyrics container -->
-        </div>
-        <div id="details">
-            <input type="text" id="title" placeholder="Tiêu đề video" required>
-            <!-- Music search field -->
-            <input type="text" id="musicSearch" placeholder="Nhập tên bài hát" autocomplete="off">
-            <button id="searchButton" onclick="searchMusic()">Search</button>
-            <ul id="musicResults">
-{#                {% for music in music_data %}#}
-{#                    <li onclick="selectMusic({{ music.id }})">{{ music.name }}>{{ music.name }} by {{ music.artists }}</li>#}
-{#                {% endfor %}#}
-            </ul> <!-- Results will appear here -->
+<link rel="stylesheet" href="/static/css/user/video/video-record.css">
+    <div class="container">
+        <div class="video-search-container">
+            <div class="search-section" style="width: 500px;"> <!-- Set a fixed width -->
+                <div class="video-search-bar-container">
+                    <input type="text" placeholder="Search..."
+                           class="form-control pr-5"
+                           id="video_search_bar">
+                </div>
+                <div id="music_search_results" class="search-results"></div>
+                <div class="music-results-container">
+                    <div id="music_result" class="music-title time-title"></div>
+                    <div id="music_artists" class="music-artists"></div>
+                    <button id="show_lyrics" style="display: none; align-items: center">Lyrics</button>
+                </div>
+            </div>
+            <div class="music-controls">
+                <div class="music-selection">
+                    <!-- Dropdowns to choose audio and video devices -->
+                    <label class="time-title" for="audioDevice">Chọn Micro:</label>
+                    <select id="audio_device" style="width:512px">
+                    </select>
 
-            <input type="hidden" id="selectedMusicId">
-            <button id="uploadButton" onclick="uploadVideo()">Upload Video</button>
+                    <label class="time-title" for="videoDevice">Chọn Camera:</label>
+                    <select id="video_device" style="width:512px">
+                    </select>
+                    <audio id="music_player" crossorigin=anonymous controls style="display: none;"></audio>
+                    <audio id="karaoke_player" crossorigin=anonymous controls style="display: none;"></audio>
+                    <div class="music-time-selection">
+                        <label class="time-title" for="start-time">Thời gian bắt đầu:</label>
+                        <div class="start_time">
+                            <div id="time-selector">
+                                <label for="start-minute-select">Phút:</label>
+                                <select id="start-minute-select">
+                                </select>
+
+                                <label for="start-second-select">Giây:</label>
+                                <select id="start-second-select">
+                                </select>
+                            </div>
+
+                            <p id="selected-start-time">Thời gian bắt đầu: 00:00</p>
+                        </div>
+                        <label class="time-title" for="end-time">Thời gian kết thúc:</label>
+                        <div class="end_time">
+                            <div id="time-selector">
+                                <label for="end-minute-select">Phút:</label>
+                                <select id="end-minute-select">
+                                </select>
+
+                                <label for="end-second-select">Giây:</label>
+                                <select id="end-second-select">
+                                </select>
+                            </div>
+
+                            <p id="selected-end-time">Thời gian kết thúc: 00:00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <audio id="musicPlayer" controls style="display: none;"></audio>
+        <div>
+            <div style="position: relative; display: inline-block;">
+                <video id="video" width="1080" height="800"></video>
+                <div id="lyrics_container" class="lyrics-overlay">
+                </div>
+            </div>
+            <div class="control-container">
+                <div class="controls">
+                    <button id="start_record" disabled>Bắt đầu</button>
+                    <button id="stop_record" disabled>Dừng</button>
+{#                    <button id="show_record_lyrics" disabled>Xem lời nhạc </button>#}
+                    <div class="lyric-toggle-container">
+                        <span>Xem lời bài hát</span>
+                        <label class="switch">
+                            <input type="checkbox" id="show_record_lyrics">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="upload-container">
+            <div class="video-title-text">Tiêu đề video:</div>
+            <div class="video-detail-container">
+                <input class="video-title-input" type="text" id="video-title" placeholder="Tiêu đề video (yêu cầu)">
+                <button id="upload-button" onclick="uploadRecordedVideo()">Đăng video</button>
+                <button id="preview-button" disabled
+                style="margin-top:20px;">Xem trước</button>
+            </div>
+
+            <div class="lyrics-tab" id="lyrics_tab">
+            </div>
+        </div>
     </div>
-    <script src="/static/js/user/video/video_record.js"></script>
+    <audio id="music-player" crossorigin="anonymous"  controls style="display: none;"></audio>
+<script src="/static/js/user/video/record/show_record_lyrics.js"></script>
+<script src="/static/js/user/video/record/handle_blob_url.js"></script>
+<script src="/static/js/user/video/record/lyrics_data_process.js"></script>
+<script src="/static/js/user/video/record/start_lyric_sync.js"></script>
+<script src="/static/js/user/video/record/time_settings.js"></script>
+<script src="/static/js/user/video/record/show_lyrics_tab.js"></script>
+<script src="/static/js/user/video/record/search_music.js"></script>
+<script src="/static/js/user/video/record/control_button.js"></script>
+<script src="/static/js/user/video/record/load.js"></script>
+<script src="/static/js/user/video/record/upload_video.js"></script>
 {% endblock %}

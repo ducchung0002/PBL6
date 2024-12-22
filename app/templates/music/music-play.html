@@ -6,7 +6,6 @@
     <div class="layout">
         <div class="container">
             <div class="player">
-
                 <div class="details">
                     <img class="track-art" style="object-fit: cover" src="{{ music.thumbnail_url }}" alt="Thumbnail" />
                     <div class="track-name">{{ music.name }}</div>
@@ -43,6 +42,11 @@
                         <span class="slider-text">Lyrics</span>
                     </label>
                 </div>
+                <div class="slider-container" style="height:70px">
+                    <label>
+                        <button id="record_btn" class="record-button" onclick="redirectToRecordPage()">Ghi hình với bài hát này</button>
+                    </label>
+                </div>
             </div>
         </div>
         <div class="lyrics-tab hidden">
@@ -53,6 +57,7 @@
     </div>
     <script>
         let lyrics = {{ lyric_results | safe }}
+        let music_id = "{{ music.id }}"
     </script>
     <!-- Load the main script for the player -->
     <script src="/static/js/music/music-play.js"></script>
