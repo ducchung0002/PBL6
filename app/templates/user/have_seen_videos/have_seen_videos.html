@@ -1,0 +1,617 @@
+{% extends 'user/layout.html' %}
+
+{% block user_content %}
+
+    <style>
+        .video-thumbnail {
+            object-fit: cover;
+        }
+        .icon-facebook {
+            color: #4267B2;
+        }
+        .icon-pinterest {
+            color: #BD081C;
+        }
+        .icon-whatsapp {
+            color: #25D366;
+        }
+        .icon-twitter {
+            color: #1DA1F2;
+        }
+        .icon-email {
+            color: #BB001B;
+        }
+        .icon-kakaotalk {
+            color: #FFCD00;
+        }
+        .icon-reddit {
+            color: #FF4500;
+        }
+        .icon-linkedin {
+            color: #0077B5;
+        }
+        .icon-tumblr {
+            color: #35465D;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .search-container input {
+            width: 100%;
+            padding-right: 40px;
+        }
+        .search-container .search-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: none;
+            background: transparent;
+            height: 100%;
+            width: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .action-buttons button {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #333;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+        }
+
+        .action-buttons button:hover {
+            background-color: #f2f2f2;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .badge.bg-secondary {
+            background-color: #909090 !important;
+        }
+    </style>
+        <!-- Sidebar -->
+        <!-- Main Content -->
+        <div class="col-md-9 mt-4">
+            {% if not all_videos and not last_video and not q %}
+                <p>Bạn chưa xem video nào.</p>
+            {% else %}
+                <!-- Luôn hiển thị layout chính -->
+                <div class="row">
+                    <!-- Cột trái 3 cột: Tiêu đề, Ngày, Tìm kiếm, Hành động -->
+                    <div class="col-md-3">
+                        <h2 class="mb-2">Nhật kí xem</h2>
+                        <p class="text-muted mb-4">
+                            Hôm nay: {% if current_date %} {{
+                                current_date.strftime('%d/%m/%Y') }} {% else %} DD/MM/YYYY {%
+                                endif %}
+                        </p>
+
+                        <!-- Khung tìm kiếm -->
+                        <div class="search-container mb-4">
+                            <input type="text" class="form-control" placeholder="Tìm kiếm trong danh sách video đã xem..." id="history-search-input">
+                            <button class="search-btn" id="history-search-btn" title="Tìm kiếm">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+
+                        <!-- Các nút hành động -->
+                        <div class="action-buttons mb-4">
+                            <button id="clear-history-btn" title="Xoá tất cả nhật ký xem">
+                                <i class="bi bi-trash"></i> Xoá tất cả nhật ký xem
+                            </button>
+                            <button id="pause-history-btn" title="Tạm dừng hiển thị nhật ký xem">
+                                <i class="bi bi-pause"></i> Tạm dừng hiển thị nhật ký xem
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cột phải 9 cột: Danh sách video đã xem -->
+                    <div class="col-md-9">
+                        <ul class="list-group list-group-flush">
+                            {% if last_video %}
+                                <!-- Video mới nhất -->
+                                <li class="list-group-item video-list-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1 d-flex justify-content-center">
+                                            <span class="fw-bold">1</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a href="{{ url_for('user.video.detail', video_id=last_video.id) }}">
+                                                <video
+                                                        src="{{ last_video.video_url }}"
+                                                        class="video-thumbnail"
+                                                        controls
+                                                        preload="metadata"
+                                                        style="width:100%; max-height:120px; object-fit:cover;">
+                                                </video>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 d-flex flex-column justify-content-center">
+                                            <a href="{{ url_for('user.video.detail', video_id=last_video.id) }}" class="text-decoration-none text-dark">
+                                                <strong style="font-size: 1rem;">{{ last_video.title }}</strong>
+                                            </a>
+                                            {% set uploader = last_video.user.fetch() %}
+                                            <p class="text-muted mb-1" style="font-size: 0.9rem;">{{ uploader.username }}</p>
+                                            <span class="badge bg-secondary" style="font-size: 0.8rem;">{{ last_video.like_count }} Thích</span>
+                                        </div>
+                                        <div class="col-md-2 d-flex justify-content-end">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" onclick="downloadVideo('{{ last_video.id }}')">
+                                                            <i class="bi bi-download me-2"></i>Tải Xuống
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" onclick="openShareModal('{{ last_video.id }}')">
+                                                            <i class="bi bi-share me-2"></i>Chia sẻ
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center text-danger" onclick="removeFromWatched('{{ last_video.id }}')">
+                                                            <i class="bi bi-trash me-2"></i>Xoá khỏi video đã xem
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endif %}
+
+                            {% for vid in all_videos %}
+                                <li class="list-group-item video-list-item">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-1 d-flex justify-content-center">
+                                            <span class="fw-bold">{{ loop.index + (1 if last_video else 0) }}</span>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <a href="{{ url_for('user.video.detail', video_id=vid.id) }}">
+                                                <video
+                                                        src="{{ vid.video_url }}"
+                                                        class="video-thumbnail"
+                                                        controls
+                                                        preload="metadata"
+                                                        style="width:100%; max-height:120px; object-fit:cover;">
+                                                </video>
+                                            </a>
+                                        </div>
+                                        <div class="col-md-6 d-flex flex-column justify-content-center">
+                                            <a href="{{ url_for('user.video.detail', video_id=vid.id) }}" class="text-decoration-none text-dark">
+                                                <strong style="font-size: 1rem;">{{ vid.title }}</strong>
+                                            </a>
+                                            {% set uploader = vid.user.fetch() %}
+                                            <p class="text-muted mb-1" style="font-size: 0.9rem;">{{ uploader.username }}</p>
+                                            <span class="badge bg-secondary" style="font-size: 0.8rem;">{{ vid.like_count }} Thích</span>
+                                        </div>
+                                        <div class="col-md-2 d-flex justify-content-end">
+                                            <div class="dropdown">
+                                                <button class="btn btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots-vertical"></i>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" onclick="downloadVideo('{{ vid.id }}')">
+                                                            <i class="bi bi-download me-2"></i>Tải Xuống
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center" onclick="openShareModal('{{ vid.id }}')">
+                                                            <i class="bi bi-share me-2"></i>Chia sẻ
+                                                        </button>
+                                                    </li>
+                                                    <li>
+                                                        <button class="dropdown-item d-flex align-items-center text-danger" onclick="removeFromWatched('{{ vid.id }}')">
+                                                            <i class="bi bi-trash me-2"></i>Xoá khỏi video đã xem
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+<!-- Modal chia sẻ -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Chia sẻ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- Modal body with social icons -->
+            <div class="modal-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <!-- Left arrow -->
+                    <button class="btn btn-light" id="prev-icon">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+
+                    <!-- Social icons container: flex-nowrap để không xuống dòng, overflow-auto để cuộn ngang -->
+                    <div class="d-flex overflow-auto flex-nowrap mx-2" id="social-icons">
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.facebook.com/login', '_blank')">
+                                <i class="bi bi-facebook icon-facebook" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Facebook</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.pinterest.com/login/', '_blank')">
+                                <i class="bi bi-pinterest icon-pinterest" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Pinterest</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.whatsapp.com/', '_blank')">
+                                <i class="bi bi-whatsapp icon-whatsapp" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Whatsapp</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://twitter.com/login', '_blank')">
+                                <i class="bi bi-twitter icon-twitter" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">X</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('mailto:', '_blank')">
+                                <i class="bi bi-envelope icon-email" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Gửi email</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.kakaocorp.com/service/KakaoTalk', '_blank')">
+                                <i class="bi bi-chat-dots icon-kakaotalk" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">KakaoTalk</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.reddit.com/login/', '_blank')">
+                                <i class="bi bi-reddit icon-reddit" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Reddit</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.linkedin.com/login', '_blank')">
+                                <i class="bi bi-linkedin icon-linkedin" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">LinkedIn</p>
+                        </div>
+                        <div class="text-center me-3">
+                            <button class="btn btn-light rounded-circle" onclick="window.open('https://www.tumblr.com/login', '_blank')">
+                                <i class="bi bi-tumblr icon-tumblr" style="font-size:24px;"></i>
+                            </button>
+                            <p class="small mt-2 mb-0">Tumblr</p>
+                        </div>
+                    </div>
+
+                    <!-- Right arrow -->
+                    <button class="btn btn-light" id="next-icon">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Box with link and copy button -->
+                <div class="input-group">
+                    <input type="text" class="form-control" id="share-link" value="" readonly>
+                    <button class="btn btn-primary" id="copy-button">Sao chép</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modal tải xuống thành công -->
+<div class="modal fade" id="downloadSuccessModal" tabindex="-1" aria-labelledby="downloadSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 48px;"></i>
+                </div>
+                <h5 id="downloadSuccessModalLabel" class="mb-2">Tải xuống thành công!</h5>
+                <p>Video đã được tải xuống thành công.</p>
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal xoá khỏi video đã xem thành công -->
+<div class="modal fade" id="removeFromWatchedSuccessModal" tabindex="-1" aria-labelledby="removeFromWatchedSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 48px;"></i>
+                </div>
+                <h5 id="removeFromWatchedSuccessModalLabel" class="mb-2">Đã xoá khỏi danh sách xem!</h5>
+                <p>Video đã được xoá khỏi danh sách xem thành công.</p>
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal" onclick="location.reload()">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Đang tải -->
+<div class="modal fade" id="downloadingModal" tabindex="-1" aria-labelledby="downloadingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <h5 id="downloadingModalLabel" class="mb-2">Video của bạn đang được tải...</h5>
+                <p>Vui lòng đợi trong giây lát.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Không tìm thấy kết quả -->
+<div class="modal fade" id="noResultsModal" tabindex="-1" aria-labelledby="noResultsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <i class="bi bi-exclamation-circle text-danger" style="font-size: 48px;"></i>
+                </div>
+                <h5 id="noResultsModalLabel" class="mb-2">Không tìm thấy kết quả!</h5>
+                <p>Không tìm thấy video khớp với từ khoá bạn tìm.</p>
+                <button type="button" class="btn btn-primary mt-3" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Đang tìm kiếm -->
+<div class="modal fade" id="searchingModal" tabindex="-1" aria-labelledby="searchingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <div class="my-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Đang tìm kiếm...</span>
+                    </div>
+                </div>
+                <h5 id="searchingModalLabel" class="mb-2">Đang tìm kiếm...</h5>
+                <p>Vui lòng đợi trong giây lát.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Xoá tất cả nhật ký xem -->
+<div class="modal fade" id="clearHistoryConfirmModal" tabindex="-1" aria-labelledby="clearHistoryConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <h5 id="clearHistoryConfirmModalLabel" class="mb-3">Xoá nhật ký xem?</h5>
+                <p>Nhật ký xem của bạn sẽ bị xóa tất cả.</p>
+                <div class="d-flex justify-content-center mt-4 gap-3">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="button" class="btn btn-danger" id="confirm-clear-history-btn">Xoá nhật ký xem</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tạm dừng hiển thị nhật ký xem -->
+<div class="modal fade" id="pauseHistoryConfirmModal" tabindex="-1" aria-labelledby="pauseHistoryConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-body">
+                <h5 id="pauseHistoryConfirmModalLabel" class="mb-3">Tạm dừng hiển thị nhật ký xem?</h5>
+                <p>Việc tạm dừng nhật ký xem trên có thể khiến bạn không xem được lịch sử hoạt động của mình trên website.</p>
+                <div class="d-flex justify-content-center mt-4 gap-3">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="button" class="btn btn-danger" id="confirm-pause-history-btn">Tạm dừng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script xử lý chức năng -->
+<script>
+    // Khi nhấn nút tìm kiếm
+    document.getElementById('history-search-btn').addEventListener('click', function() {
+        const query = document.getElementById('history-search-input').value.trim();
+        const url = new URL(window.location.href);
+        // Set query parameter q
+        if(query) {
+            url.searchParams.set('q', query);
+        } else {
+            url.searchParams.delete('q');
+        }
+        window.location.href = url.toString();
+    });
+
+    // Khi nhấn Enter trong ô tìm kiếm
+    document.getElementById('history-search-input').addEventListener('keypress', function(e) {
+        if(e.key === 'Enter') {
+            const query = document.getElementById('history-search-input').value.trim();
+            const url = new URL(window.location.href);
+            if(query) {
+                url.searchParams.set('q', query);
+            } else {
+                url.searchParams.delete('q');
+            }
+            window.location.href = url.toString();
+        }
+    });
+
+    function downloadVideo(videoId) {
+        var downloadingModal = new bootstrap.Modal(document.getElementById('downloadingModal'));
+        downloadingModal.show();
+
+        // Đổi link download sang have_seen_videos
+        window.location.href = '/user/have_seen_videos/download?video_id=' + videoId;
+
+        setTimeout(function() {
+            downloadingModal.hide();
+            var downloadSuccessModal = new bootstrap.Modal(document.getElementById('downloadSuccessModal'));
+            downloadSuccessModal.show();
+        }, 10000);
+    }
+
+
+    function openShareModal(videoId) {
+        var shareLinkInput = document.getElementById('share-link');
+        shareLinkInput.value = window.location.origin + '/user/video/' + videoId;
+        var shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+        shareModal.show();
+    }
+
+    function removeFromWatched(videoId) {
+        fetch('/api/user/have_seen_videos/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ videoId: videoId })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+                    var removeSuccessModal = new bootstrap.Modal(document.getElementById('removeFromWatchedSuccessModal'));
+                    removeSuccessModal.show();
+                } else {
+                    alert('Xoá video không thành công.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra.');
+            });
+    }
+
+    document.getElementById('copy-button').addEventListener('click', function() {
+        var shareLinkInput = document.getElementById('share-link');
+        shareLinkInput.select();
+        shareLinkInput.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Đã sao chép liên kết!");
+    });
+
+    // Khi người dùng nhấn nút "Xoá nhật ký xem" trong modal xác nhận
+    document.getElementById('confirm-clear-history-btn').addEventListener('click', function() {
+        // Đóng modal xác nhận
+        var clearHistoryConfirmModal = bootstrap.Modal.getInstance(document.getElementById('clearHistoryConfirmModal'));
+        clearHistoryConfirmModal.hide();
+
+        // Xoá danh sách video hiện tại trên giao diện
+        // Phần danh sách video nằm trong ".col-md-9" - ta có thể xóa nội dung của nó và thay bằng thông báo.
+        var videoList = document.querySelector('.col-md-9 ul.list-group.list-group-flush');
+        if (videoList) {
+            // Xoá toàn bộ các video trong danh sách và thay thế bằng thông báo
+            videoList.innerHTML = '<li class="list-group-item"><p>Bạn chưa xem video nào.</p></li>';
+        }
+    });
+    // Khi nhấn nút "Xoá tất cả nhật ký xem"
+    document.getElementById('clear-history-btn').addEventListener('click', function() {
+        var clearHistoryConfirmModal = new bootstrap.Modal(document.getElementById('clearHistoryConfirmModal'));
+        clearHistoryConfirmModal.show();
+    });
+    // Kiểm tra trạng thái khi load trang
+    document.addEventListener('DOMContentLoaded', function() {
+        var paused = localStorage.getItem('historyPaused');
+        var pauseHistoryBtn = document.getElementById('pause-history-btn');
+        var videoList = document.querySelector('.col-md-9 ul.list-group.list-group-flush');
+
+        if (paused === 'true') {
+            // Đã tạm dừng
+            pauseHistoryBtn.innerHTML = '<i class="bi bi-play"></i> Bật nhật ký xem';
+            // Xoá video
+            if (videoList) {
+                videoList.innerHTML = '<li class="list-group-item"><p>Bạn đã tạm dừng nhật ký xem .</p></li>';
+            }
+        } else {
+            // Chưa tạm dừng
+            pauseHistoryBtn.innerHTML = '<i class="bi bi-pause"></i> Tạm dừng hiển thị nhật ký xem';
+        }
+    });
+
+    // Khi nhấn nút "Tạm dừng hiển thị nhật ký xem" hoặc "Bật nhật ký xem"
+    document.getElementById('pause-history-btn').addEventListener('click', function() {
+        var paused = localStorage.getItem('historyPaused');
+        if (paused === 'true') {
+            // Đang ở trạng thái tạm dừng, nhấn nút này có thể bật lại
+            // Đề bài chỉ nói đổi nút thành "Bật nhật ký xem" khi tạm dừng xong
+            // Ở đây ta có thể hiểu là nhấn lại để bật nhật ký xem
+            localStorage.setItem('historyPaused', 'false');
+            location.reload(); // Reload để hiển thị lại video bình thường
+        } else {
+            // Chưa tạm dừng, mở modal xác nhận tạm dừng
+            var pauseHistoryConfirmModal = new bootstrap.Modal(document.getElementById('pauseHistoryConfirmModal'));
+            pauseHistoryConfirmModal.show();
+        }
+    });
+
+    // Khi nhấn "Tạm dừng" trong modal tạm dừng
+    document.getElementById('confirm-pause-history-btn').addEventListener('click', function() {
+        var pauseHistoryConfirmModal = bootstrap.Modal.getInstance(document.getElementById('pauseHistoryConfirmModal'));
+        pauseHistoryConfirmModal.hide();
+
+        // Set trạng thái tạm dừng
+        localStorage.setItem('historyPaused', 'true');
+
+        // Đổi nút thành "Bật nhật ký xem"
+        var pauseHistoryBtn = document.getElementById('pause-history-btn');
+        pauseHistoryBtn.innerHTML = '<i class="bi bi-play"></i> Bật nhật ký xem';
+
+        // Xoá video
+        var videoList = document.querySelector('.col-md-9 ul.list-group.list-group-flush');
+        if (videoList) {
+            videoList.innerHTML = '<li class="list-group-item"><p>Bạn đã tạm dừng nhật ký xem </p></li>';
+        }
+    });
+
+
+
+</script>
+{% if q and no_results_search %}
+    <script>
+        // Mở modal Đang tìm kiếm trước
+        var searchingModal = new bootstrap.Modal(document.getElementById('searchingModal'));
+        searchingModal.show();
+
+        // Sau 2-3 giây (tùy bạn), đóng modal Đang tìm kiếm và mở modal Không tìm thấy kết quả
+        setTimeout(function() {
+            searchingModal.hide();
+            var noResultsModal = new bootstrap.Modal(document.getElementById('noResultsModal'));
+            noResultsModal.show();
+        }, 3000); // 3000ms = 3 giây
+    </script>
+{% endif %}
+
+{% endblock %}

@@ -152,27 +152,102 @@ function renderComment(comment, mode = 'comment', grandCommentId = null) {
     li.appendChild(actionContainer);
 
     // Khu vực nhập phản hồi (ẩn ban đầu)
+    // const replySection = document.createElement('div');
+    // replySection.id = `reply-section-${comment.id}`;
+    // replySection.classList.add('d-none', 'mt-2');
+    //
+    // const replyInput = document.createElement('input');
+    // replyInput.type = 'text';
+    // replyInput.classList.add('form-control');
+    // replyInput.placeholder = 'Nhập phản hồi...';
+    // replySection.appendChild(replyInput);
+    //
+    // const replySubmitButton = document.createElement('button');
+    // replySubmitButton.classList.add('btn', 'btn-primary', 'btn-sm', 'mt-1');
+    // replySubmitButton.innerText = 'Gửi';
+    // if (mode === 'comment') {
+    //     replySubmitButton.onclick = () => submitReply(replyInput, comment.id, comment.id, comment.user);
+    // } else {
+    //     replySubmitButton.onclick = () => submitReply(replyInput, comment.id, grandCommentId, comment.user);
+    // }
+    // replySection.appendChild(replySubmitButton);
+    //
+    // li.appendChild(replySection);
     const replySection = document.createElement('div');
     replySection.id = `reply-section-${comment.id}`;
     replySection.classList.add('d-none', 'mt-2');
 
+// Tạo một container dạng input-group để chứa mention button, emoji button, input
+    const replyInputGroup = document.createElement('div');
+    replyInputGroup.classList.add('input-group', 'mb-1');
+
+// Nút mention cho reply
+    const replyMentionButton = document.createElement('button');
+    replyMentionButton.classList.add('btn', 'btn-light', 'reply-mention-button');
+    replyMentionButton.type = 'button';
+    replyMentionButton.innerHTML = '<i class="bi bi-at"></i>';
+    replyInputGroup.appendChild(replyMentionButton);
+
+// Nút emoji cho reply
+    const replyEmojiGroup = document.createElement('div');
+    replyEmojiGroup.classList.add('btn-group', 'dropup', 'position-relative');
+    const replyEmojiButton = document.createElement('button');
+    replyEmojiButton.classList.add('btn', 'btn-light', 'reply-emoji-button');
+    replyEmojiButton.type = 'button';
+    replyEmojiButton.innerHTML = '<i class="bi bi-emoji-smile"></i>';
+    replyEmojiGroup.appendChild(replyEmojiButton);
+
+// Tạo emoji picker cho reply
+    const replyEmojiPicker = document.createElement('div');
+    replyEmojiPicker.classList.add('position-absolute', 'bg-white', 'border', 'p-2');
+    replyEmojiPicker.style.display = 'none';
+    replyEmojiPicker.style.bottom = '40px';
+    replyEmojiPicker.style.left = '0px';
+    replyEmojiPicker.style.borderRadius = '8px';
+    replyEmojiPicker.style.width = '200px';
+    replyEmojiPicker.style.maxHeight = '200px';
+    replyEmojiPicker.style.overflow = 'auto';
+
+// Thêm nhiều emoji vào replyEmojiPicker
+    const emojis = ['😀','😁','😂','😍','😘','👍','🔥','🎉','😎','🥳','🤩','🙌','🤔','😱','💯'];
+    emojis.forEach(emo => {
+        const span = document.createElement('span');
+        span.classList.add('emoji');
+        span.style.cursor = 'pointer';
+        span.style.fontSize = '1.5rem';
+        span.style.margin = '5px';
+        span.innerText = emo;
+        replyEmojiPicker.appendChild(span);
+    });
+
+    replyEmojiGroup.appendChild(replyEmojiPicker);
+    replyInputGroup.appendChild(replyEmojiGroup);
+
+// Input reply
     const replyInput = document.createElement('input');
     replyInput.type = 'text';
-    replyInput.classList.add('form-control');
+    replyInput.classList.add('form-control', 'reply-input');
     replyInput.placeholder = 'Nhập phản hồi...';
-    replySection.appendChild(replyInput);
+    replyInputGroup.appendChild(replyInput);
 
+// Nút gửi reply
     const replySubmitButton = document.createElement('button');
-    replySubmitButton.classList.add('btn', 'btn-primary', 'btn-sm', 'mt-1');
+    replySubmitButton.classList.add('btn', 'btn-primary', 'btn-sm');
     replySubmitButton.innerText = 'Gửi';
+
     if (mode === 'comment') {
         replySubmitButton.onclick = () => submitReply(replyInput, comment.id, comment.id, comment.user);
     } else {
         replySubmitButton.onclick = () => submitReply(replyInput, comment.id, grandCommentId, comment.user);
     }
-    replySection.appendChild(replySubmitButton);
+    const submitWrapper = document.createElement('div');
+    submitWrapper.classList.add('mt-1');
+    submitWrapper.appendChild(replySubmitButton);
 
+    replySection.appendChild(replyInputGroup);
+    replySection.appendChild(submitWrapper);
     li.appendChild(replySection);
+
 
     if (mode === 'comment') {
         // view more replies

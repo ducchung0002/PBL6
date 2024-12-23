@@ -23,6 +23,12 @@
                     <select id="audio_device" style="width:512px">
                     </select>
 
+            <input type="hidden" id="selectedMusicId">
+            <button id="uploadButton" onclick="uploadVideo()">Upload Video</button>
+        </div>
+        <audio id="musicPlayer" controls style="display: none;"></audio>
+    </div>
+    <script src="/js/user/video/video_record.js"></script>
                     <label class="time-title" for="videoDevice">Chọn Camera:</label>
                     <select id="video_device" style="width:512px">
                     </select>

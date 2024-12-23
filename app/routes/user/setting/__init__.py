@@ -35,7 +35,6 @@ user_setting_bp = Blueprint('setting', __name__)
 def settings():
     # Lấy user_id từ session hoặc current_user
     user_id = session['user']['id']
-    # user = ExtendedAccount.objects(id=user_id).first()
     user = ExtendedAccount.objects(id=session['user']['id']).first()
     if request.method == 'POST':
         username = request.form.get('username')
