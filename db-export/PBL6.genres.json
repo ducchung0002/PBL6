@@ -1,39 +1,120 @@
 [{
   "_id": {
-    "$oid": "6700f8bd5ef0ad4763b9eb9c"
+    "$oid": "6742e0513f7fd6d90f50f213"
   },
   "name": "Pop",
-  "description": "Pop music",
   "created_at": {
-    "$date": "2024-10-05T15:28:45.389Z"
+    "$date": "2024-11-24T15:14:08.563Z"
   },
   "updated_at": {
-    "$date": "2024-10-05T15:28:45.389Z"
+    "$date": "2024-11-24T15:14:08.563Z"
   }
 },
 {
   "_id": {
-    "$oid": "6700f8bd5ef0ad4763b9eb9d"
+    "$oid": "6742e0513f7fd6d90f50f214"
   },
   "name": "Rock",
-  "description": "Rock music",
   "created_at": {
-    "$date": "2024-10-05T15:28:45.389Z"
+    "$date": "2024-11-24T15:14:08.563Z"
   },
   "updated_at": {
-    "$date": "2024-10-05T15:28:45.389Z"
+    "$date": "2024-11-24T15:14:08.563Z"
   }
 },
 {
   "_id": {
-    "$oid": "6700f8bd5ef0ad4763b9eb9e"
+    "$oid": "6742e0513f7fd6d90f50f215"
   },
   "name": "Jazz",
-  "description": "Jazz music",
   "created_at": {
-    "$date": "2024-10-05T15:28:45.389Z"
+    "$date": "2024-11-24T15:14:08.563Z"
   },
   "updated_at": {
-    "$date": "2024-10-05T15:28:45.389Z"
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6742e0523f7fd6d90f50f216"
+  },
+  "name": "Blues",
+  "created_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6742e0523f7fd6d90f50f217"
+  },
+  "name": "R&B/Soul",
+  "created_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6742e0523f7fd6d90f50f218"
+  },
+  "name": "Hip hop",
+  "created_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6742e0523f7fd6d90f50f219"
+  },
+  "name": "Đồng quê",
+  "created_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6742e0523f7fd6d90f50f21a"
+  },
+  "name": "Folk",
+  "created_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6742e0523f7fd6d90f50f21b"
+  },
+  "name": "Mỹ Latinh",
+  "created_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T15:14:08.563Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "674301298adcea9c02a6e562"
+  },
+  "name": "Bolero",
+  "created_at": {
+    "$date": "2024-11-24T17:34:15.523Z"
+  },
+  "updated_at": {
+    "$date": "2024-11-24T17:34:15.523Z"
   }
 }]

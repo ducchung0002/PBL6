@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div id="audio-upload-region" class="p-3 border border-dashed bg-light rounded text-center justify-content-between col-8" style="cursor: pointer;">
+                    <div class="text-center">
+                        <p class="mb-1">Kéo & thả hoặc nhấp để tải lên file âm thanh</p>
+                        <input type="file" id="audio-upload" class="form-control d-none" accept="audio/*">
+                    </div>
+                </div>
+                <button class="col-4 btn border border-dashed bg-light" id="separate-audio-btn">Tách nhạc</button>
+            </div>
+
+            <div id="karaoke-upload-region" class="row p-3 border border-dashed bg-light rounded text-center d-flex justify-content-between" style="cursor: pointer;">
+                <div class="text-center">
+                    <p class="mb-1">Kéo & thả hoặc nhấp để tải lên file karaoke</p>
+                    <input type="file" id="karaoke-upload" class="form-control d-none" accept="audio/*">
+                </div>
+
+                <audio id="karaoke-audio" controls></audio>
+            </div>
+        </div>
+        <div class="col-6 d-flex align-items-center gap-3">
+            <!-- Button on the left -->
+            <div>
+                <button class="btn border border-dashed bg-light" id="thumbnail-upload-btn">
+                    Đăng tải thumbnail
+                    <input type="file" id="thumbnail-upload" class="form-control d-none" accept="image/*">
+                </button>
+            </div>
+            <!-- Image on the right -->
+            <div>
+                <img id="thumbnail-preview" alt="thumbnail" class="img-fluid d-none border rounded" style="max-height: 180px; max-width: 320px">
+            </div>
+        </div>
+    </div>
+</div>

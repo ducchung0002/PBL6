@@ -1,6 +1,4 @@
 from elasticsearch import helpers
-from mongoengine.base import LazyReference
-
 from app.models.music import Music
 from app.models.artist import Artist
 from app.models.base.extended_account import ExtendedAccount
@@ -12,132 +10,227 @@ def create_index(index_name, settings_mappings):
         es.indices.delete(index=index_name)
     es.indices.create(index=index_name, body=settings_mappings)
 
-def bulk_index_lyrics(lyrics_data, batch_size=100):
+def bulk_index_lyrics(lyrics_data):
     actions = [
         {
             "_index": "lyrics",
-            "_id": f"{lyric['music_id']}_{i}",
-            "_source": lyric
+            "_source": {
+                "music_id": lyric['music_id'],
+                "lyric": lyric['lyric']
+            }
         }
-        for i, lyric in enumerate(lyrics_data)
-    ]
-    helpers.bulk(es, actions, chunk_size=batch_size)
-
-def bulk_index_accounts(accounts_data):
-    actions = [
-        {
-            "_index": "accounts",
-            "_id": account['id'],
-            "_source": account
-        }
-        for account in accounts_data
+        for lyric in lyrics_data
     ]
     helpers.bulk(es, actions)
 
-def bulk_index_musics(musics_data, batch_size=100):
-    actions = [
-        {
-            "_index": "musics",
-            "_id": music['id'],
-            "_source": music
-        }
-        for music in musics_data
-    ]
-    helpers.bulk(es, actions, chunk_size=batch_size)
-
 def search_lyrics(query):
     body = {
-        "query": {
-            "match": {
-                "lyric": {
-                    "query": query,
-                    "fuzziness": "AUTO"
-                }
-            }
-        },
-        "collapse": {
-            "field": "lyric.keyword"
-        },
-        "size": 20
-    }
-    res = es.search(index="lyrics", body=body)
-    results = []
-    for hit in res["hits"]["hits"]:
-        results.append({
-            "lyric": hit["_source"]["lyric"],
-            "music_id": hit["_source"]["music_id"],
-            "score": hit["_score"],
-            "flag": "lyric"
-        })
-    return results
-
-def search_musics(query):
-    body = {
-        "query": {
-            "match": {
-                "name": {
-                    "query": query,
-                    "fuzziness": "AUTO"
-                }
-            }
-        },
-        "size": 20
-    }
-    res = es.search(index="musics", body=body)
-    results = []
-    for hit in res["hits"]["hits"]:
-        results.append({
-            "name": hit["_source"]["name"],
-            "id": hit["_source"]["id"],
-            "score": hit["_score"],
-            "flag": "music"
-        })
-    return results
-
-def search_accounts(query):
-    body = {
+        "size": 5,
         "query": {
             "bool": {
                 "should": [
                     {
-                        "match": {
-                            "name": {
+                        "match_phrase": {
+                            "lyric": {
                                 "query": query,
-                                "fuzziness": "AUTO",
                                 "boost": 2
                             }
                         }
                     },
                     {
                         "match": {
-                            "nickname": {
+                            "lyric": {
                                 "query": query,
-                                "fuzziness": "AUTO",
-                                "boost": 3
+                                "fuzziness": "AUTO"
                             }
                         }
                     },
                     {
                         "match": {
-                            "username": {
+                            "lyric.folded": {
                                 "query": query,
-                                "fuzziness": "AUTO",
-                                "boost": 3
+                                "fuzziness": "AUTO"
                             }
                         }
                     }
                 ]
             }
         },
+        "highlight": {
+            "fields": {
+                "lyric": {}
+            }
+        }
+    }
+    response = es.search(index="lyrics", body=body)
+    results = []
+    for hit in response['hits']['hits']:
+        results.append({
+            "music_id": hit["_source"]["music_id"],
+            "lyric": hit["_source"]["lyric"],
+            "score": hit["_score"],
+            "highlights": hit.get("highlight", {}).get("lyric", []),
+            "flag": "lyric"
+        })
+    return results
+
+def bulk_index_musics(music_data):
+    actions = []
+    for m in music_data:
+        actions.append({
+            "_op_type": "index",
+            "_index": "musics",
+            "_id": m["id"],
+            "_source": {
+                "id": m["id"],
+                "name": m["name"]
+            }
+        })
+    helpers.bulk(es, actions)
+
+def search_musics(query):
+    body = {
+        "query": {
+            "bool": {
+                "should": [
+                    {
+                        "match_phrase": {
+                            "name": {
+                                "query": query,
+                                "slop": 1,
+                                "boost": 4
+                            }
+                        }
+                    },
+                    {
+                        "match": {
+                            "name": {
+                                "query": query,
+                                "fuzziness": "AUTO"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "highlight": {
+            "pre_tags": ["<em>"],
+            "post_tags": ["</em>"],
+            "fields": {
+                "name": {}
+            }
+        },
         "size": 5
     }
-    res = es.search(index="accounts", body=body)
+    resp = es.search(index="musics", body=body)
     results = []
-    for hit in res["hits"]["hits"]:
+    for hit in resp["hits"]["hits"]:
+        highlights = []
+        if "highlight" in hit and "name" in hit["highlight"]:
+            highlights = hit["highlight"]["name"]
         results.append({
-            "name": hit["_source"]["name"],
             "id": hit["_source"]["id"],
+            "name": hit["_source"]["name"],
             "score": hit["_score"],
+            "highlights": highlights,
+            "flag": "music"
+        })
+    return results
+
+def bulk_index_artists(artists):
+    actions = [
+        {
+            "_index": "artists",
+            "_id": artist['id'],
+            "_source": artist
+        }
+        for artist in artists
+    ]
+    helpers.bulk(es, actions)
+
+def search_artists(query):
+    body = {
+        "size": 5,
+        "query": {
+            "multi_match": {
+                "query": query,
+                "fields": ["name^3", "nickname^2", "username"],
+                "fuzziness": "AUTO",
+                "boost": 8
+            }
+        },
+        "highlight": {
+            "pre_tags": ["<em>"],
+            "post_tags": ["</em>"],
+            "fields": {
+                "name": {},
+                "nickname": {},
+                "username": {}
+            }
+        }
+    }
+    response = es.search(index="artists", body=body)
+    results = []
+    for hit in response['hits']['hits']:
+        highlight = hit.get('highlight', {})
+        highlights = []
+        for field in ['name', 'nickname', 'username']:
+            if field in highlight:
+                highlights.extend(highlight[field])
+        results.append({
+            "id": hit["_source"]["id"],
+            "name": hit["_source"]["name"],
+            "nickname": hit["_source"]["nickname"],
+            "score": hit["_score"],
+            "highlights": highlights
+        })
+    return results
+
+def bulk_index_users(users):
+    actions = [
+        {
+            "_index": "users",
+            "_id": user['id'],
+            "_source": user
+        }
+        for user in users
+    ]
+    helpers.bulk(es, actions)
+
+def search_users(query):
+    body = {
+        "size": 5,
+        "query": {
+            "multi_match": {
+                "query": query,
+                "fields": ["name^3", "username"],
+                "fuzziness": "AUTO",
+                "boost": 10
+            }
+        },
+        "highlight": {
+            "pre_tags": ["<em>"],
+            "post_tags": ["</em>"],
+            "fields": {
+                "name": {},
+                "username": {}
+            }
+        }
+    }
+    response = es.search(index="users", body=body)
+    results = []
+    for hit in response['hits']['hits']:
+        highlight = hit.get('highlight', {})
+        highlights = []
+        for field in ['name', 'username']:
+            if field in highlight:
+                highlights.extend(highlight[field])
+        results.append({
+            "id": hit["_source"]["id"],
+            "name": hit["_source"]["name"],
+            "username": hit["_source"]["username"],
+            "score": hit["_score"],
+            "highlights": highlights,
             "flag": "account"
         })
     return results

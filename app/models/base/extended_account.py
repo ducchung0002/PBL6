@@ -1,8 +1,8 @@
 from mongoengine import DateField, EmailField, EmbeddedDocumentField, FloatField, IntField, LazyReferenceField, \
     ListField, StringField, ObjectIdField
 
-from ..base.account import Account
-from ..query_set.extended_account_query_set import ExtendedAccountQuerySet
+from app.models.base.account import Account
+from app.models.query_set.extended_account_query_set import ExtendedAccountQuerySet
 
 
 class ExtendedAccount(Account):

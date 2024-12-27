@@ -3,7 +3,7 @@ from mongoengine import connect, disconnect
 from app.config import Config
 from flask_cors import CORS
 import cloudinary
-import os
+
 
 def create_app():
     app = Flask(__name__, static_folder='static', static_url_path='/static')
@@ -29,8 +29,10 @@ def create_app():
     from app.routes.artist import artist_bp
     from app.routes.music import music_bp
     from app.routes import home_bp
+    from app.routes.npm_modules import npm_modules_bp
 
     app.register_blueprint(home_bp, url_prefix='/')
+    app.register_blueprint(npm_modules_bp, url_prefix='/node_modules')
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(user_bp, url_prefix='/user')
     app.register_blueprint(admin_bp, url_prefix='/admin')
@@ -42,8 +44,9 @@ def create_app():
     app.register_blueprint(api_bp, url_prefix='/api')
 
     cloudinary.config(
-        cloud_name='dddiwftri',  # Replace with your Cloudinary cloud name
-        api_key='171257253152235',  # Replace with your Cloudinary API key
-        api_secret=os.getenv('CLOUDINARY_API_SECRET')  # Replace with your Cloudinary API secret
+        cloud_name=app.config.get('CLOUDINARY_CLOUD_NAME'),
+        api_key=app.config.get('CLOUDINARY_API_KEY'),
+        api_secret=app.config.get('CLOUDINARY_API_SECRET')
     )
+
     return app

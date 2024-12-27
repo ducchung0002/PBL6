@@ -3,10 +3,15 @@ from flask import Blueprint, jsonify, request, session
 import cloudinary
 import cloudinary.uploader
 from app.models.artist import Artist
+
 api_artist_profile_bp = Blueprint('api_artist_profile', __name__)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @api_artist_profile_bp.route('/update', methods=['PUT'])
 def update():
     data = request.form

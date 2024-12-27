@@ -1,11 +1,100 @@
 {% extends "artist/layout.html" %}
 
 {% block artist_content %}
+    {# custom css #}
+    <link rel="stylesheet" href="/static/css/artist/music/add.css">
+    {# Drag & drop audio section #}
+    {% include 'artist/music/sections/add/upload.html' %}
+    {# lyric align #}
+    {% include 'artist/music/sections/add/lyric_align.html' %}
 
+    {# add music #}
+    <div class="container mt-2">
+        {# other field #}
+        <div class="row align-items-center mb-3">
+            {# music name & genres #}
+            <div class="row align-items-start">
+                {# Song Name #}
+                <div class="col-4 form-floating">
+                    <input type="text" class="form-control" id="music-name" placeholder="Tên bài hát">
+                    <label for="music-name" class="ms-2">Tên bài hát</label>
+                </div>
 
+                {# Genres Dropdown #}
+                <div class="col-auto">
+                    <label for="genreDropdown" class="form-label visually-hidden">Thể loại</label>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="genreDropdown" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            Thể loại
+                        </button>
+                        <ul id="genres-dropdown" class="dropdown-menu dropdown-menu-columns" aria-labelledby="genreDropdown">
+                            {% for genre in genres %}
+                                <li><a class="dropdown-item" href="#" data-genre-id="{{ genre.id }}">{{ genre.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
 
-    {% include "artist/music/modals/add.html" %}
+                {# Selected Genres #}
+                <div class="col">
+                    <label class="form-label visually-hidden">Selected Genres</label>
+                    <div id="selected-genres" class="d-flex flex-wrap gap-2">
+                        {# Selected genres will be dynamically added here #}
+                    </div>
+                </div>
+            </div>
+            {# feat artists #}
+            <div class="form-group row align-items-center g-2">
+                <div class="col-4 form-floating">
+                    <input type="text" id="feat_artists_query" class="form-control" placeholder="Ca sĩ hát cùng">
+                    <label for="feat_artists_query" class="ms-2">Ca sĩ hát cùng</label>
+                    <ul id="feat-artists-dropdown" class="dropdown-menu"></ul>
+                </div>
+                <!-- Selected Artists -->
+                <div class="col-8" id="selected-feat-artists">
+                    <div class="d-flex flex-wrap gap-2">
+                        <!-- Selected artist tags will go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <script src="/static/js/artist/music/list.js"></script>
+        {# lyrics table #}
+        {% include 'artist/music/sections/add/lyric_table.html' %}
+
+        {# submit add button #}
+        <div class="d-flex justify-content-center mt-3">
+            <button type="submit" class="btn btn-outline-primary" id="add-music-btn">Thêm bài hát</button>
+        </div>
+    </div>
+
+    {# modals #}
+    {% include 'artist/music/modals/lyrics_submit.html' %}
+    {% include 'artist/music/modals/import_lyric.html' %}
+    {% include 'artist/music/modals/sentence_detail.html' %}
+    {# dependencies #}
+    {# wavesurfer #}
+    <script src="/node_modules/wavesurfer.js/dist/wavesurfer.min.js"></script>
+    <script src="/node_modules/wavesurfer.js/dist/plugins/timeline.min.js"></script>
+    <script src="/node_modules/wavesurfer.js/dist/plugins/regions.min.js"></script>
+    <script src="/node_modules/wavesurfer.js/dist/plugins/minimap.min.js"></script>
+    {# models #}
+    <script src="/static/js/models/lyric.js"></script>
+    {# utils #}
+    <script src="/static/js/util/audio_util.js"></script>
+    <script>
+        let currentUser = {{ session['user'] | tojson }}
+    </script>
+    {# custom javascript #}
+    {# sections/add/lyric_align.html scripts #}
+    <script src="/static/js/artist/music/variables.js"></script>
+    <script src="/static/js/artist/music/build_wavesurfer.js"></script>
+    <script src="/static/js/artist/music/upload_audio_event.js"></script>
+    {# handle feat artists  #}
+    <script src="/static/js/artist/music/feat_artists.js"></script>
+
+    <script src="/static/js/artist/music/music_genres.js"></script>
+    <script src="/static/js/artist/music/table_row_handle.js"></script>
+    <script src="/static/js/artist/music/add.js"></script>
 
 {% endblock %}

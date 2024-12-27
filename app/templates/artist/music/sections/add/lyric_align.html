@@ -1,0 +1,33 @@
+{# control button #}
+<div class="d-flex align-items-center gap-3">
+    <div class="btn-group" role="group">
+        <button type="button" id="btn-toggle-play" class="btn btn-success" title="Play">
+            <i class="fas fa-play"></i>
+        </button>
+        <button type="button" id="btn-backward" class="btn btn-success" title="Rewind 5s">
+            <i class="bi bi-rewind-circle"></i>
+        </button>
+        <button type="button" id="btn-forward" class="btn btn-success" title="Fast Forward 5s">
+            <i class="bi bi-fast-forward-circle"></i>
+        </button>
+    </div>
+
+    {# Playback Speed Slider #}
+    <div class="slider-container d-flex flex-column align-items-center">
+        <label for="audio-playback-speed" class="form-label fw-bold">Tốc độ phát</label>
+        <div class="position-relative">
+            <div id="slider-tooltip" class="position-absolute bg-dark text-white rounded p-1 text-center" style="display: none; transform: translateY(-150%);">1x</div>
+            <input type="range" class="form-range" id="audio-playback-speed"
+                   min="0.25" max="2" step="0.25" value="1" style="width: 200px;"/>
+        </div>
+    </div>
+    <label for="loop-region-checkbox">Lặp lại trong vùng</label>
+    <input type="checkbox" id="loop-region-checkbox">
+    {# submit align lyric #}
+    <button type="button" class="btn btn-primary" data-bs-target="#lyrics-alignment-submit-modal">
+        Căn chỉnh lời bài hát
+    </button>
+</div>
+
+{#  Waveform Container  #}
+<div id="waveform"></div>
