@@ -11,8 +11,11 @@
                 <button class="tablink" onclick="openPage('Musics', this, 'orange')">
                     <span class="tabLinkText">Musics</span>
                 </button>
-                <button class="tablink" onclick="openPage('Accounts', this, 'orange')">
-                    <span class="tabLinkText">Accounts</span>
+                <button class="tablink" onclick="openPage('Artists', this, 'orange')">
+                    <span class="tabLinkText">Artists</span>
+                </button>
+                <button class="tablink" onclick="openPage('Users', this, 'orange')">
+                    <span class="tabLinkText">Users</span>
                 </button>
             </div>
         </div>
@@ -114,7 +117,7 @@
             <section class="artist-results-section" style="width: 80%;">
                 <h3>Danh sách người dùng</h3>
                 <div class="artist-grid-container">
-                    {% for account in account_results %}
+                    {% for account in accounts_results %}
                         {% if account.flag == "artist" %}
                         <a href="/user/profile/home/{{ account.id }}" style="text-decoration: none; color: black">
                             <div style="display: flex; flex-direction: column; align-items: center; width: 100%; margin:20px;">
@@ -183,38 +186,55 @@
         </div>
         {% endif %}
     </div>
-    <div id="Accounts" class="tabcontent">
+    <div id="Artists" class="tabcontent">
+        {% if artist_results|length == 0 %}
+        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <span>Không tìm thấy kết quả nào.</span>
+        </div>
+        {% else %}
         <div class="artist-content-grid-container mx-auto">
-            {% for account in account_results %}
+            {% for artist in artist_results %}
             <div class="artist-col">
-                {% if account.flag == "artist" %}
-                <div class="artist-card" onclick="handleCardClick('{{ account.id }}')">
+                <div class="artist-card" onclick="handleCardClick('{{ artist.id }}')">
                     <div style="padding-top:10px">
                         <span class="rounded-circle span-avatar-container" style="width:150px; height:150px">
-                            <img class="rounded-circle span-avatar" src="{{ account.avatar_url }}" alt="Avatar" style="border: 5px solid orangered;">
+                            <img class="rounded-circle span-avatar" src="{{ artist.avatar_url }}" alt="Avatar" style="border: 5px solid orangered;">
                         </span>
                     </div>
                     <div class="artist-textContainer">
                         <p class="artist-card-name">
-                            {{ account.nickname }}</p>
+                            {{ artist.nickname }}</p>
                     </div>
                 </div>
-                {% elif account.flag == "user" %}
-                <div class="artist-card" onclick="handleCardClick('{{ account.id }}')">
-                    <div style="padding-top:10px">
-                            <span class="rounded-circle span-avatar-container" style="width:150px; height:150px">
-                                <img class="rounded-circle span-avatar" src="{{ account.avatar_url }}" alt="Avatar">
-                            </span>
-                    </div>
-                    <div class="artist-textContainer">
-                        <p class="artist-card-name">
-                            {{ account.name }}</p>
-                    </div>
-                </div>
-                {% endif %}
             </div>
             {% endfor %}
         </div>
+        {% endif %}
+    </div>
+    <div id="Users" class="tabcontent">
+        {% if user_results|length == 0 %}
+        <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+            <span>Không tìm thấy kết quả nào.</span>
+        </div>
+        {% else %}
+        <div class="artist-content-grid-container mx-auto">
+            {% for user in user_results %}
+                <div class="artist-col">
+                    <div class="artist-card" onclick="handleCardClick('{{ user.id }}')">
+                        <div style="padding-top:10px">
+                        <span class="rounded-circle span-avatar-container" style="width:150px; height:150px">
+                            <img class="rounded-circle span-avatar" src="{{ user.avatar_url }}" alt="Avatar">
+                        </span>
+                        </div>
+                        <div class="artist-textContainer">
+                            <p class="artist-card-name">
+                                {{ user.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </div>
 <script src="/static/js/search/search-results.js"></script>

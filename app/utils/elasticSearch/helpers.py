@@ -5,11 +5,6 @@ from app.models.base.extended_account import ExtendedAccount
 from . import es
 
 
-def create_index(index_name, settings_mappings):
-    if es.indices.exists(index=index_name):
-        es.indices.delete(index=index_name)
-    es.indices.create(index=index_name, body=settings_mappings)
-
 def bulk_index_lyrics(lyrics_data):
     actions = [
         {
@@ -23,9 +18,23 @@ def bulk_index_lyrics(lyrics_data):
     ]
     helpers.bulk(es, actions)
 
+def bulk_index_musics(music_data):
+    actions = []
+    for m in music_data:
+        actions.append({
+            "_op_type": "index",
+            "_index": "musics",
+            "_id": m["id"],
+            "_source": {
+                "id": m["id"],
+                "name": m["name"]
+            }
+        })
+    helpers.bulk(es, actions)
+
 def search_lyrics(query):
     body = {
-        "size": 5,
+        "size": 20,
         "query": {
             "bool": {
                 "should": [
@@ -69,24 +78,10 @@ def search_lyrics(query):
             "music_id": hit["_source"]["music_id"],
             "lyric": hit["_source"]["lyric"],
             "score": hit["_score"],
-            "highlights": hit.get("highlight", {}).get("lyric", []),
-            "flag": "lyric"
+            "flag": "lyric",
+            "highlights": hit.get("highlight", {}).get("lyric", [])
         })
     return results
-
-def bulk_index_musics(music_data):
-    actions = []
-    for m in music_data:
-        actions.append({
-            "_op_type": "index",
-            "_index": "musics",
-            "_id": m["id"],
-            "_source": {
-                "id": m["id"],
-                "name": m["name"]
-            }
-        })
-    helpers.bulk(es, actions)
 
 def search_musics(query):
     body = {
@@ -120,20 +115,20 @@ def search_musics(query):
                 "name": {}
             }
         },
-        "size": 5
+        "size": 20
     }
-    resp = es.search(index="musics", body=body)
+    res = es.search(index="musics", body=body)
     results = []
-    for hit in resp["hits"]["hits"]:
+    for hit in res["hits"]["hits"]:
         highlights = []
         if "highlight" in hit and "name" in hit["highlight"]:
             highlights = hit["highlight"]["name"]
         results.append({
-            "id": hit["_source"]["id"],
             "name": hit["_source"]["name"],
+            "id": hit["_source"]["id"],
             "score": hit["_score"],
-            "highlights": highlights,
-            "flag": "music"
+            "flag": "music",
+            "highlights": highlights
         })
     return results
 
@@ -150,7 +145,7 @@ def bulk_index_artists(artists):
 
 def search_artists(query):
     body = {
-        "size": 5,
+        "size": 20,
         "query": {
             "multi_match": {
                 "query": query,
@@ -182,7 +177,8 @@ def search_artists(query):
             "name": hit["_source"]["name"],
             "nickname": hit["_source"]["nickname"],
             "score": hit["_score"],
-            "highlights": highlights
+            "highlights": highlights,
+            "flag": "artist"
         })
     return results
 
@@ -231,7 +227,7 @@ def search_users(query):
             "username": hit["_source"]["username"],
             "score": hit["_score"],
             "highlights": highlights,
-            "flag": "account"
+            "flag": "user"
         })
     return results
 
@@ -272,7 +268,7 @@ def handle_music_results(music_results):
     return results
 
 def handle_top_result(top_result):
-    if top_result["flag"] == "account":
+    if top_result["flag"] == "artist" or top_result["flag"] == "user":
         account_obj = ExtendedAccount.objects(id=top_result["id"]).first()
         if isinstance(account_obj, Artist):
             return {
