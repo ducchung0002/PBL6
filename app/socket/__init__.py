@@ -11,10 +11,10 @@ def handle_connect():
 
 @socketio.on("search")
 def handle_search(query):
-    name_results = Search.Search_Accounts(query)
+    user_results = Search.Search_Users(query)
     music_results = Search.Search_Musics(query)
     lyric_results = Search.Search_Lyrics(query)
-    name = Search.handle_account_results(name_results)
+    artist_results = Search.Search_Artists(query)
     mixed = music_results + lyric_results
     sorted_mixed = sorted(mixed, key=lambda x: x["score"], reverse=True)
     if len(sorted_mixed) > 0:
@@ -22,8 +22,9 @@ def handle_search(query):
             music_results = Search.get_music_results(lyric_results)
 
     results = {
-        "musics": music_results[:8],
-        "names": name
+        "musics": music_results[:5],
+        "users": user_results[:5],
+        "artists": artist_results[:5],
     }
     socketio.emit("search_results", results)
 
