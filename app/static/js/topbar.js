@@ -47,8 +47,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Handle search results from server
     socket.on("search_results", (results) => {
         var music_results=results["musics"]
-        var name_results=results["names"]
-        displayRecommendations(music_results,name_results)
+        var users_results=results["users"]
+        var artist_results=results["artists"]
+        displayRecommendations(music_results,users_results,artist_results)
     });
     if (dropdownButton) {
         dropdownButton.addEventListener('click', function () {
@@ -92,11 +93,11 @@ function voice() {
         console.log("Speech recognition not supported in this browser.");
     }
 }
-function displayRecommendations(music_recommendations, name_recommendations) {
+function displayRecommendations(music_recommendations, user_recommendations, artist_recommendations) {
     const recommendationsContainer = document.getElementById("search_recommendations");
     recommendationsContainer.innerHTML = "";
 
-    if (music_recommendations.length === 0 && name_recommendations.length === 0) {
+    if (music_recommendations.length === 0 && user_recommendations.length === 0 && artist_recommendations.length === 0) {
         clearRecommendations();
         return;
     }
@@ -125,25 +126,44 @@ function displayRecommendations(music_recommendations, name_recommendations) {
 
         recommendationsContainer.appendChild(music_recommendation_item);
     });
-    if (name_recommendations.length > 0) {
-        const name_recommendation_header = document.createElement("h4");
-        name_recommendation_header.textContent = "Names";
-        name_recommendation_header.className = "px-3 py-2"; // Bootstrap utility classes
-        recommendationsContainer.appendChild(name_recommendation_header);
-        name_recommendations.forEach(item => {
+    if (user_recommendations.length > 0) {
+        const user_recommendation_header = document.createElement("h4");
+        user_recommendation_header.textContent = "Users";
+        user_recommendation_header.className = "px-3 py-2"; // Bootstrap utility classes
+        recommendationsContainer.appendChild(user_recommendation_header);
+        user_recommendations.forEach(item => {
             const name_recommendation_item = document.createElement("div");
-            name_recommendation_item.href = "/user/profile/home/" + item.id; // Adjust based on your API data
-            name_recommendation_item.textContent = (item.flag === 'artist') ? item.nickname : item.name; // Adjust as per your API response
-            name_recommendation_item.className = "px-3 py-2"; // Bootstrap utility classes
+            name_recommendation_item.href = "/user/profile/home/" + item.id;
+            name_recommendation_item.textContent = item.name;
+            name_recommendation_item.className = "px-3 py-2";
             name_recommendation_item.style.cursor = "pointer";
             name_recommendation_item.addEventListener("click", function () {
                 document.getElementById("search_bar").value = item.name;
-                window.location.href = name_recommendation_item.href; // Redirect to user profile page
+                window.location.href = name_recommendation_item.href;
                 clearRecommendations();
             })
             recommendationsContainer.appendChild(name_recommendation_item);
         });
-        }
+    }
+    if (artist_recommendations.length > 0) {
+        const artist_recommendation_header = document.createElement("h4");
+        artist_recommendation_header.textContent = "Artists";
+        artist_recommendation_header.className = "px-3 py-2"; // Bootstrap utility classes
+        recommendationsContainer.appendChild(artist_recommendation_header);
+        artist_recommendations.forEach(item => {
+            const nickname_recommendation_item = document.createElement("div");
+            nickname_recommendation_item.href = "/user/profile/home/" + item.id; // Adjust based on your API data
+            nickname_recommendation_item.textContent = item.nickname; // Adjust as per your API response
+            nickname_recommendation_item.className = "px-3 py-2"; // Bootstrap utility classes
+            nickname_recommendation_item.style.cursor = "pointer";
+            nickname_recommendation_item.addEventListener("click", function () {
+                document.getElementById("search_bar").value = item.name;
+                window.location.href = nickname_recommendation_item.href; // Redirect to user profile page
+                clearRecommendations();
+            })
+            recommendationsContainer.appendChild(nickname_recommendation_item);
+        });
+    }
 }
 function clearRecommendations() {
     const recommendationsContainer = document.getElementById("search_recommendations");

@@ -1,8 +1,6 @@
 {% extends "user/profile/layout.html" %}
 {% block user_profile %}
-    {% block user_profile_header %}{% endblock %}
-    {% block user_profile_content %}{% endblock %}
     {% include "user/profile/profile-header.html" %}
-    {% include "user/profile/modals/edit-profile.html" %}
     {% include "user/profile/profile-footer.html" %}
+    {% include "user/profile/modals/edit-profile.html" %}
 {% endblock %}
