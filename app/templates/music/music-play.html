@@ -1,13 +1,14 @@
 {% extends "user/layout.html" %}
 {% block user_content %}
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
     <link rel="stylesheet" href="/static/css/music/music-play.css">
     <div class="layout">
         <div class="container">
             <div class="player">
                 <div class="details">
-                    <img class="track-art" style="object-fit: cover" src="{{ music.thumbnail_url }}" alt="Thumbnail" />
+                    <img class="track-art" style="object-fit: cover"
+                         {% if music.thumbnail_url %}src="{{ music.thumbnail_url }}"{% endif %}
+                         alt="Thumbnail" />
                     <div class="track-name">{{ music.name }}</div>
                     {% for artist in music.artists %}
                         <div class="track-artist">{{ artist.nickname }}</div>

@@ -19,7 +19,7 @@
             {% for music in musics %}
                 <tr>
                     <th class="align-middle" scope="row">{{ (page - 1) * limit + loop.index }}</th>
-                    <td class="align-middle">{{ music.name }}</td>
+                    <td class="align-middle"><a href="/music/{{ music.id }}">{{ music.name }}</a></td>
                     <td>
                         <ul class="list-group">
                             {% for artist in music.artists %}
@@ -87,7 +87,7 @@
 
     </div>
 
-    {% include "artist/music/modals/delete.html" %}
+    {% include "artist/music/modals/hide.html" %}
 
     <script src="/static/js/artist/music/list.js"></script>
 

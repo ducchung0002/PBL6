@@ -72,6 +72,29 @@ karaokeUploadRegion.addEventListener('drop', (event) => {
 /**
  *   thumbnail upload event functionality
  */
+const separate_audio_worker = new Worker('/static/js/artist/music/worker/separate_audio.js');
+
+separate_audio_worker.onmessage = function(e) {
+    const data = e.data;
+    if (data.error) {
+        console.error('Upload failed:', data.error);
+        return;
+    }
+    const blob = new Blob([data], { type: 'audio/wav' });
+    // update karaoke_file & karaokeAudioPlayer
+    karaoke_file = blob;
+    karaokeAudioPlayer.src = URL.createObjectURL(blob);
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Tách âm thanh thành công!',
+        confirmButtonText: 'OK'
+    });
+
+    let $button = $(separateAudioButton)
+    $button.html($button.attr('original-text')); // Change to original button text
+    $button.prop('disabled', false);
+};
 
 separateAudioButton.addEventListener('click', function () {
     if (!audio_file) {
@@ -79,37 +102,16 @@ separateAudioButton.addEventListener('click', function () {
             icon: 'error',
             title: 'Hãy đăng tải bài hát!',
             confirmButtonText: 'OK'
-        })
-    }
-    let formData = new FormData();
-    formData.append('audio', audio_file);
-
-    const $button = $(this);
-    let text = $button.text();
-    $button.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang đăng tải...');
-    $button.prop('disabled', true); // Disable the button to prevent multiple clicks
-
-    axios.post(SERVER_SEPARATE_AUDIO, formData, {headers: {'Content-Type': 'multipart/form-data',}})
-        .then((response) => {
-            $alignLyricText.val(JSON.stringify(response.data, null, 2));
-        })
-        .catch((error) => {
-            if (error.response) {
-                console.error("Error Data:", error.response.data);
-                console.error("Status Code:", error.response.status);
-            } else {
-                console.error("Error:", error.message);
-                Swal.fire({
-                    icon: "error",
-                    title: "Network Error",
-                    text: 'Kiểm tra kết nối mạng',
-                });
-            }
-        })
-        .finally(() => {
-            $button.html(text); // Change to original button text
-            $button.prop('disabled', false);
         });
+    }
+    else {
+        separate_audio_worker.postMessage(audio_file);
+
+        const $button = $(this);
+        $button.attr('original-text', $button.text());
+        $button.html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Đang tách nhạc...');
+        $button.prop('disabled', true);
+    }
 })
 
 thumbnailUploadBtn.addEventListener('click', () => thumbnailUploadInput.click())
