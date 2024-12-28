@@ -104,12 +104,13 @@ def watch(video_id):
         owner = comment.user.fetch()
         comments.append({
             'id': comment.id,
-            'user_id': comment.user,
+            'user_id': owner.id,
             'content': comment.content,
             'created_at': comment.created_at,
             'owner': owner,
             'like_count': comment.like_count,
-            'child_count': comment.child_count
+            'child_count': comment.child_count,
+            'user_has_liked': comment.jsonify(current_user=user)['user_has_liked'] if user else False,
         })
     music = watching_video.music.fetch()
     comments = sorted(comments, key=lambda x: x['created_at'], reverse=True)

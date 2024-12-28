@@ -44,13 +44,15 @@ class TestFollow(unittest.TestCase):
         self.artist3.save()
 
         # Create follow relationship
-        follow_u1u2 = Follow(follower=self.user1, following=self.user2).save()
-        follow_u1u3 = Follow(follower=self.user1, following=self.user3).save()
-        follow_u2u3 = Follow(follower=self.user2, following=self.user3).save()
+        follow_u1u2 = Follow.objects.follow(follower_id=self.user1.id, following_id=self.user2.id)
+        follow_u1u3 = Follow.objects.follow(follower_id=self.user1.id, following_id=self.user3.id)
+        follow_u1a1 = Follow.objects.follow(follower_id=self.user1.id, following_id=self.artist1.id)
 
-        follow_u1a1 = Follow(follower=self.user1, following=self.artist1).save()
-        follow_a1u3 = Follow(follower=self.artist1, following=self.user3).save()
-        follow_a3u2 = Follow(follower=self.artist3, following=self.user2).save()
+        follow_u2u3 = Follow.objects.follow(follower_id=self.user2.id, following_id=self.user3.id)
+
+        follow_a1u3 = Follow.objects.follow(follower_id=self.artist1.id, following_id=self.user3.id)
+
+        follow_a3u2 = Follow.objects.follow(follower_id=self.artist3.id, following_id=self.user2.id)
 
         # Reload the user instances to fetch the updated counts
         self.user1.reload()
@@ -73,6 +75,134 @@ class TestFollow(unittest.TestCase):
         self.assertEqual(self.user3.followers_count, 3)
         self.assertEqual(self.user3.following_count, 0)
 
-        # Test artist follow relationship
-        self.assertEqual(Follow.objects(follower=self.user1).count(), 3)
-        self.assertEqual(Follow.objects(following=self.user3).count(), 3)
+    def test_follow_unfollow_relationship(self):
+        self.user1.save()
+        self.user2.save()
+        self.user3.save()
+
+        self.artist1.save()
+        self.artist2.save()
+        self.artist3.save()
+
+        # Create follow relationships
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.user2.id)
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.user3.id)
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.artist1.id)
+
+        Follow.objects.follow(follower_id=self.user2.id, following_id=self.user3.id)
+        Follow.objects.follow(follower_id=self.artist1.id, following_id=self.user3.id)
+        Follow.objects.follow(follower_id=self.artist3.id, following_id=self.user2.id)
+
+        self.assertEqual(Follow.objects.count(), 6)
+
+        # Unfollow relationships
+        Follow.objects.unfollow(follower_id=self.user1.id, following_id=self.user2.id)
+        Follow.objects.unfollow(follower_id=self.user1.id, following_id=self.user3.id)
+        Follow.objects.unfollow(follower_id=self.user2.id, following_id=self.user3.id)
+
+        Follow.objects.unfollow(follower_id=self.user1.id, following_id=self.artist1.id)
+        Follow.objects.unfollow(follower_id=self.artist1.id, following_id=self.user3.id)
+        Follow.objects.unfollow(follower_id=self.artist3.id, following_id=self.user2.id)
+
+        # Reload the instances
+        self.user1.reload()
+        self.user2.reload()
+        self.user3.reload()
+
+        self.artist1.reload()
+        self.artist2.reload()
+        self.artist3.reload()
+
+        self.assertEqual(self.user1.following_count, 0)
+        self.assertEqual(self.user1.followers_count, 0)
+
+        self.assertEqual(self.user2.followers_count, 0)
+        self.assertEqual(self.user2.following_count, 0)
+
+        self.assertEqual(self.user3.followers_count, 0)
+        self.assertEqual(self.user3.following_count, 0)
+
+        # Test follow counts after unfollow
+        self.assertEqual(Follow.objects.count(), 0)
+
+    def test_same_follow(self):
+        self.user1.save()
+        self.user2.save()
+
+        follow_u1u2 = Follow.objects.follow(follower_id=self.user1.id, following_id=self.user2.id)
+        self.user1.reload()
+        self.assertEqual(self.user1.following_count, 1)
+        follow_u1u2 = Follow.objects.follow(follower_id=self.user1.id, following_id=self.user2.id)
+        self.assertEqual(self.user1.following_count, 1)
+
+    def test_unfollow_unfollowed_user(self):
+        self.user1.save()
+        self.user2.save()
+
+        unfollow_u1u2 = Follow.objects.unfollow(follower_id=self.user1.id, following_id=self.user2.id)
+
+        self.assertEqual(self.user1.following_count, 0)
+        self.assertEqual(self.user2.following_count, 0)
+
+    def test_follow_self(self):
+        self.user1.save()
+        with self.assertRaises(ValueError):
+            Follow.objects.follow(follower_id=self.user1.id, following_id=self.user1.id)
+
+    def test_follow_artist(self):
+        self.user1.save()
+        self.artist1.save()
+
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.artist1.id)
+
+        self.user1.reload()
+        self.artist1.reload()
+
+        self.assertEqual(self.user1.following_count, 1)
+        self.assertEqual(self.artist1.followers_count, 1)
+
+    def test_follow_and_unfollow_artist(self):
+        self.user1.save()
+        self.artist1.save()
+
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.artist1.id)
+        Follow.objects.unfollow(follower_id=self.user1.id, following_id=self.artist1.id)
+
+        self.user1.reload()
+        self.artist1.reload()
+
+        self.assertEqual(self.user1.following_count, 0)
+        self.assertEqual(self.artist1.followers_count, 0)
+
+    def test_multiple_followers_single_user(self):
+        self.user1.save()
+        self.user2.save()
+        self.user3.save()
+
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.user3.id)
+        Follow.objects.follow(follower_id=self.user2.id, following_id=self.user3.id)
+
+        self.user3.reload()
+
+        self.assertEqual(self.user3.followers_count, 2)
+        self.assertEqual(Follow.objects(following=self.user3.id).count(), 2)
+
+    def test_following_counts_for_users_and_artists(self):
+        self.user1.save()
+        self.user2.save()
+        self.artist1.save()
+        self.artist2.save()
+
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.user2.id)
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.artist1.id)
+        Follow.objects.follow(follower_id=self.user1.id, following_id=self.artist2.id)
+
+        self.user1.reload()
+        self.user2.reload()
+        self.artist1.reload()
+        self.artist2.reload()
+
+        self.assertEqual(self.user1.following_count, 3)
+        self.assertEqual(self.user2.followers_count, 1)
+        self.assertEqual(self.artist1.followers_count, 1)
+        self.assertEqual(self.artist2.followers_count, 1)

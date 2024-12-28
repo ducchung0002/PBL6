@@ -19,16 +19,16 @@ def time_ago(created_at):
     delta = now - created_at
 
     if delta.days >= 365:
-        return f"{delta.days // 365} year{'s' if delta.days // 365 > 1 else ''} before"
+        return f"{delta.days // 365} năm trước"
     elif delta.days >= 30:
-        return f"{delta.days // 30} month{'s' if delta.days // 30 > 1 else ''} before"
+        return f"{delta.days // 30} tháng trước"
     elif delta.days >= 7:
-        return f"{delta.days // 7} week{'s' if delta.days // 7 > 1 else ''} before"
+        return f"{delta.days // 7} tuần trước"
     elif delta.days >= 1:
-        return f"{delta.days} day{'s' if delta.days > 1 else ''} before"
+        return f"{delta.days} ngày trước"
     elif delta.seconds >= 3600:
-        return f"{delta.seconds // 3600} hour{'s' if delta.seconds // 3600 > 1 else ''} before"
+        return f"{delta.seconds // 3600} giờ trước"
     elif delta.seconds >= 60:
-        return f"{delta.seconds // 60} minute{'s' if delta.seconds // 60 > 1 else ''} before"
+        return f"{delta.seconds // 60} phút trước"
     else:
         return "just now"

@@ -48,7 +48,8 @@ class VideoQuerySet(QuerySet):
                     },
                     "music_start": 1,
                     "music_end": 1,
-                    "total_comments_count": 1  # Thêm dòng này
+                    "total_comments_count": 1,  # Thêm dòng này
+                    "thumbnail_url": 1,
                 }
             }
         ]

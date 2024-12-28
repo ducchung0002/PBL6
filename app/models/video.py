@@ -1,11 +1,14 @@
+import os
 from datetime import datetime
-
+from dotenv import load_dotenv
 # from flask_jwt_extended import current_user
 from mongoengine import DateTimeField, Document, EmbeddedDocumentField, IntField, LazyReferenceField, ListField, \
     StringField, URLField, BooleanField
 
 from app.models.query_set.video_query_set import VideoQuerySet
 
+load_dotenv()
+DEFAULT_VIDEO_THUMBNAIL_URL = os.environ.get('DEFAULT_VIDEO_THUMBNAIL_URL')
 
 class Video(Document):
     user = LazyReferenceField('ExtendedAccount', required=True)
@@ -18,7 +21,7 @@ class Video(Document):
     music_end = IntField()
     public = BooleanField(default=True)
     comments = ListField(EmbeddedDocumentField('Comment'))
-    thumbnail_url = URLField()
+    thumbnail_url = URLField(default=DEFAULT_VIDEO_THUMBNAIL_URL)
 
     created_at = DateTimeField(default=datetime.now())
     updated_at = DateTimeField(default=datetime.now())
@@ -68,6 +71,7 @@ class Video(Document):
                 created_at=data.get('created_at'),
                 updated_at=data.get('updated_at'),
                 deleted_at=data.get('deleted_at'),
+                thumbnail_url=data.get('thumbnail_url', None),
             )
         # GÁN THÊM total_comments_count LẤY TỪ pipeline
             video.total_comments_count = data.get('total_comments_count', 0)

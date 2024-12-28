@@ -1,33 +1,129 @@
-{% block user_profile_footer %}
-    <link rel="stylesheet" href="/static/css/video-list.css">
-    <link href="https://vjs.zencdn.net/7.11.4/video-js.css" rel="stylesheet" />
-    <h1>{{ user.username }}</h1>
-    <div class="card-container">
-        {% for video in videos %}
-            <div class="card">
-                <div class="video-container" >
-                    <video
-                            id="video{{ video.id }}"
-                            class="video-js"
-                            controls
-                            preload="auto"
-                            muted
-                            data-setup="{}"
-                            {#                            Style =“object-fit: contain;“#}
-                    >
-                        <source src="{{ video.video_url }}" type="video/mp4" />
-                    </video>
-                    <h2 class="card-title">{{ video.title | safe }}</h2>
+<link rel="stylesheet" href="/static/css/profile-footer.css">
+<div class="button-section">
+    <div class="button-line contentSpacing">
+        <div class="button-line-small">
+            <div class="button-container">
+                <button class="tablink" onclick="openPage('Latest', this, 'black', 'white')" id="defaultOpen">
+                    <span class="tabLinkText">Gần nhất</span>
+                </button>
+                <button class="tablink" onclick="openPage('Popular', this, 'black', 'white')">
+                    <span class="tabLinkText">Phổ biến</span>
+                </button>
+                <button class="tablink" onclick="openPage('Oldest', this, 'black', 'white')">
+                    <span class="tabLinkText">Cũ nhất</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Latest" class="tabcontent">
+    <main id="video-section">
+        {% for video in video_latest %}
+        <div class="video-container" id="video-{{ video.id }}">
+            <a href="{{ url_for('home.watch', video_id=video.id) }}">
+                <img src=
+                             "{{ video.thumbnail_url }}"
+                     id="image-1"
+                     class="images">
+            </a>
+            <div class="video-description">
+                <div class="channel-dp-container-2">
+                    <img src=
+                                 "{{ user.avatar_url }}"
+                         class="channel-dp-2">
                 </div>
-                <div class="card-footer">
-                    Posted by: <strong>{{ video.user.fetch().username }}</strong>
+                <div class="video-details">
+                    <a
+                       class="video-title">
+                        {{ video.title }}
+                    </a>
+                    <div class="channel-name">
+                        <a
+                           class="views">
+                            {{ video.like_count }} likes
+                        </a>
+                        <i class="fas fa-circle"></i>
+                        <a
+                           class="time">
+                            {{ video.created_at }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </main>
+</div>
+<div id="Popular" class="tabcontent">
+    <main id="video-section">
+        {% for video in video_popular %}
+            <div class="video-container" id="video-{{ video.id }}">
+                <img src=
+                             "{{ video.thumbnail_url }}"
+                     id="image-1"
+                     class="images">
+                <div class="video-description">
+                    <div class="channel-dp-container-2">
+                        <img src=
+                                     "{{ user.avatar_url }}"
+                             class="channel-dp-2">
+                    </div>
+                    <div class="video-details">
+                        <a
+                                class="video-title">
+                            {{ video.title }}
+                        </a>
+                        <div class="channel-name">
+                            <a
+                                    class="views">
+                                {{ video.like_count }} likes
+                            </a>
+                            <i class="fas fa-circle"></i>
+                            <a
+                                    class="time">
+                                {{ video.created_at }}
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
-    </div>
-    <script src="https://vjs.zencdn.net/7.11.4/video.min.js"></script>
-    <!-- Load the YouTube IFrame API script -->
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <!-- Load your custom JavaScript file -->
-    <script src="/static/js/user/video/video_list.js"></script>
-{% endblock %}
+    </main>
+</div>
+<div id="Oldest" class="tabcontent">
+    <main id="video-section">
+        {% for video in video_oldest %}
+            <div class="video-container" id="video-{{ video.id }}">
+                <img src=
+                             "{{ video.thumbnail_url }}"
+                     id="image-1"
+                     class="images">
+                <div class="video-description">
+                    <div class="channel-dp-container-2">
+                        <img src=
+                                     "{{ user.avatar_url }}"
+                             class="channel-dp-2">
+                    </div>
+                    <div class="video-details">
+                        <a
+                                class="video-title">
+                            {{ video.title }}
+                        </a>
+                        <div class="channel-name">
+                            <a
+                                    class="views">
+                                {{ video.like_count }} likes
+                            </a>
+                            <i class="fas fa-circle"></i>
+                            <a
+                                    class="time">
+                                {{ video.created_at }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+</div>
+<script src="/static/js/user/profile/profile-footer.js"></script>

@@ -1,0 +1,132 @@
+{% extends "user/layout.html" %}
+{% block user_content %}
+    <link rel="stylesheet" href="/static/css/video/video-watch.css">
+    <link rel="stylesheet" href="/static/css/video/like-video.css">
+    <div class="container">
+        <!-- Video Section -->
+        <div class="video-section">
+            {% include 'video/video-player.html' %}
+            <div class="video-description">
+                <a href="/user/profile/home/{{ video_owner.id }}" class="avatar-container">
+                    <img class="rounded-circle" width="40" height="40" src="{{ video_owner.avatar_url }}" alt="Avatar">
+                </a>
+                <div class="watching-video-info">
+                    <div class="watching-video-title">{{ watching_video.title }}</div>
+                    <div class="watching-video-description">
+                        <button class="Btn" onclick="likeWatchingVideo('{{ watching_video.id }}')">
+                            <span class="leftContainer">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" fill="#fff"><path d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"></path></svg>
+                                <span class="like">Like</span>
+                            </span>
+                            <span id="watching-video-like-count" class="likeCount">
+                            {{ watching_video.like_count }}
+                            </span>
+                        </button>
+                    </div>
+                    <div class="watching-video-created-at">{{ watching_video.created_at }}</div>
+                </div>
+            </div>
+            <div class="input-comment">
+                <div class="avatar-container">
+                    <img class="rounded-circle" width="100" height="100" src="{{ session['user']['avatar_url'] }}" alt="Avatar">
+                </div>
+                <div class="input-container">
+                    <input type="text" id="input" required="">
+                    <label for="input" class="label">Nhập bình luận</label>
+                    <div class="underline"></div>
+                    <div class="button-group">
+                        <button class="cancel">Hủy</button>
+                        <button id="send-comment" class="submit">Bình luận</button>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-count">{{ watching_video.comments|length }} Comments</div>
+            <div id="comments" class="comments">
+                {% for comment in comments %}
+                    <div class="comment" data-comment-id="{{ comment.id }}">
+                        <div class="avatar-container">
+                            <img class="rounded-circle" width="40" height="40" src="{{ comment.owner.avatar_url }}" alt="Avatar">
+                        </div>
+                        <div class="comment-content">
+                            <div class="comment-header">{{ comment.owner.username }} <span style="color: #888; font-weight: normal;">{{ comment.created_at }}</span></div>
+                            <div class="comment-body">
+                                <div class="comment-body-content" id="{{ comment.id }}-body">
+                                    {{ comment.content }}
+                                </div>
+                            </div>
+                            <div class="comment-actions">
+                                {% if not comment.user_has_liked %}
+                                <button class="like-button" onclick="watchingVideolikeComment('{{ comment.id }}', '{{ watching_video.id }}' , this)">
+                                    <i class="bi bi-hand-thumbs-up"></i>
+                                </button>
+                                {% else %}
+                                <button class="like-button active" onclick="watchingVideoDisLikeComment('{{ comment.id }}', '{{ watching_video.id }}', this)">
+                                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                                </button>
+                                {% endif %}
+                                <span class="comment-like-count" id="like-count-{{ comment.id }}">{{ comment.like_count }} likes</span>
+                                <span class="reply">Reply</span>
+                            </div>
+                        </div>
+                        {% if comment.user_id|string == session['user'].id|string %}
+                        <div class="circle-wrapper"
+                             onclick="handleClick(this, '{{ comment.id }}')">
+                            <div class="circle">
+                                <div id="control-button"
+                                     style="width: 30px; height: 30px;">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </div>
+                                <div class="popup-menu">
+                                    <div class="popup-item"
+                                         onclick="WatchingVideoEditComment('{{ watching_video.id }}','{{ comment.id }}')">
+                                        <i class="bi bi-pencil-fill"></i>
+                                        <span>Chỉnh sửa</span>
+                                    </div>
+                                    <div class="popup-item"
+                                         style="color: red;"
+                                         onclick="WatchingVideoDeleteComment('{{ watching_video.id }}','{{ comment.id }}')">
+                                        <i class="bi bi-trash3-fill"></i>
+                                        <span>Xóa</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="video-list">
+            {% for video in videos %}
+                <a class="video-link" href="{{ url_for('home.watch', video_id=video.id) }}">
+                    <div class="video-item">
+                        <img class="thumbnail" src="{{ video.thumbnail_url }}"></img>
+                        <div class="video-info">
+                            <div class="video-title">{{ video.title }}</div>
+                            <div class="video-meta">{{ video.user.nickname }}</div>
+                            <div class="video-meta">{{ video.like_count }} likes • {{ video.created_at }}</div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        {% include 'user/video/modal/comment_hate_warning.html' %}
+    </div>
+    <script>
+        let video_id = "{{ watching_video.id }}";
+        let sessionUser = {
+            id: null
+        };
+        {% if session['user'] %}
+        sessionUser = {{ session['user']|tojson }};
+        sessionId = sessionUser.id.toString();
+        {% endif %}
+    </script>
+    <script src="/static/js/user/video/video_variable.js"></script>
+    <script src="/static/js/video/video_comment_add_event.js"></script>
+    <script src="/static/js/video/video_comment_edit.js"></script>
+    <script src="/static/js/video/like_video.js"></script>
+{% endblock %}
