@@ -22,6 +22,10 @@ function addGenre(event) {
             location.reload();
         })
         .catch(function (error) {
-            alert('Lỗi thêm thể loại. Vui lòng thử lại.');
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi thêm thể loại. Vui lòng thử lại.",
+                confirmButtonText: 'OK'
+            });
         });
 }

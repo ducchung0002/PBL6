@@ -43,7 +43,7 @@ function updateVideo(event) {
     }
     data.append('video_id', video_id);
     data.append('title', title);
-    alert('Đang cập nhật video...');
+    alert('Đang cập nhật video...',"info");
     // Example: Send data to the server
     axios.put('/api/user/video/update', data, {
             headers: {
@@ -52,7 +52,7 @@ function updateVideo(event) {
         }
     ).then(response => {
         deactivateModal('video-edit-popup');
-        alert('Cập nhật video thành công');
+        alert('Cập nhật video thành công',"success");
     })
         .catch((error) => {
             const errorMessage = error.response?.data?.message || error.message || 'Unknown error';

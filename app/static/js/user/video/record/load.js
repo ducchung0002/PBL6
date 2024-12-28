@@ -61,7 +61,7 @@ function getDevices() {
             });
         })
         .catch(function(err) {
-            alert('Có lỗi khi truy cập thiết bị:', err);
+            alert('Có lỗi khi truy cập thiết bị:');
         });
 }
 function cancelTimeout(timeoutId) {
