@@ -39,7 +39,7 @@ function uploadRecordedVideo(){
             return response.data;
         })
         .then(data => {
-            alert('Video đã được xử lý và đăng thành công');
+            alert('Video đã được xử lý và đăng thành công',"success");
         })
         .catch(error => {
             alert('Có lỗi xảy ra khi đăng video: ' + error.message);

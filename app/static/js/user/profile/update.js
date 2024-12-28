@@ -10,7 +10,7 @@ $(document).ready(function() {
             // Validate file type (optional)
             const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if ($.inArray(file.type, validImageTypes) < 0) {
-                alert('Vui lòng chọn định dạng ảnh phù hợp (JPEG, PNG, GIF).');
+                alert('Vui lòng chọn định dạng ảnh phù hợp (JPEG, PNG, GIF).',"info");
                 return;
             }
 
@@ -50,16 +50,39 @@ function updateProfile(event){
     data.append('email', email);
     data.append('date_of_birth', dob);
     data.append('bio', bio);
-    // Create the data object to send
-    axios.put('/api/user/profile/update', data)
-        .then(function (response) {
-            deactivateModal('user-edit-popup');
-            alert('Cập nhật hồ sơ thành công');
-        })
-        .catch(function (error) {
-            console.error('Error updating profile:', error);
-            alert('Lỗi cập nhật hồ sơ. Vui lòng thử lại.');
-        });
+    if(dobValidate(dob))
+    {
+        // Create the data object to send
+        axios.put('/api/user/profile/update', data)
+            .then(function (response) {
+                deactivateModal('user-edit-popup');
+                Swal.fire({
+                    icon: "success",
+                    title: "Cập nhật hồ sơ thành công!",
+                    confirmButtonText: 'OK',
+                    footer: `<a href="/user/profile/home/${userId}">Xem hồ sơ</a>`
+                });
+            })
+            .catch(function (error) {
+                alert('Lỗi cập nhật hồ sơ. Vui lòng thử lại.');
+            });
+    }
+}
+function dobValidate(dob){
+    if (!dob) {
+        alert('Ngày sinh không được để trống.');
+        return false
+    }
+    const dobDate = new Date(dob);
+    const year = dobDate.getFullYear();
+    const month = dobDate.getMonth() + 1; // Months are zero-based
+    const day = dobDate.getDate();
+    const formattedDate = `${month}/${day}/${year}`;
+    if (new Date(formattedDate) > new Date()) {
+        alert('Ngày sinh không hợp lệ.');
+        return false
+    }
+    return true
 }
 
 

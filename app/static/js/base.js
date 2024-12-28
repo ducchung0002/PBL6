@@ -4,12 +4,12 @@ socket.on('connect', () => {
     console.log('Connected to server, socket id: ', socket.id);
 });
 
-window.alert = function (message) {
-    document.getElementById('customAlertContent').textContent = message;
-    const alertModalElement = document.getElementById('customAlertModal');
-    document.body.appendChild(alertModalElement);
-    const alertModal = new bootstrap.Modal(alertModalElement, {backdrop: true});
-    alertModal.show();
+window.alert = function (message, icon="error") {
+    Swal.fire({
+        icon: icon,
+        title: message,
+        confirmButtonText: 'OK'
+    });
 };
 
 function deactivateModal(ModalId) {

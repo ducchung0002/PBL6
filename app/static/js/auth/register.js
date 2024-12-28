@@ -6,7 +6,7 @@ function register() {
     if (!dobValidate(DateOfBirth))
     {
         return;
-    };
+    }
     const password = $('#register-password').val();
 
     const data = {
@@ -19,7 +19,7 @@ function register() {
     if (!emailValidation(email)) {
         alert('Email không hợp lệ');
         return;
-    };
+    }
     // Make the API call using Axios
     axios.post('/api/auth/register/create', data)
         .then((response) => {
@@ -48,8 +48,8 @@ function emailValidation(email){
 }
 function dobValidate(dob){
     if (!dob) {
-        alert('Ngày sinh không được để trống');
-        return False
+        alert('Ngày sinh không được để trống.');
+        return false
     }
     const dobDate = new Date(dob);
     const year = dobDate.getFullYear();
@@ -57,8 +57,8 @@ function dobValidate(dob){
     const day = dobDate.getDate();
     const formattedDate = `${month}/${day}/${year}`;
     if (new Date(formattedDate) > new Date()) {
-        alert('Ngày sinh không hợp lệ');
-        return False
+        alert('Ngày sinh không hợp lệ.');
+        return false
     }
-    return True;
+    return true
 }

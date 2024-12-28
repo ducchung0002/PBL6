@@ -16,6 +16,10 @@ function deleteArtist() {
             location.reload();
         })
         .catch(function (error) {
-            alert('Lỗi xóa ca sĩ. Vui lòng thử lại.');
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi xóa ca sĩ. Vui lòng thử lại.",
+                confirmButtonText: 'OK'
+            });
         });
 }

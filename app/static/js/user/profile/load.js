@@ -81,7 +81,7 @@ function createFollow(event){
             button.innerText = 'Hủy theo dõi';
             const follower_count = document.getElementById('follower_count');
             follower_count.innerText = parseInt(follower_count.innerText) + 1;
-            alert('Theo dõi thành công');
+            alert('Theo dõi thành công',"success");
         })
         .catch(function (error) {
             console.error('Follow Error', error);
@@ -107,7 +107,7 @@ function deleteFollow(event)
             button.innerText = 'Theo dõi';
             const follower_count = document.getElementById('follower_count');
             follower_count.innerText = parseInt(follower_count.innerText) - 1;
-            alert('Hủy theo dõi thành công');
+            alert('Hủy theo dõi thành công',"success");
         })
         .catch(function (error) {
             console.error('Follow Error', error);

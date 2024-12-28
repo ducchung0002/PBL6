@@ -542,7 +542,7 @@ function deleteComment(commentId) {
                     }
                 }
 
-                alert('Xóa bình luận thành công.');
+                alert('Xóa bình luận thành công.',"success");
             } else {
                 alert('Xóa bình luận không thành công.');
             }
