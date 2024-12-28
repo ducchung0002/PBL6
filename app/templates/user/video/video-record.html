@@ -1,6 +1,6 @@
 {% extends "user/layout.html" %}
 {% block user_content %}
-<link rel="stylesheet" href="/static/css/user/video/video-record.css">
+    <link rel="stylesheet" href="/static/css/user/video/video-record.css">
     <div class="container">
         <div class="video-search-container">
             <div class="search-section" style="width: 500px;"> <!-- Set a fixed width -->
@@ -71,7 +71,7 @@
                 <div class="controls">
                     <button id="start_record" disabled>Bắt đầu</button>
                     <button id="stop_record" disabled>Dừng</button>
-{#                    <button id="show_record_lyrics" disabled>Xem lời nhạc </button>#}
+                    {#                    <button id="show_record_lyrics" disabled>Xem lời nhạc </button>#}
                     <div class="lyric-toggle-container">
                         <span>Xem lời bài hát</span>
                         <label class="switch">
@@ -88,7 +88,7 @@
                 <input class="video-title-input" type="text" id="video-title" placeholder="Tiêu đề video (yêu cầu)">
                 <button id="upload-button" onclick="uploadRecordedVideo()">Đăng video</button>
                 <button id="preview-button" disabled
-                style="margin-top:20px;">Xem trước</button>
+                        style="margin-top:20px;">Xem trước</button>
             </div>
 
             <div class="lyrics-tab" id="lyrics_tab">
@@ -96,14 +96,14 @@
         </div>
     </div>
     <audio id="music-player" crossorigin="anonymous"  controls style="display: none;"></audio>
-<script src="/static/js/user/video/record/show_record_lyrics.js"></script>
-<script src="/static/js/user/video/record/handle_blob_url.js"></script>
-<script src="/static/js/user/video/record/lyrics_data_process.js"></script>
-<script src="/static/js/user/video/record/start_lyric_sync.js"></script>
-<script src="/static/js/user/video/record/time_settings.js"></script>
-<script src="/static/js/user/video/record/show_lyrics_tab.js"></script>
-<script src="/static/js/user/video/record/search_music.js"></script>
-<script src="/static/js/user/video/record/control_button.js"></script>
-<script src="/static/js/user/video/record/load.js"></script>
-<script src="/static/js/user/video/record/upload_video.js"></script>
+    <script src="/static/js/user/video/record/show_record_lyrics.js"></script>
+    <script src="/static/js/user/video/record/handle_blob_url.js"></script>
+    <script src="/static/js/user/video/record/lyrics_data_process.js"></script>
+    <script src="/static/js/user/video/record/start_lyric_sync.js"></script>
+    <script src="/static/js/user/video/record/time_settings.js"></script>
+    <script src="/static/js/user/video/record/show_lyrics_tab.js"></script>
+    <script src="/static/js/user/video/record/search_music.js"></script>
+    <script src="/static/js/user/video/record/control_button.js"></script>
+    <script src="/static/js/user/video/record/load.js"></script>
+    <script src="/static/js/user/video/record/upload_video.js"></script>
 {% endblock %}

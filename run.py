@@ -1,6 +1,6 @@
 from gevent import monkey
 monkey.patch_all()
-from flask import redirect, request, jsonify
+from flask import redirect, request
 from werkzeug.middleware.proxy_fix import ProxyFix
 from app.socket import socketio
 from app import create_app
@@ -20,7 +20,6 @@ def redirect_to_non_trailing():
 
 if __name__ == '__main__':
     if os.environ.get('APP_MODE', 'development') == 'development':
-        print("Development Server running on http://localhost:5000")
         socketio.run(app, port=5001, debug=True)
     else:
         from gevent import pywsgi

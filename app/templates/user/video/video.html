@@ -34,7 +34,6 @@
             </button>
             <span id="dislike-count" class="text-sm"></span> <!-- Initial dislike count -->
         </div>
-
         <!-- Button Comment -->
         <div class="d-flex flex-column align-items-center mb-4">
             <button id="comment-button" class="btn btn-light rounded-circle shadow-sm p-3"
@@ -69,7 +68,6 @@
             </button>
         </div>
         {% include 'user/video/modal/setting.html' %}
-
     </div>
 
     <div class="vh-100 bg-light d-flex flex-column" style="position: relative">
@@ -77,8 +75,6 @@
         {% include 'user/video/section/video_music.html' %}
         <!-- HẾT VÙNG TRÊN CÙNG -->
     </div>
-
-
 
     <!-- Video Section (Centered) -->
     <div class="position-relative bg-white shadow rounded overflow-hidden d-flex flex-column align-items-center mb-4"
@@ -93,7 +89,7 @@
             <div id="video-info-overlay" class="position-absolute text-white p-3"
                  style="background: rgba(0, 0, 0, 0.5); width: 100%; bottom: 80px; left: 0;">
                 <!-- Nội dung -->
-            <!-- Tiêu đề video -->
+                <!-- Tiêu đề video -->
                 <h5 id="video-title" class="fw-bold mb-2"></h5>
                 <!-- Người đăng và thời gian -->
                 <div class="d-flex justify-content-between">
@@ -125,7 +121,6 @@
         </div>
     </div>
 
-
     <!-- Comment Section (Centered) -->
     <div id="comment-section" class="position-relative bg-white shadow rounded d-flex flex-column align-items-center mb-4"
          style="width: 55%; height: 80%; background-color: #f8f9fa;">
@@ -137,10 +132,39 @@
 
         <!-- Input area for new comment (fixed at the bottom) -->
         <div class="input-group" style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 10px; background-color: #f8f9fa;">
-            <input id="comment-input" type="text" class="form-control" placeholder="Nhập bình luận..." aria-label="Nhập bình luận">
-            {#            <button id="send-comment" class="btn btn-primary" type="button" onclick="insertComment()">Gửi</button>#}
-            <button id="send-comment" class="btn btn-primary" type="button">Gửi</button>
+            <!-- Nút mention "@" -->
+            <button class="btn btn-light" type="button" id="mention-button" data-bs-toggle="tooltip" data-bs-placement="top" title="Tag bạn bè">
+                <i class="bi bi-at"></i>
+            </button>
 
+            <!-- Nút emoji -->
+            <div class="btn-group dropup">
+                <button class="btn btn-light" type="button" id="emoji-button" data-bs-toggle="tooltip" data-bs-placement="top" title="Chèn emoji">
+                    <i class="bi bi-emoji-smile"></i>
+                </button>
+                <!-- Khung chọn emoji (ẩn mặc định) -->
+                <div id="emoji-picker" class="position-absolute bg-white border p-2" style="display:none; bottom:60px; left:10px; border-radius: 8px; width:250px; max-height:200px; overflow:auto;">
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">😀</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">😁</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">😂</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">😍</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">😘</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">👍</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">🔥</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">🎉</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">😎</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">🥳</span>
+                    <span class="emoji" style="cursor: pointer; font-size: 1.5rem; margin:5px;">🤩</span>
+
+                </div>
+
+            </div>
+
+            <!-- Input comment -->
+            <input id="comment-input" type="text" class="form-control" placeholder="Nhập bình luận..." aria-label="Nhập bình luận">
+
+            <!-- Nút gửi -->
+            <button id="send-comment" class="btn btn-primary" type="button">Gửi</button>
         </div>
     </div>
 

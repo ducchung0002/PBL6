@@ -1,24 +1,224 @@
-<nav class="mt-4">
+<div class="sidebar-scroll">
+<style>
+    .sidebar-scroll {
+        /* Bạn có thể tuỳ chỉnh chiều cao sao cho phù hợp layout */
+        max-height: calc(100vh - 100px); /* Ví dụ trừ đi header 100px */
+        overflow-y: auto;
+
+        /* Thêm nếu muốn tuỳ chỉnh scrollbar */
+        scrollbar-width: thin;           /* Firefox */
+        scrollbar-color: #ccc #f5f5f5;   /* Firefox */
+
+        /* Ẩn scrollbar ngang nếu có */
+        overflow-x: hidden;
+    }
+
+    /* Tùy chỉnh scrollbar cho Chrome, Edge, Safari (Webkit) */
+    .sidebar-scroll::-webkit-scrollbar {
+        width: 6px;           /* Độ rộng scrollbar */
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-track {
+        background: #f5f5f5;  /* Màu nền track */
+    }
+
+    .sidebar-scroll::-webkit-scrollbar-thumb {
+        background-color: #ccc; /* Màu nút cuộn */
+        border-radius: 3px;
+    }
+
+</style>
+<div class="mt-4">
     <ul class="nav flex-column">
+
+        <!-- Phần Trang chủ -->
         <li class="nav-item mb-2">
             <a href="/user/index" class="nav-link d-flex align-items-center text-dark sidebar-link">
                 <img class="me-3" src="/static/svg/icons8-home-black.svg" alt="Home" width="24" height="24">
                 <span>Trang chủ</span>
             </a>
         </li>
+
+        <!-- Em dash phân cách -->
+        <li class="nav-item">
+            <hr class="my-2" style="border-top: 1px solid #ccc;">
+        </li>
+
+        <!-- Phần "Bạn" -->
+        <li class="nav-item mb-2">
+            <a href="#" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/user.svg" alt="Bạn" width="24" height="24">
+                <span>Bạn</span>
+            </a>
+        </li>
+
+        <!-- Video của bạn -->
         {% if session['user'] %}
             <li class="nav-item mb-2">
-                <a href="{{ url_for('user.video.list',user_id=session['user']['id']) }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <a href="{{ url_for('user.video.list', user_id=session['user']['id']) }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
                     <img class="me-3" src="/static/svg/video.svg" alt="Your Videos" width="24" height="24">
                     <span>Video của bạn</span>
                 </a>
             </li>
         {% endif %}
+
+        <!-- Video đã thích -->
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.liked_videos.show_liked_videos') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/liked-video.svg" alt="Video đã thích" width="24" height="24">
+                <span>Video đã thích</span>
+            </a>
+        </li>
+
+
+        <!-- Tạo âm nhạc theo phong cách riêng bạn -->
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.generate_music.custom_music') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+            <img class="me-3" src="/static/svg/musician.svg" alt="Create Custom Music" width="24" height="24">
+                <span>Sinh nhạc tự động </span>
+            </a>
+        </li>
+
+
+        <!-- Video cover đã xem -->
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.have_seen_videos.show_watched_videos') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/cover_video.svg" alt="Watched Videos" width="24" height="24">
+                <span>Video cover đã xem</span>
+            </a>
+        </li>
+
+
+        <!-- Em dash phân cách -->
+        <li class="nav-item">
+            <hr class="my-2" style="border-top: 1px solid #ccc;">
+        </li>
+
+        <!-- Khám phá -->
+        <li class="nav-item mb-2">
+            <span class="text-muted ms-3">Khám phá</span>
+        </li>
+
+        <!-- Thịnh hành -->
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.top_trending.show_top_trending') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/popular_video.svg" alt="Trending" width="24" height="24">
+                <span>Thịnh hành</span>
+            </a>
+        </li>
+
+        <!-- Âm nhạc -->
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.music.show_music_home') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/music.svg" alt="Music" width="24" height="24">
+                <span>Âm nhạc</span>
+            </a>
+        </li>
+
+        <!-- Em dash phân cách -->
+        <li class="nav-item">
+            <hr class="my-2" style="border-top: 1px solid #ccc;">
+        </li>
+
+        <!-- Nghệ sĩ nổi tiếng bạn theo dõi -->
+        <li class="nav-item mb-2">
+            <span id="following" class="text-muted ms-3">Nghệ sĩ nổi tiếng bạn theo dõi</span>
+        </li>
+
+        <!-- Loop qua 3 nghệ sĩ từ database -->
+        {% for artist in top_artists %}
+            <li class="nav-item mb-2">
+                <a href="/artist/{{ artist.id }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                    <img class="me-3 rounded-circle" src="{{ artist.avatar_url }}" alt="{{ artist.name }}" width="24" height="24">
+                    <span>{{ artist.name }}</span>
+                </a>
+            </li>
+        {% endfor %}
+
+        <!-- Hiển thị thêm -->
+        <li class="nav-item mb-2" id="artist_following">
+        </li>
+
+        <!-- Em dash phân cách -->
+        <li class="nav-item">
+            <hr class="my-2" style="border-top: 1px solid #ccc;">
+        </li>
+
+        <!-- Cài đặt -->
+        <!-- Thay đổi đây từ `url_for('setting.settings')` sang `url_for('user.setting.settings')` -->
         <li class="nav-item mb-2">
             <a href="{{ url_for('user.setting.settings') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
                 <img class="me-3" src="/static/svg/settings-non.svg" alt="Settings" width="24" height="24">
                 <span>Cài đặt</span>
             </a>
         </li>
+
+        <!-- Nhật ký báo cáo -->
+        <li class="nav-item mb-2">
+            <a href="{{ url_for('user.report_log.show_report_history') }}" class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/report_flag.svg" alt="Report History" width="24" height="24">
+                <span>Nhật ký báo cáo</span>
+            </a>
+        </li>
+
+        <!-- Trợ giúp -->
+        <li class="nav-item mb-2">
+            <a href="javascript:void(0)"
+               onclick="openHelpPanel()"
+               class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/help.svg" alt="Help" width="24" height="24">
+                <span>Trợ giúp</span>
+            </a>
+        </li>
+
+        <!-- Gửi ý kiến phản hồi (Chuyển sang onclick mở panel) -->
+        <li class="nav-item mb-2">
+            <a href="javascript:void(0);"
+               onclick="openFeedbackPanel()"
+               class="nav-link d-flex align-items-center text-dark sidebar-link">
+                <img class="me-3" src="/static/svg/send_message.svg" alt="Feedback" width="24" height="24">
+                <span>Gửi ý kiến phản hồi</span>
+            </a>
+        </li>
+
     </ul>
-</nav>
+</div>
+</div>
+{# Include phần Help Panel #}
+{% include 'components/user/modal/help.html' %}
+{% include 'components/user/modal/feedback.html' %}
+<script>
+    {#let session_user = {{ session['user'] | tojson }};#}
+    {% if session['user'] is defined and session['user'] %}
+        let session_user = {{ session['user'] | tojson }};
+    {% else %}
+        let session_user = null;
+    {% endif %}
+    let following_data = []
+    axios.post('/api/user/follow/following', {
+        user_id: session_user.id,
+    }).then((response) => {
+        const container = document.getElementById("artist_following");
+        following_data =  response.data['following']
+        console.log(following_data)
+        following_data.forEach((artist) => {
+            const artistContainer = document.createElement('a');
+            artistContainer.href = `/user/profile/home/${artist.id}`;
+            artistContainer.classList.add('nav-link', 'd-flex', 'align-items-center', 'text-dark', 'sidebar-link');
+
+            const artistAvatar = document.createElement('img');
+            artistAvatar.classList.add('me-3', 'rounded-circle');
+            artistAvatar.src = artist.avatar_url;
+            artistAvatar.alt = artist.name;
+            artistAvatar.width = 24;
+            artistAvatar.height=24;
+
+            const artistName = document.createElement('span')
+            artistName.innerText = artist.name;
+
+            artistContainer.appendChild(artistAvatar);
+            artistContainer.appendChild(artistName);
+            container.appendChild(artistContainer);
+        });
+    });
+</script>

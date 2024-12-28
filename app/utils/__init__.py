@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 from mongoengine import Q
 
@@ -12,3 +13,22 @@ def get_account_by_username(username):
     query = Q(email=username) if is_email else Q(username=username)
     account = User.objects(query).first() or Artist.objects(query).first() or Admin.objects(username=username).first()
     return account
+
+def time_ago(created_at):
+    now = datetime.now()
+    delta = now - created_at
+
+    if delta.days >= 365:
+        return f"{delta.days // 365} year{'s' if delta.days // 365 > 1 else ''} before"
+    elif delta.days >= 30:
+        return f"{delta.days // 30} month{'s' if delta.days // 30 > 1 else ''} before"
+    elif delta.days >= 7:
+        return f"{delta.days // 7} week{'s' if delta.days // 7 > 1 else ''} before"
+    elif delta.days >= 1:
+        return f"{delta.days} day{'s' if delta.days > 1 else ''} before"
+    elif delta.seconds >= 3600:
+        return f"{delta.seconds // 3600} hour{'s' if delta.seconds // 3600 > 1 else ''} before"
+    elif delta.seconds >= 60:
+        return f"{delta.seconds // 60} minute{'s' if delta.seconds // 60 > 1 else ''} before"
+    else:
+        return "just now"

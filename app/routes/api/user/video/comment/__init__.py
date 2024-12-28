@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, session
 from app.models.video import Video
-from app.utils.hate_comment_detection import generate_output
+from app.utils.jwt import generate_output
 
 api_user_video_comment_bp = Blueprint('api_user_video_comment', __name__)
 
