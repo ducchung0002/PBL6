@@ -6,7 +6,7 @@ function deleteArtist() {
         id: artistId
     };
     // Make the API call using Axios
-    axios.delete('/api/admin/artist/', {
+    axios.delete('/api/admin/artist/delete', {
         data: data,
         headers: {
             'Content-Type': 'application/json'
@@ -16,10 +16,6 @@ function deleteArtist() {
             location.reload();
         })
         .catch(function (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Lỗi xóa ca sĩ. Vui lòng thử lại.",
-                confirmButtonText: 'OK'
-            });
+            alert('Lỗi xóa ca sĩ. Vui lòng thử lại.')
         });
 }
