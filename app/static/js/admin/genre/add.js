@@ -17,15 +17,11 @@ function addGenre(event) {
     };
 
     // Make the API call using Axios
-    axios.post('/api/admin/genre', data)
+    axios.post('/api/admin/genre/add', data)
         .then(function (response) {
             location.reload();
         })
         .catch(function (error) {
-            Swal.fire({
-                icon: "error",
-                title: "Lỗi thêm thể loại. Vui lòng thử lại.",
-                confirmButtonText: 'OK'
-            });
+            alert('Lỗi thêm thể loại. Vui lòng thử lại.')
         });
 }

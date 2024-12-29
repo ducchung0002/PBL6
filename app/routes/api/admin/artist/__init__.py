@@ -4,14 +4,14 @@ from app.models.artist import Artist
 
 api_admin_artist_bp = Blueprint('api_admin_artist', __name__)
 
-@api_admin_artist_bp.route('/', methods=['POST'])
+@api_admin_artist_bp.route('/add', methods=['POST'])
 def add():
     data = request.get_json()
     artist = Artist(name=data['name'], username=data['username'], email=data['email'], date_of_birth=data['date_of_birth']).set_password(data['password']).save()
     return jsonify({'id': str(artist.id), 'message': 'Artist added successfully'}), 201
 
 
-@api_admin_artist_bp.route('/', methods=['PUT'])
+@api_admin_artist_bp.route('/update', methods=['PUT'])
 def update():
     data = request.get_json()
     artist = Artist.objects.get(id=data['id'])
@@ -27,7 +27,7 @@ def update():
     return jsonify({'message': 'Artist updated successfully'}), 200
 
 
-@api_admin_artist_bp.route('/', methods=['DELETE'])
+@api_admin_artist_bp.route('/delete', methods=['DELETE'])
 def delete():
     data = request.get_json()
     Artist.objects.get(id=data['id']).delete()

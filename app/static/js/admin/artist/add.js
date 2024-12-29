@@ -6,22 +6,24 @@ function addArtist(event) {
     const artistEmail = $('#artist-email').val();
     const artistPassword = $('#artist-password').val();
     const artistDateOfBirth = $('#artist-dob').val();
-    const data = {
-        id: artistId,
-        name: artistName,
-        username: artistUsername,
-        email: artistEmail,
-        password: artistPassword,
-        date_of_birth: artistDateOfBirth,
+    if (dobValidate(artistDateOfBirth)) {
+        const data = {
+            id: artistId,
+            name: artistName,
+            username: artistUsername,
+            email: artistEmail,
+            password: artistPassword,
+            date_of_birth: artistDateOfBirth,
 
-    };
+        };
 
-    // Make the API call using Axios
-    axios.post('/api/admin/artist/', data)
-        .then(function (response) {
-            location.reload();
-        })
-        .catch(function (error) {
-            alert('Lỗi thêm ca sĩ. Vui lòng thử lại.');
-        });
+        // Make the API call using Axios
+        axios.post('/api/admin/artist/add', data)
+            .then(function (response) {
+                location.reload();
+            })
+            .catch(function (error) {
+                alert('Lỗi thêm ca sĩ. Vui lòng thử lại.');
+            });
+    }
 }

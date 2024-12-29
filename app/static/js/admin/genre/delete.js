@@ -7,7 +7,7 @@ function deleteGenre() {
         id: genreId
     };
     // Make the API call using Axios
-    axios.delete('/api/admin/genre/', {
+    axios.delete('/api/admin/genre/delete', {
         data: data,
         headers: {
             'Content-Type': 'application/json'
