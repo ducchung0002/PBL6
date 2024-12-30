@@ -175,15 +175,15 @@ document.getElementById('screenshot-button').addEventListener('click', function 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Chức năng tạo playlist
 //Tạo sự kiện chức năng tạo playlist và danh sách phát
-document.getElementById('playlist1Privacy').addEventListener('click', function () {
-    togglePrivacy(this);
-});
-document.getElementById('playlist2Privacy').addEventListener('click', function () {
-    togglePrivacy(this);
-});
-document.getElementById('playlist3Privacy').addEventListener('click', function () {
-    togglePrivacy(this);
-});
+// document.getElementById('playlist1Privacy').addEventListener('click', function () {
+//     togglePrivacy(this);
+// });
+// document.getElementById('playlist2Privacy').addEventListener('click', function () {
+//     togglePrivacy(this);
+// });
+// document.getElementById('playlist3Privacy').addEventListener('click', function () {
+//     togglePrivacy(this);
+// });
 
 document.getElementById('addNewPlaylist').addEventListener('click', function () {
     // Show the "Create New Playlist" modal when the "+ Danh sách phát mới" button is clicked

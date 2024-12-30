@@ -39,4 +39,5 @@ class Music(Document):
             'karaoke_url': self.karaoke_url,
             'lyrics': [[word.jsonify() for word in sentence] for sentence in self.lyrics],
             'thumbnail_url': self.thumbnail_url,
+            'created_at': self.created_at,
         }
