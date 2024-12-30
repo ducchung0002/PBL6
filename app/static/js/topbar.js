@@ -101,6 +101,10 @@ function displayRecommendations(music_recommendations, user_recommendations, art
         clearRecommendations();
         return;
     }
+    const Music_recommendation_header = document.createElement("h4");
+    Music_recommendation_header.textContent = "Bài hát";
+    Music_recommendation_header.className = "px-3 py-2"; // Bootstrap utility classes
+    recommendationsContainer.appendChild(Music_recommendation_header);
     recommendationsContainer.style.display = "block";
     music_recommendations.forEach(item => {
         const music_recommendation_item = document.createElement("div");
