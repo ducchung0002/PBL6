@@ -23,7 +23,10 @@ class TestFollow(unittest.TestCase):
         disconnect()
 
     def setUp(self):
-        pass
+        self.user1 = User(username='john.doe', name='John Doe', email='john.doe@example.com', date_of_birth=datetime.now()).set_password(password='123456')
+        self.user2 = User(username='jane.doe', name='Jane Doe', email='jane.doe@example.com', date_of_birth=datetime.now()).set_password(password='123456')
+        self.user3 = User(username='lionel.messi', name='Lionel Messi', email='lionel.messi@example.com', date_of_birth=datetime.now()).set_password(password='123456')
+        self.music1 = Music
 
     def tearDown(self):
         # This method will be called after each test
@@ -33,11 +36,8 @@ class TestFollow(unittest.TestCase):
         Music.objects.all().delete()
         Video.objects.all().delete()
 
-    def test_user_follow_relationship(self):
-        user1 = User(username='john.doe', name='John Doe', email='john.doe@example.com', date_of_birth=datetime.now()).set_password('12345678').save()
-        artist1 = Artist(username='jane.doe', nickname='j97', name='John Doe', email='jane.doe@example.com', date_of_birth=datetime.now()).set_password('12345678').save()
-        genre1 = Genre(name='Pop').save()
-        music1 = Music(name='Thien ly oi', artists=[artist1], genres=[genre1]).save()
+    def test_video_create(self):
+        user1 = User(username='john.doe', name='John Doe', email='john.doe@example.com', date_of_birth=datetime.now()).set_password(password='123456')
         video1 = Video(user=user1, music=music1, title='Video 1').save()
         video2 = Video(user=user1, music=music1, title='Video 2').save()
 

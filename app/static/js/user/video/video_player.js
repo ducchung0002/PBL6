@@ -48,8 +48,19 @@ function loadVideo(index) {
         let context = `Now playing:  ${video_music_name} by ${artist_name}`
 
         document.getElementById('video-title').innerText = video.title || 'Không có tiêu đề';
-        document.getElementById('uploader').innerText = video.user ? video.user.name : 'Không rõ';
-        document.getElementById('video-music').innerText = video.music ? video.music.name : 'Không có bài hát';
+
+        const uploader = document.getElementById('video-uploader')
+        uploader.style.textDecoration = 'none';
+        uploader.innerText = video.user ? video.user.name : 'Không rõ';
+        uploader.href = `/user/profile/home/${video.user.id}`
+        uploader.style.color = 'white';
+
+        const video_music = document.getElementById('video-music')
+        video_music.style.textDecoration = 'none';
+        video_music.innerText = video.music ? video.music.name : 'Không có bài hát';
+        video_music.href = `/music/${video.music.id}`
+        video_music.style.color = 'white';
+
         document.getElementById('video-created-at').innerText = formatDateRelative(video.created_at);
         document.getElementById('video-music-title').innerText = video_music_name;
         document.getElementById('video-music-thumbnail_url').src = video.music.thumbnail_url;

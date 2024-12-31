@@ -71,11 +71,9 @@ document.addEventListener('DOMContentLoaded', function () {
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
-    const contentWrapper = document.getElementById('content-wrapper');
 
     sidebar.classList.toggle('collapsed');
     content.classList.toggle('expanded');
-    contentWrapper.classList.toggle('expanded');
 }
 
 function voice() {

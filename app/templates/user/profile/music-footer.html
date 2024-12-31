@@ -1,0 +1,116 @@
+<link rel="stylesheet" href="/static/css/profile-footer.css">
+<div class="button-section">
+    <div class="button-line contentSpacing">
+        <div class="button-line-small">
+            <div class="button-container">
+                <button class="tablink" onclick="openPage('MusicLatest', this, 'black', 'white')" id="defaultOpen">
+                    <span class="tabLinkText">Gần nhất</span>
+                </button>
+                <button class="tablink" onclick="openPage('MusicPopular', this, 'black', 'white')">
+                    <span class="tabLinkText">Phổ biến</span>
+                </button>
+                <button class="tablink" onclick="openPage('MusicOldest', this, 'black', 'white')">
+                    <span class="tabLinkText">Cũ nhất</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="MusicLatest" class="tabcontent">
+    <main id="video-section">
+        {% for music in music_latest %}
+            <div class="video-container" id="music-{{ music.id }}">
+                <a href="{{ url_for('music.music_detail', music_id=music.id) }}">
+                    <img src=
+                                 "{{ music.thumbnail_url }}"
+                         id="image-1"
+                         class="images">
+                </a>
+                <div class="video-description">
+                    <div class="video-details">
+                        <a class="video-title">
+                            {{ music.name }}
+                        </a>
+                        <div class="channel-name">
+                            <a
+                                    class="views">
+                                {{ music.video_count }} covers
+                            </a>
+                            <i class="fas fa-circle"></i>
+                            <a
+                                    class="time">
+                                {{ music.created_at }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+</div>
+<div id="MusicPopular" class="tabcontent">
+    <main id="video-section">
+        {% for music in music_popular %}
+            <div class="video-container" id="music-{{ music.id }}">
+                <a href="{{ url_for('music.music_detail', music_id=music.id) }}">
+                    <img src=
+                                 "{{ music.thumbnail_url }}"
+                         id="image-1"
+                         class="images">
+                </a>
+                <div class="video-description">
+                    <div class="video-details">
+                        <a class="video-title">
+                            {{ music.name }}
+                        </a>
+                        <div class="channel-name">
+                            <a
+                                    class="views">
+                                {{ music.video_count }} covers
+                            </a>
+                            <i class="fas fa-circle"></i>
+                            <a
+                                    class="time">
+                                {{ music.created_at }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </main>
+</div>
+<div id="MusicOldest" class="tabcontent">
+    <main id="video-section">
+        {% for music in music_oldest %}
+            <div class="video-container" id="music-{{ music.id }}">
+                <a href="{{ url_for('music.music_detail', music_id=music.id) }}">
+                    <img src=
+                                 "{{ music.thumbnail_url }}"
+                         id="image-1"
+                         class="images">
+                </a>
+                <div class="video-description">
+                    <div class="video-details">
+                        <a class="video-title">
+                            {{ music.name }}
+                        </a>
+                        <div class="channel-name">
+                            <a
+                                    class="views">
+                                {{ music.video_count }} covers
+                            </a>
+                            <i class="fas fa-circle"></i>
+                            <a
+                                    class="time">
+                                {{ music.created_at }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+</div>
+<script src="/static/js/user/profile/profile-footer.js"></script>
